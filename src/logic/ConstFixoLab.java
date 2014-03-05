@@ -3,7 +3,7 @@ package logic;
 public class ConstFixoLab extends ConstrutorLab{
 
 	public ConstFixoLab() {
-		
+		criaLab();
 	}
 	
 	public void criaLab(){

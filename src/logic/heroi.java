@@ -6,7 +6,8 @@ public class heroi extends elementosJogo{
 	private boolean morto=false;
 
 	public heroi() {
-		
+		setX(1);
+		setX(1);
 	}
 	
 	public heroi(int x, int y, char representacao){

@@ -3,7 +3,9 @@ package logic;
 public abstract class ConstrutorLab {
 
 	protected char[][] lab;
-	private int tamanhoLab;
+	private int tamanhoLab=10;
+	
+	
 	
 	public void criaLab(){}
 

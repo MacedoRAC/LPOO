@@ -1,5 +1,7 @@
 package logic;
 
+import java.util.Random;
+
 public class ConstAleatorioLab extends ConstrutorLab{
 
 	public ConstAleatorioLab() {
@@ -62,5 +64,39 @@ public class ConstAleatorioLab extends ConstrutorLab{
 		}
 		else
 			return false;
+	}
+	
+public char[][] labirintoAleatorio(){
+		
+		char[][] labirinto = {{}};
+		Random rand=new Random();
+		int coord_X_saida, coord_Y_saida, r;
+		
+		//preencher a grelha com 'X'
+		for(int i=0; i<getTamanhoLab(); i++)
+			for(int j=0; j<getTamanhoLab(); j++)
+				labirinto[i][j]='X';
+		
+		//colocar em branco (' ') as coordenadas impares
+				for(int i=1; i<getTamanhoLab()-1; i++,i++)
+					for(int j=0; j<getTamanhoLab()-1; j++,j++)
+						labirinto[i][j]=' ';
+		
+		//colocar uma saida 'S'
+		coord_X_saida=rand.nextInt(getTamanhoLab());
+		if(coord_X_saida==0 || coord_X_saida==getTamanhoLab()-1)
+			coord_Y_saida=rand.nextInt(getTamanhoLab()-1)+1;
+		else{
+			r=rand.nextInt(2);
+			if(r==0)
+				coord_Y_saida=0;
+			else
+				coord_Y_saida=getTamanhoLab()-1;
+		}
+		labirinto[coord_Y_saida][coord_X_saida]='S';
+		
+		
+		
+		return labirinto;
 	}
 }
