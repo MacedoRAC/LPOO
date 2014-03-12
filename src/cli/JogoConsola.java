@@ -2,12 +2,12 @@ package cli;
 
 import java.util.Scanner;
 
-import logic.Labirinto;
+import logic.Jogo;
 
 public class JogoConsola {
 
 	public static void main(String[] args) {
-		Labirinto l=new Labirinto();
+		Jogo l=new Jogo();
 		String mov="";
 		
 		Scanner s= new Scanner(System.in);

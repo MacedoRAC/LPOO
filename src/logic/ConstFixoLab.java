@@ -3,10 +3,6 @@ package logic;
 public class ConstFixoLab extends ConstrutorLab{
 
 	public ConstFixoLab() {
-		criaLab();
-	}
-	
-	public void criaLab(){
 		lab= new char[][] {{'X','X','X','X','X','X','X','X','X','X'},
 			 	   {'X',' ',' ',' ',' ',' ',' ',' ',' ','X'},
 			 	   {'X',' ','X','X',' ','X',' ','X',' ','X'},
@@ -19,8 +15,5 @@ public class ConstFixoLab extends ConstrutorLab{
 			 	   {'X','X','X','X','X','X','X','X','X','X'}};
 	}
 
-	public void crialab(int tamanho){
-		
-	}
 
 }

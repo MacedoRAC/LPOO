@@ -5,29 +5,22 @@ import java.util.Random;
 public class ConstAleatorioLab extends ConstrutorLab{
 
 	public ConstAleatorioLab() {
-		criaLab();
+		lab=labirintoAleatorio();
 	}
 	
-	public void criaLab(){
-		
-	}
-
-	public void crialab(int tamanho){
-		
-	}
 
 	/**
 	 * verifica se ainda existem blocos 3x3 de parede
 	 * @return true or false
 	 */
-	public boolean verificaBlocos3x3(){
+	public boolean existeBlocos3x3(char [][] lab){
 		char[][] bloco=new char[3][3];
 		boolean existeBloco=false;
 		int linha=1, coluna=1;
 		do{
 			//copia blocos de 3x3 sucessivos do labirinto para ser analisado
-			for(int i=linha; i<4; i++)
-				for(int j=coluna; j<4; j++)
+			for(int i=linha; i<=3; i++)
+				for(int j=coluna; j<=3; j++)
 					bloco[i][j]=lab[i][j];
 			//analisa se bloco 3x3 é todo parede
 			if(bloco[0][0] == 'X' && bloco[0][1] == 'X' && bloco[0][2] == 'X' &&
@@ -35,12 +28,12 @@ public class ConstAleatorioLab extends ConstrutorLab{
 			   bloco[2][0] == 'X' && bloco[2][1] == 'X' && bloco[2][2] == 'X')
 				existeBloco=true;
 			else{
-				if(linha!=getTamanhoLab()-4)
+				if(linha!=tamanhoLab-4)
 					linha++;
-				else if(coluna!=getTamanhoLab()-4)
+				else if(coluna!=tamanhoLab-4)
 					coluna++;
 			}
-		}while((linha != getTamanhoLab()-4 && coluna!=getTamanhoLab()-4) || !existeBloco);
+		}while((linha != tamanhoLab-4 && coluna!=tamanhoLab-4) || !existeBloco);
 	
 		return existeBloco;
 	}
@@ -51,7 +44,7 @@ public class ConstAleatorioLab extends ConstrutorLab{
 	 * @param y coordenada Y da proxima celula
 	 * @return true or false
 	 */
-	public boolean verificaBlocos2x2(int x, int y){
+	public boolean verificaBlocos2x2(char[][] lab, int x, int y){
 		lab[y][x]=' ';
 		
 		if((lab[y-1][x-1]==' ' && lab[y-1][x]==' ' &&	lab[y][x-1]==' ') || //bloco superior esquerdo
@@ -68,35 +61,84 @@ public class ConstAleatorioLab extends ConstrutorLab{
 	
 public char[][] labirintoAleatorio(){
 		
-		char[][] labirinto = {{}};
+		char[][] labirinto = new char[tamanhoLab][tamanhoLab];
 		Random rand=new Random();
-		int coord_X_saida, coord_Y_saida, r;
+		int coord_X, coord_Y, r;
+		Random randMov=new Random();
 		
 		//preencher a grelha com 'X'
-		for(int i=0; i<getTamanhoLab(); i++)
-			for(int j=0; j<getTamanhoLab(); j++)
+		for(int i=0; i<tamanhoLab; i++)
+			for(int j=0; j<tamanhoLab; j++)
 				labirinto[i][j]='X';
 		
-		//colocar em branco (' ') as coordenadas impares
-				for(int i=1; i<getTamanhoLab()-1; i++,i++)
-					for(int j=0; j<getTamanhoLab()-1; j++,j++)
-						labirinto[i][j]=' ';
-		
 		//colocar uma saida 'S'
-		coord_X_saida=rand.nextInt(getTamanhoLab());
-		if(coord_X_saida==0 || coord_X_saida==getTamanhoLab()-1)
-			coord_Y_saida=rand.nextInt(getTamanhoLab()-1)+1;
+		coord_X=rand.nextInt(tamanhoLab);
+		if(coord_X==0 || coord_X==tamanhoLab-1)
+			coord_Y=rand.nextInt(tamanhoLab-1)+1;
 		else{
 			r=rand.nextInt(2);
 			if(r==0)
-				coord_Y_saida=0;
+				coord_Y=0;
 			else
-				coord_Y_saida=getTamanhoLab()-1;
+				coord_Y=tamanhoLab-1;
 		}
-		labirinto[coord_Y_saida][coord_X_saida]='S';
+		labirinto[coord_Y][coord_X]=getSaida().getRepresentacao();
 		
+		//coloca a celula adjacente à saida a branco
+		if(coord_X==0)
+			coord_X++;
+		else if(coord_X==tamanhoLab-1)
+			coord_X--;
+		else if(coord_Y==0)
+			coord_Y++;
+		else
+			coord_Y--;
 		
+		labirinto[coord_Y][coord_X]=' ';
+		
+		//cria caminho sucessivamente atraves de movimentos aleatorios
+		int mov;
+		do{
+			mov=randMov.nextInt(4);
+			
+			switch(mov){
+			case 0: //anda para a frente
+				if(coord_Y--== 0 || verificaBlocos2x2(labirinto, coord_X,coord_Y--))
+					break;
+				else{
+					coord_Y--;
+					labirinto[coord_Y][coord_X]= ' ';
+				}
+			case 1: //anda para a esquerda
+				if(coord_X--== 0 || verificaBlocos2x2(labirinto, coord_X--,coord_Y))
+					break;
+				else{
+					coord_X--;
+					labirinto[coord_Y][coord_X]= ' ';
+				}
+			case 2: //anda para a direita
+				if(coord_X++== tamanhoLab-1 || verificaBlocos2x2(labirinto, coord_X++,coord_Y))
+					break;
+				else{
+					coord_X++;
+					labirinto[coord_Y][coord_X]= ' ';
+				}
+			case 3: //anda para trás
+				if(coord_Y++== tamanhoLab-1 || verificaBlocos2x2(labirinto, coord_X,coord_Y++))
+					break;
+				else{
+					coord_Y++;
+					labirinto[coord_Y][coord_X]= ' ';
+				}
+			}
+		
+		}while(!existeBlocos3x3(labirinto));
 		
 		return labirinto;
 	}
+
+private Random nextInt(int i) {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

@@ -3,13 +3,9 @@ package logic;
 public abstract class ConstrutorLab {
 
 	protected char[][] lab;
-	private int tamanhoLab=10;
+	protected int tamanhoLab=10;
+	private elementosJogo saida=new elementosJogo('S');
 	
-	
-	
-	public void criaLab(){}
-
-	public void crialab(int tamanho){}
 
 	public char[][] getLab() {
 		return lab;
@@ -25,5 +21,13 @@ public abstract class ConstrutorLab {
 
 	public void setTamanhoLab(int tamanhoLab) {
 		this.tamanhoLab = tamanhoLab;
+	}
+
+	public elementosJogo getSaida() {
+		return saida;
+	}
+
+	public void setSaida(elementosJogo saida) {
+		this.saida = saida;
 	}
 }
