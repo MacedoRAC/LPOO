@@ -11,7 +11,7 @@ public class Labirinto {
 	private espada E;
 
 	public Labirinto() {
-		labirinto=new ConstFixoLab();
+		labirinto=new ConstAleatorioLab();
 		H=new heroi();
 		D=new dragao();
 		E=new espada();

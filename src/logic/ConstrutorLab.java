@@ -3,7 +3,7 @@ package logic;
 public abstract class ConstrutorLab {
 
 	protected char[][] lab;
-	protected int tamanhoLab=10;
+	protected int tamanhoLab=20;
 	private elementosJogo saida=new elementosJogo('S');
 	
 

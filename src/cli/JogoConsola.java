@@ -1,7 +1,6 @@
 package cli;
 
 import java.util.Scanner;
-
 import logic.Jogo;
 
 public class JogoConsola {
