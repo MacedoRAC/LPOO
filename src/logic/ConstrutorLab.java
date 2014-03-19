@@ -2,8 +2,8 @@ package logic;
 
 public abstract class ConstrutorLab {
 
-	protected char[][] lab;
 	protected int tamanhoLab=20;
+	protected char[][] lab = new char[tamanhoLab][tamanhoLab];
 	private elementosJogo saida=new elementosJogo('S');
 	
 

@@ -30,7 +30,7 @@ public class ConstAleatorioLab extends ConstrutorLab{
 					linha=1;
 				}
 			}
-			System.out.println(linha + ";" + coluna);
+			
 		}while((linha != tamanhoLab-4 && coluna!=tamanhoLab-4));
 	
 		return false;
@@ -58,7 +58,6 @@ public class ConstAleatorioLab extends ConstrutorLab{
 	}
 	
 public char[][] labirintoAleatorio(){
-		int count=0;
 		char[][] labirinto = new char[tamanhoLab][tamanhoLab];
 		Random rand=new Random();
 		int coord_X, coord_Y, r;
@@ -103,44 +102,48 @@ public char[][] labirintoAleatorio(){
 			case 0: //anda para a frente
 				if((coord_Y-1)== 0)
 					break;
-				else if(verificaBlocos2x2(labirinto, coord_X,coord_Y--))
+				else if(verificaBlocos2x2(labirinto, coord_X,coord_Y-1))
 					break;
 				else{
 					coord_Y--;
 					labirinto[coord_Y][coord_X]= ' ';
+					break;
 				}
 			case 1: //anda para a esquerda
 				if((coord_X-1)== 0)
 					break;
-				else if(verificaBlocos2x2(labirinto, coord_X--,coord_Y))
+				else if(verificaBlocos2x2(labirinto, coord_X-1,coord_Y))
 					break;
 				else{
 					coord_X--;
 					labirinto[coord_Y][coord_X]= ' ';
+					break;
 				}
 			case 2: //anda para a direita
 				if((coord_X+1)== tamanhoLab-1) 
 					break;
-				else if(verificaBlocos2x2(labirinto, coord_X++,coord_Y))
+				else if(verificaBlocos2x2(labirinto, coord_X+1,coord_Y))
 					break;
 				else{
 					coord_X++;
 					labirinto[coord_Y][coord_X]= ' ';
+					break;
 				}
 			case 3: //anda para trás
 				if((coord_Y+1)  == tamanhoLab-1)
 					break;
-				else if(verificaBlocos2x2(labirinto, coord_X,coord_Y++))
+				else if(verificaBlocos2x2(labirinto, coord_X,coord_Y+1))
 					break;
 				else{
 					coord_Y++;
 					labirinto[coord_Y][coord_X]= ' ';
+					break;
 				}
 			}
-		 count++;
-		}while(!existeBlocos3x3(labirinto) && count < 1000);
+		 
+		}while(existeBlocos3x3(labirinto));
 		
-		System.out.println(count);
+		
 		return labirinto;
 	}
 
