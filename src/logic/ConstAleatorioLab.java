@@ -14,7 +14,7 @@ public class ConstAleatorioLab extends ConstrutorLab{
 	 * @return true or false
 	 */
 	public boolean existeBlocos3x3(char [][] lab){
-		int linha=1, coluna=1;
+		int linha=0, coluna=0;
 		do{
 			
 			//analisa se bloco 3x3 é todo parede
@@ -23,15 +23,15 @@ public class ConstAleatorioLab extends ConstrutorLab{
 			   lab[linha+2][coluna] == 'X' && lab[linha+2][coluna+1] == 'X' && lab[linha+2][coluna+2] == 'X')
 				return true;
 			else{
-				if(linha<tamanhoLab-4)
+				if(linha<=tamanhoLab-3)
 					linha++;
-				else if(coluna<tamanhoLab-4){
+				else if(coluna<=tamanhoLab-3){
 					coluna++;
 					linha=1;
 				}
 			}
 			
-		}while((linha != tamanhoLab-4 && coluna!=tamanhoLab-4));
+		}while(linha != tamanhoLab-2 && coluna!=tamanhoLab-2);
 	
 		return false;
 	}
