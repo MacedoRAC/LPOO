@@ -1,14 +1,14 @@
 package tests;
 
 import static org.junit.Assert.*;
-import logic.Jogo;
+import logic.Labirinto;
 
 import org.junit.Test;
 
 public class tests {
 	@Test
 	public void heroiMoveUmaPosicao() {
-		Jogo l=new Jogo();
+		Labirinto l=new Labirinto();
 		int posCorreta[]={1,2};
 		l.moveH("s");
 		int posAtual[]={l.getHeroi().getX(), l.getHeroi().getY()};
@@ -18,7 +18,7 @@ public class tests {
 	
 	@Test
 	public void heroiMoveContraParede(){
-		Jogo l=new Jogo();
+		Labirinto l=new Labirinto();
 		int posCorreta[]={1,1};
 		l.moveH("a");
 		int posAtual[]={l.getHeroi().getX(), l.getHeroi().getY()};
@@ -28,7 +28,7 @@ public class tests {
 	
 	@Test
 	public void apanharEspada(){
-		Jogo l=new Jogo();
+		Labirinto l=new Labirinto();
 		l.getEspada().setX(2);
 		l.getEspada().setY(1);
 		l.moveH("d");
@@ -38,7 +38,7 @@ public class tests {
 	
 	@Test
 	public void heroiMorre(){
-		Jogo l=new Jogo();
+		Labirinto l=new Labirinto();
 		l.getDragao().setX(3);
 		l.getDragao().setY(1);
 		l.moveH("d");
@@ -48,7 +48,7 @@ public class tests {
 	
 	@Test
 	public void heroiMataDragao(){
-		Jogo l=new Jogo();
+		Labirinto l=new Labirinto();
 		l.getDragao().setX(3);
 		l.getDragao().setY(1);
 		l.getHeroi().setArmado(true);
@@ -59,26 +59,26 @@ public class tests {
 	
 	@Test
 	public void heroiPodeSair(){
-		Jogo l=new Jogo();
+		Labirinto l=new Labirinto();
 		l.getHeroi().setArmado(true);
 		l.getDragao().setMorto(true);
 		l.getHeroi().setX(8);
 		l.getHeroi().setY(5);
 		l.moveH("d");
 		
-		assertEquals("Heroi pode sair do Jogo", true, l.isVitoria());
+		assertEquals("Heroi pode sair do Labirinto", true, l.isVitoria());
 	}
 	
 	@Test
 	public void heroiNaoPodeSair(){
-		Jogo l=new Jogo();
+		Labirinto l=new Labirinto();
 		l.getHeroi().setArmado(false);
 		l.getDragao().setMorto(false);
 		l.getHeroi().setX(8);
 		l.getHeroi().setY(5);
 		l.moveH("d");
 		
-		assertEquals("Heroi nao pode sair do Jogo", false, l.isVitoria());
+		assertEquals("Heroi nao pode sair do Labirinto", false, l.isVitoria());
 	}
 
 }

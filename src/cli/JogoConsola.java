@@ -1,12 +1,13 @@
 package cli;
 
 import java.util.Scanner;
-import logic.Jogo;
+
+import logic.Labirinto;
 
 public class JogoConsola {
 
 	public static void main(String[] args) {
-		Jogo l=new Jogo();
+		Labirinto l=new Labirinto();
 		String mov="";
 		
 		Scanner s= new Scanner(System.in);

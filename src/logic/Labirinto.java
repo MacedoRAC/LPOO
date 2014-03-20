@@ -11,13 +11,13 @@ public class Labirinto {
 	private espada E;
 
 	public Labirinto() {
-		labirinto=new ConstAleatorioLab();
+		labirinto=new ConstFixoLab();
 		H=new heroi();
 		D=new dragao();
 		E=new espada();
-		geraPosInicialHeroi();
 		geraPosInicialEspada();		
 		geraPosInicialDragao();
+		geraPosInicialHeroi();
 	}
 	
 	public boolean isVitoria() {
@@ -80,11 +80,11 @@ public class Labirinto {
 			adjacente= labirinto.getLab()[i][H.getX()];
 			if(adjacente==' ')
 				trocaH("cima");
-			else if(adjacente=='S' && H.isArmado()){
+			else if(adjacente=='S' && D.isMorto()){
 				vitoria=true;
 				trocaH("cima");
-			}else if(adjacente=='S' && !H.isArmado()){
-				System.out.println("Não podes sair, ainda não estás armado!");
+			}else if(adjacente=='S' && !D.isMorto()){
+				System.out.println("Não podes sair, o dragão ainda não foi morto!");
 			}else if(adjacente=='E'){
 				H.setArmado(true);
 				E.setAtiva(false);
@@ -100,11 +100,11 @@ public class Labirinto {
 			
 			if(adjacente==' ')
 				trocaH("baixo");
-			else if(adjacente=='S' && H.isArmado()){
+			else if(adjacente=='S' && D.isMorto()){
 				vitoria=true;
 				trocaH("baixo");
-			}else if(adjacente=='S' && !H.isArmado()){
-				System.out.println("Não podes sair, ainda não estás armado!");
+			}else if(adjacente=='S' && !D.isMorto()){
+				System.out.println("Não podes sair, o dragão ainda não foi morto");
 			}else if(adjacente=='E'){
 				H.setArmado(true);
 				E.setAtiva(false);
@@ -119,11 +119,11 @@ public class Labirinto {
 			
 			if(adjacente==' ')
 				trocaH("esquerda");
-			else if(adjacente=='S' && H.isArmado()){
+			else if(adjacente=='S' && D.isMorto()){
 				vitoria=true;
 				trocaH("esquerda");
-			}else if(adjacente=='S' && !H.isArmado()){
-				System.out.println("Não podes sair, ainda não estás armado!");
+			}else if(adjacente=='S' && !D.isMorto()){
+				System.out.println("Não podes sair, o dragão ainda não foi morto!");
 			}else if(adjacente=='E'){
 				H.setArmado(true);
 				E.setAtiva(false);
@@ -138,11 +138,11 @@ public class Labirinto {
 			
 			if(adjacente==' ')
 				trocaH("direita");
-			else if(adjacente=='S' && H.isArmado() && D.isMorto()){
+			else if(adjacente=='S' && D.isMorto()){
 				vitoria=true;
 				trocaH("direita");
-			}else if(adjacente=='S' && (!H.isArmado() || !D.isMorto())){
-				System.out.println("Não podes sair, ainda não estás armado ou o dragão ainda não foi morto!");
+			}else if(adjacente=='S' && !D.isMorto()){
+				System.out.println("Não podes sair, o dragão ainda não foi morto!");
 			}else if(adjacente=='E'){
 				H.setArmado(true);
 				E.setAtiva(false);
@@ -191,7 +191,6 @@ public class Labirinto {
 		}
 	}
 
-	
 	public void geraPosInicialHeroi(){
 
 		boolean livre=false;
@@ -212,7 +211,6 @@ public class Labirinto {
 		}
 	}
 
-	
 	public void geraPosInicialDragao(){
 		boolean livre=false;
 		Random rand=new Random();
@@ -229,7 +227,6 @@ public class Labirinto {
 		}
 	}
 
-	
 	public void geraPosInicialEspada(){
 		boolean livre=false;
 		Random rand=new Random();
@@ -248,20 +245,20 @@ public class Labirinto {
 
 	public boolean morteHeroi(){
 				
-		if(!H.isArmado() && (labirinto.getLab()[H.getY()+1][H.getX()]=='D' || //o dragao esta na celula abaixo à do heroi
-							 labirinto.getLab()[H.getY()-1][H.getX()]=='D' || //o dragao esta na celula acima à do heroi
-							 labirinto.getLab()[H.getY()][H.getX()+1]=='D' || //o dragao esta na celula à direita à do heroi
-							 labirinto.getLab()[H.getY()][H.getX()-1]=='D')){ //o dragao esta na celula à esquerda à do heroi
+		if(!H.isArmado() && ((H.getY()+1==D.getY() && H.getX()==D.getX()) || //o dragao esta na celula abaixo à do heroi
+							 (H.getY()-1==D.getY() && H.getX()==D.getX()) || //o dragao esta na celula acima à do heroi
+							 (H.getY()==D.getY() && H.getX()+1==D.getX()) || //o dragao esta na celula à direita à do heroi
+							 (H.getY()==D.getY() && H.getX()-1==D.getX()))){ //o dragao esta na celula à esquerda à do heroi
 			return true;
 		}else
 			return false;
 	}
 
 	public boolean morteDragao(){
-		if(H.isArmado() && (labirinto.getLab()[H.getY()+1][H.getX()]=='D' || //o dragao esta na celula abaixo à do heroi
-							labirinto.getLab()[H.getY()-1][H.getX()]=='D' || //o dragao esta na celula acima à do heroi
-							labirinto.getLab()[H.getY()][H.getX()+1]=='D' || //o dragao esta na celula à direita à do heroi
-							labirinto.getLab()[H.getY()][H.getX()-1]=='D')){ //o dragao esta na celula à esquerda à do heroi
+		if(H.isArmado() && ((H.getY()+1==D.getY() && H.getX()==D.getX()) || //o dragao esta na celula abaixo à do heroi
+							(H.getY()-1==D.getY() && H.getX()==D.getX()) || //o dragao esta na celula acima à do heroi
+							(H.getY()==D.getY() && H.getX()+1==D.getX()) || //o dragao esta na celula à direita à do heroi
+							(H.getY()==D.getY() && H.getX()-1==D.getX()))){ //o dragao esta na celula à esquerda à do heroi
 			return true;
 		}else
 			return false;
