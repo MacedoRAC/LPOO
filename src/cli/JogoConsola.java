@@ -12,7 +12,7 @@ public class JogoConsola {
 		
 		Scanner s= new Scanner(System.in);
 		do{
-			l.imprimeLab();
+			l.imprimeLab(null);
 			System.out.println();
 			System.out.print("Proximo movimento ('e' para sair): ");
 			mov=s.next();

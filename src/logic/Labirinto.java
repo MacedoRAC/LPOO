@@ -11,7 +11,7 @@ public class Labirinto {
 	private espada E;
 
 	public Labirinto() {
-		labirinto=new ConstFixoLab();
+		labirinto=new ConstAleatorioLab();
 		H=new heroi();
 		D=new dragao();
 		E=new espada();
@@ -40,7 +40,7 @@ public class Labirinto {
 		return D;
 	}
 	
-	public void imprimeLab(){
+	public void imprimeLab(char[][] lab){
 
 		System.out.println();
 		System.out.println();
@@ -62,10 +62,14 @@ public class Labirinto {
 				labirinto.getLab()[H.getY()][H.getX()]='H';
 		}
 
-		for(int i=0; i<labirinto.getLab().length; i++){
+		imprimePuzzle(labirinto.getLab());
+	}
+
+	public static void imprimePuzzle(char[][] lab) {
+		for(int i=0; i<lab.length; i++){
 			System.out.println();
-			for(int j=0; j<labirinto.getLab()[i].length; j++)
-				System.out.print(labirinto.getLab()[i][j] + " ");
+			for(int j=0; j<lab[i].length; j++)
+				System.out.print(lab[i][j] + " ");
 		}
 	}
 	

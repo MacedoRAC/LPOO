@@ -1,6 +1,7 @@
 package logic;
 
 import java.util.Random;
+import java.util.Stack;
 
 public class ConstAleatorioLab extends ConstrutorLab{
 
@@ -9,146 +10,156 @@ public class ConstAleatorioLab extends ConstrutorLab{
 	}
 	
 
-	/**
-	 * verifica se ainda existem blocos 3x3 de parede
-	 * @return true or false
-	 */
-	public boolean existeBlocos3x3(char [][] lab){
-		int linha=0, coluna=0;
-		do{
-			
-			//analisa se bloco 3x3 é todo parede
-			if(lab[linha][coluna] == 'X' && lab[linha][coluna+1] == 'X' && lab[linha][coluna+2] == 'X' &&
-			   lab[linha+1][coluna] == 'X' && lab[linha+1][coluna+1] == 'X' && lab[linha+1][coluna+2] == 'X' &&
-			   lab[linha+2][coluna] == 'X' && lab[linha+2][coluna+1] == 'X' && lab[linha+2][coluna+2] == 'X')
-				return true;
-			else{
-				if(linha<=tamanhoLab-3)
-					linha++;
-				else if(coluna<=tamanhoLab-3){
-					coluna++;
-					linha=1;
-				}
-			}
-			
-		}while(linha != tamanhoLab-2 && coluna!=tamanhoLab-2);
-	
-		return false;
-	}
-	
-	/**
-	 * Analisa-se se abrir a proxima celula se ficam blocos 2x2 abertos
-	 * @param x coordenada X da proxima celula
-	 * @param y coordenada Y da proxima celula
-	 * @return true or false
-	 */
-	public boolean verificaBlocos2x2(char[][] lab, int x, int y){
-		lab[y][x]=' ';
+	private char[][] labirintoAleatorio() {
+		char[][]labirinto= new char[tamanhoLab][tamanhoLab];
+		int coord_X=0, coord_Y=0, r;
+		Random rand = new Random();
+		elementosJogo guia= new elementosJogo('+');
 		
-		if((lab[y-1][x-1]==' ' && lab[y-1][x]==' ' &&	lab[y][x-1]==' ') || //bloco superior esquerdo
-		   (lab[y-1][x]==' ' && lab[y-1][x+1]==' ' &&	lab[y][x+1]==' ') || //bloco superior direito
-		   (lab[y][x-1]==' ' && lab[y+1][x-1]==' ' &&	lab[y+1][x]==' ') || //bloco inferior esquerdo
-		   (lab[y][x+1]==' ' && lab[y+1][x+1]==' ' &&	lab[y+1][x]==' ')){  //bloco inferior direito
-			
-			lab[y][x]='X';
-			return true;
-		}
-		else
-			return false;
-	}
-	
-public char[][] labirintoAleatorio(){
-		char[][] labirinto = new char[tamanhoLab][tamanhoLab];
-		Random rand=new Random();
-		int coord_X, coord_Y, r;
-		Random randMov=new Random();
-		
-		//preencher a grelha com 'X'
+		//por labirinto todo a 'X'
 		for(int i=0; i<tamanhoLab; i++)
 			for(int j=0; j<tamanhoLab; j++)
 				labirinto[i][j]='X';
 		
-		//colocar uma saida 'S'
-		coord_X=rand.nextInt(tamanhoLab);
-		if(coord_X==0 || coord_X==tamanhoLab-1)
-			coord_Y=rand.nextInt(tamanhoLab-1)+1;
-		else{
-			r=rand.nextInt(2);
-			if(r==0)
-				coord_Y=0;
-			else
-				coord_Y=tamanhoLab-1;
+		//abrir espaços impares do labirinto
+		for(int i=1; i<tamanhoLab; i+=2)
+			for(int j=1; j<tamanhoLab; j+=2)
+				labirinto[i][j]=' ';
+		
+		//colocar uma celula guia '+'
+		while(labirinto[coord_Y][coord_X]!= ' '){
+			r = rand.nextInt(4);
+			if(r==0){//celula guia no topo do labirinto
+				coord_Y=1;
+				coord_X = rand.nextInt(tamanhoLab-2)+1;
+			}else if(r==1){//celula guia no lado direito
+				coord_X=tamanhoLab-2;
+				coord_Y= rand.nextInt(tamanhoLab-2)+1;
+			}else if(r==2){//celula guia em baixo
+				coord_Y=tamanhoLab-2;
+				coord_X= rand.nextInt(tamanhoLab-2)+1;
+			}else{//celula guia no lado esquerdo
+				coord_X=1;
+				coord_Y= rand.nextInt(tamanhoLab-2)+1;
+			}
 		}
+		
+		labirinto[coord_Y][coord_X]=guia.getRepresentacao();
+		guia.setX(coord_X);
+		guia.setY(coord_Y);	
+
+		//coloca a celula saida adjacente à celula guia
+		if(coord_X==1)
+			coord_X--;
+		else if(coord_X==tamanhoLab-2)
+			coord_X++;
+		else if(coord_Y==1)
+			coord_Y--;
+		else
+			coord_Y++;
+
 		labirinto[coord_Y][coord_X]=getSaida().getRepresentacao();
 		
-		//coloca a celula adjacente à saida a branco
-		if(coord_X==0)
-			coord_X++;
-		else if(coord_X==tamanhoLab-1)
-			coord_X--;
-		else if(coord_Y==0)
-			coord_Y++;
-		else
-			coord_Y--;
+		//criar caminho
+		char[][] celVisitadas= new char[(tamanhoLab-1)/2][(tamanhoLab-1)/2];
+		Stack<elementosJogo> historico=new Stack<elementosJogo>();
+		boolean completo=true;
 		
-		labirinto[coord_Y][coord_X]=' ';
-
-		//cria caminho sucessivamente atraves de movimentos aleatorios
-		int mov;
+		for(int i=0; i<celVisitadas.length; i++)
+			for(int j=0; j<celVisitadas.length; j++)
+				celVisitadas[i][j]='X';
+		
+		guia.setX((guia.getX()-1)/2);
+		guia.setY((guia.getY()-1)/2);
+		celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
+		historico.push(guia);
+		
 		do{
-			mov=randMov.nextInt(4);
+			if(!adjacentesNaoVisitadas(celVisitadas, guia.getX(), guia.getY()))
+				guia=analisaHistorico(historico, celVisitadas);
 			
-			switch(mov){
-			case 0: //anda para a frente
-				if((coord_Y-1)== 0)
-					break;
-				else if(verificaBlocos2x2(labirinto, coord_X,coord_Y-1))
-					break;
-				else{
-					coord_Y--;
-					labirinto[coord_Y][coord_X]= ' ';
-					break;
-				}
-			case 1: //anda para a esquerda
-				if((coord_X-1)== 0)
-					break;
-				else if(verificaBlocos2x2(labirinto, coord_X-1,coord_Y))
-					break;
-				else{
-					coord_X--;
-					labirinto[coord_Y][coord_X]= ' ';
-					break;
-				}
-			case 2: //anda para a direita
-				if((coord_X+1)== tamanhoLab-1) 
-					break;
-				else if(verificaBlocos2x2(labirinto, coord_X+1,coord_Y))
-					break;
-				else{
-					coord_X++;
-					labirinto[coord_Y][coord_X]= ' ';
-					break;
-				}
-			case 3: //anda para trás
-				if((coord_Y+1)  == tamanhoLab-1)
-					break;
-				else if(verificaBlocos2x2(labirinto, coord_X,coord_Y+1))
-					break;
-				else{
-					coord_Y++;
-					labirinto[coord_Y][coord_X]= ' ';
-					break;
-				}
+			r=rand.nextInt(4);//generate random move
+			switch(r){
+			case 0://esquerda
+				if((guia.getX()-1)>=0)
+					/*if(celVisitadas[guia.getY()][guia.getX()-1]!='+')*/{
+						guia.setX(guia.getX()-1);
+						celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
+						labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
+						historico.push(guia);
+					}
+				break;
+			case 1://direita
+				if((guia.getX()+1)<celVisitadas.length)
+					/*if(celVisitadas[guia.getY()][guia.getX()+1]!='+')*/{
+						guia.setX(guia.getX()+1);
+						celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
+						labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
+						historico.push(guia);
+					}
+				break;
+			case 2://cima
+				if((guia.getY()-1)>=0)
+					/*if(celVisitadas[guia.getY()-1][guia.getX()]!='+')*/{
+						guia.setX(guia.getY()-1);
+						celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
+						labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
+						historico.push(guia);
+					}
+				break;
+			case 3://baixo
+				if((guia.getY()+1)<celVisitadas.length)
+					/*if(celVisitadas[guia.getY()+1][guia.getX()]!='+')*/{
+						guia.setX(guia.getY()+1);
+						celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
+						labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
+						historico.push(guia);
+					}
+				break;
 			}
-		 
-		}while(existeBlocos3x3(labirinto));
-		
+			
+			for(int i=0; i<celVisitadas.length; i++)
+				for(int j=0; j<celVisitadas[i].length; j++)
+					if(celVisitadas[i][j]!='+')
+						completo=false;
+			
+		}while(!completo);
 		
 		return labirinto;
 	}
 
-private Random nextInt(int i) {
-	// TODO Auto-generated method stub
-	return null;
-}
+
+	private elementosJogo analisaHistorico(Stack<elementosJogo> historico, char[][] celVisitadas) {
+		elementosJogo e=new elementosJogo('+');
+		
+		do{
+		e=historico.pop();
+		}while(!adjacentesNaoVisitadas(celVisitadas,e.getX(),e.getY()) && !historico.empty());
+		
+		return e;
+	}
+
+
+	private boolean adjacentesNaoVisitadas(char[][] celVisitadas, int x, int y) {
+
+		if(y==(celVisitadas.length-1)) {
+			if(celVisitadas[y-1][x]== 'X')
+				return true;
+		}else if(y==0){
+			if(celVisitadas[y+1][x]== 'X')
+				return true;
+		}else if(x==(celVisitadas.length-1)) {
+			if(celVisitadas[y][x-1]== 'X')
+				return true;
+		}else if(x==0) {
+			if(celVisitadas[y][x+1]== 'X')
+				return true;
+		}else if(celVisitadas[y-1][x]== 'X' || celVisitadas[y+1][x]== 'X' ||
+				 celVisitadas[y][x-1]== 'X' || celVisitadas[y][x+1]== 'X')
+			return true;
+
+		return false;
+	}
+
+
 }
