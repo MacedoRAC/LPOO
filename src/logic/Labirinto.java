@@ -11,7 +11,7 @@ public class Labirinto {
 	private espada E;
 
 	public Labirinto() {
-		labirinto=new ConstAleatorioLab();
+		labirinto=new ConstFixoLab();
 		H=new heroi();
 		D=new dragao();
 		E=new espada();
@@ -45,14 +45,18 @@ public class Labirinto {
 		System.out.println();
 		System.out.println();
 
-		if(E.isAtiva() && !D.isMorto()){
-			if(E.getY()==D.getY() && E.getX()==D.getX())//posicao dragao==posicao espada
-				labirinto.getLab()[E.getY()][E.getX()]='F';
-			else{
-				labirinto.getLab()[E.getY()][E.getX()]='E';
+		if(!D.isMorto()){//dragao nao esta morto
+			if(E.isAtiva()){//espada esta ativa
+				if(E.getY()==D.getY() && E.getX()==D.getX())//posicao dragao==posicao espada
+					labirinto.getLab()[E.getY()][E.getX()]='F';
+				else{
+					labirinto.getLab()[E.getY()][E.getX()]='E';
+					labirinto.getLab()[D.getY()][D.getX()]='D';
+				}
+			}else{//espada nao esta ativa
 				labirinto.getLab()[D.getY()][D.getX()]='D';
 			}
-		}else if(D.isMorto())
+		}else if(D.isMorto()) 
 			labirinto.getLab()[D.getY()][D.getX()]=' ';
 
 		if(!H.isMorto()){

@@ -75,46 +75,43 @@ public class ConstAleatorioLab extends ConstrutorLab{
 		historico.push(guia);
 		
 		do{
+			completo=true;
 			if(!adjacentesNaoVisitadas(celVisitadas, guia.getX(), guia.getY()))
 				guia=analisaHistorico(historico, celVisitadas);
 			
 			r=rand.nextInt(4);//generate random move
 			switch(r){
 			case 0://esquerda
-				if((guia.getX()-1)>=0)
-					/*if(celVisitadas[guia.getY()][guia.getX()-1]!='+')*/{
-						guia.setX(guia.getX()-1);
-						celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
-						labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
-						historico.push(guia);
-					}
+				if((guia.getX()-1)>=0 && celVisitadas[guia.getY()][guia.getX()-1]!='+'){
+					guia.setX(guia.getX()-1);
+					celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
+					labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
+					historico.push(guia);
+				}
 				break;
 			case 1://direita
-				if((guia.getX()+1)<celVisitadas.length)
-					/*if(celVisitadas[guia.getY()][guia.getX()+1]!='+')*/{
-						guia.setX(guia.getX()+1);
-						celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
-						labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
-						historico.push(guia);
-					}
+				if((guia.getX()+1)<celVisitadas.length && celVisitadas[guia.getY()][guia.getX()+1]!='+'){
+					guia.setX(guia.getX()+1);
+					celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
+					labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
+					historico.push(guia);
+				}
 				break;
 			case 2://cima
-				if((guia.getY()-1)>=0)
-					/*if(celVisitadas[guia.getY()-1][guia.getX()]!='+')*/{
-						guia.setX(guia.getY()-1);
-						celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
-						labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
-						historico.push(guia);
-					}
+				if((guia.getY()-1)>=0 && celVisitadas[guia.getY()-1][guia.getX()]!='+'){
+					guia.setX(guia.getY()-1);
+					celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
+					labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
+					historico.push(guia);
+				}
 				break;
 			case 3://baixo
-				if((guia.getY()+1)<celVisitadas.length)
-					/*if(celVisitadas[guia.getY()+1][guia.getX()]!='+')*/{
-						guia.setX(guia.getY()+1);
-						celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
-						labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
-						historico.push(guia);
-					}
+				if((guia.getY()+1)<celVisitadas.length && celVisitadas[guia.getY()+1][guia.getX()]!='+'){
+					guia.setX(guia.getY()+1);
+					celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
+					labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
+					historico.push(guia);
+				}
 				break;
 			}
 			

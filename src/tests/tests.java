@@ -9,31 +9,38 @@ public class tests {
 	@Test
 	public void heroiMoveUmaPosicao() {
 		Labirinto l=new Labirinto();
-		int posCorreta[]={1,2};
+		l.getHeroi().setX(1);
+		l.getHeroi().setY(1);
 		l.moveH("s");
-		int posAtual[]={l.getHeroi().getX(), l.getHeroi().getY()};
 		
-		assertEquals("Nova posição deve ser coluna 1, linha 2",posCorreta,posAtual);
+		assertEquals(1,l.getHeroi().getX());
+		assertEquals(2,l.getHeroi().getY());
 	}
 	
 	@Test
 	public void heroiMoveContraParede(){
 		Labirinto l=new Labirinto();
-		int posCorreta[]={1,1};
+		l.getHeroi().setX(1);
+		l.getHeroi().setY(1);
 		l.moveH("a");
-		int posAtual[]={l.getHeroi().getX(), l.getHeroi().getY()};
 		
-		assertEquals("Nova posição deve ser coluna 1, linha 1",posCorreta,posAtual);
+		assertEquals(1,l.getHeroi().getX());
+		assertEquals(1,l.getHeroi().getY());
 	}
 	
 	@Test
 	public void apanharEspada(){
 		Labirinto l=new Labirinto();
-		l.getEspada().setX(2);
-		l.getEspada().setY(1);
-		l.moveH("d");
+		l.getHeroi().setX(1);
+		l.getHeroi().setY(1);
+		l.getDragao().setX(7);
+		l.getDragao().setY(1);
+		l.getEspada().setX(1);
+		l.getEspada().setY(3);
+		l.moveH("s");
+		l.moveH("s");
 		
-		assertEquals("Heroi deve estar armado", true, l.getHeroi().isArmado());
+		assertEquals(true, l.getHeroi().isArmado());
 	}
 	
 	@Test
