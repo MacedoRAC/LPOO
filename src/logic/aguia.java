@@ -4,15 +4,15 @@ public class aguia extends elementosJogo {
 
 	private boolean emVoo;
 	private boolean morta;
-	private int Xinic, Yinic; 
+	private coordenada pos_inicial; 
 	
-	public aguia() {
+	public aguia(int xHeroi, int yHeroi) {
 		this.setEmVoo(false);
 		this.setMorta(false);
-		setX(1);
-		setY(1);
-		this.setXinic(getX());
-		this.setYinic(getY());
+		setX(xHeroi);//começa na mesma
+		setY(yHeroi);//posição que o heroi
+		this.pos_inicial.setX(getX());
+		this.pos_inicial.setY(getY());
 		
 	}
 
@@ -30,22 +30,6 @@ public class aguia extends elementosJogo {
 
 	public void setMorta(boolean morta) {
 		this.morta = morta;
-	}
-
-	public int getXinic() {
-		return Xinic;
-	}
-
-	public void setXinic(int xinic) {
-		Xinic = xinic;
-	}
-
-	public int getYinic() {
-		return Yinic;
-	}
-
-	public void setYinic(int yinic) {
-		Yinic = yinic;
 	}
 
 }
