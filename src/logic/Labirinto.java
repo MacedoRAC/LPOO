@@ -9,7 +9,6 @@ public class Labirinto {
 	private heroi H;
 	private dragao D;
 	private espada E;
-	private aguia A;
 
 	public Labirinto() {
 		labirinto=new ConstFixoLab();
@@ -19,7 +18,7 @@ public class Labirinto {
 		geraPosInicialEspada();		
 		geraPosInicialDragao();
 		geraPosInicialHeroi();
-		A=new aguia(); //mesmas coordenadas que o heroi
+		verificaLab(labirinto.getLab());
 	}
 	
 	public boolean isVitoria() {
@@ -42,10 +41,16 @@ public class Labirinto {
 		return D;
 	}
 	
-	public void imprimeLab(){
-
-		System.out.println();
-		System.out.println();
+	public void processaEvento(String mov) {
+		
+		if(!mov.equals("e"))
+			moveH(mov);
+		if(!D.isMorto())
+			movimentoDragao();
+		verificaLab(labirinto.getLab());
+	}
+		
+	public void verificaLab(char[][] lab){
 
 		if(!D.isMorto()){//dragao nao esta morto
 			if(E.isAtiva()){//espada esta ativa
@@ -67,17 +72,8 @@ public class Labirinto {
 			else
 				labirinto.getLab()[H.getY()][H.getX()]='H';
 		}
-
-		imprimePuzzle(labirinto.getLab());
 	}
-
-	public static void imprimePuzzle(char[][] lab) {
-		for(int i=0; i<lab.length; i++){
-			System.out.println();
-			for(int j=0; j<lab[i].length; j++)
-				System.out.print(lab[i][j] + " ");
-		}
-	}
+	
 	
 	public void moveH(String mov){
 		
@@ -318,4 +314,6 @@ public class Labirinto {
 	public void setLabirinto(ConstrutorLab labirinto) {
 		this.labirinto = labirinto;
 	}
+
+	
 }

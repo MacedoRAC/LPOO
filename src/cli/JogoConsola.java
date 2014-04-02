@@ -12,19 +12,30 @@ public class JogoConsola {
 		
 		Scanner s= new Scanner(System.in);
 		do{
-			l.imprimeLab();
+			System.out.println();
+			System.out.println();
+			imprimePuzzle(l.getLabirinto().getLab());			
 			System.out.println();
 			System.out.print("Proximo movimento ('e' para sair): ");
 			mov=s.next();
-			if(!mov.equals("e"))
-				l.moveH(mov);
-			l.movimentoDragao();
+			l.processaEvento(mov);
 			
-		}while(!mov.equals("e") );
+		}while(!mov.equals("e"));
 
 		if(l.isVitoria())
 			System.out.println("VITORIA!");
 		
 		s.close();
 	}
+	
+	public static void imprimePuzzle(char[][] lab) {
+		for(int i=0; i<lab.length; i++){
+			System.out.println();
+			for(int j=0; j<lab[i].length; j++)
+				System.out.print(lab[i][j] + " ");
+		}
+	}
+	
+
+	
 }
