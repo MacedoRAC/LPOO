@@ -9,6 +9,7 @@ public class Labirinto {
 	private heroi H;
 	private dragao D;
 	private espada E;
+	private aguia A;
 
 	public Labirinto() {
 		labirinto=new ConstFixoLab();
@@ -18,6 +19,7 @@ public class Labirinto {
 		geraPosInicialEspada();		
 		geraPosInicialDragao();
 		geraPosInicialHeroi();
+		A=new aguia(); //mesmas coordenadas que o heroi
 	}
 	
 	public boolean isVitoria() {
@@ -40,7 +42,7 @@ public class Labirinto {
 		return D;
 	}
 	
-	public void imprimeLab(char[][] lab){
+	public void imprimeLab(){
 
 		System.out.println();
 		System.out.println();

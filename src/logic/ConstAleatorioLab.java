@@ -1,7 +1,7 @@
 package logic;
 
 import java.util.Random;
-import java.util.Stack;
+import java.util.Vector;
 
 public class ConstAleatorioLab extends ConstrutorLab{
 
@@ -58,11 +58,13 @@ public class ConstAleatorioLab extends ConstrutorLab{
 		else
 			coord_Y++;
 
+		getSaida().setX(coord_X);
+		getSaida().setY(coord_Y);
 		labirinto[coord_Y][coord_X]=getSaida().getRepresentacao();
 		
 		//criar caminho
 		char[][] celVisitadas= new char[(tamanhoLab-1)/2][(tamanhoLab-1)/2];
-		Stack<elementosJogo> historico=new Stack<elementosJogo>();
+		Vector<elementosJogo> historico=new Vector<elementosJogo>((tamanhoLab-1)/2);
 		boolean completo=true;
 		
 		for(int i=0; i<celVisitadas.length; i++)
@@ -72,7 +74,7 @@ public class ConstAleatorioLab extends ConstrutorLab{
 		guia.setX((guia.getX()-1)/2);
 		guia.setY((guia.getY()-1)/2);
 		celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
-		historico.push(guia);
+		historico.add(guia);
 		
 		do{
 			completo=true;
@@ -84,37 +86,53 @@ public class ConstAleatorioLab extends ConstrutorLab{
 			case 0://esquerda
 				if((guia.getX()-1)>=0 && celVisitadas[guia.getY()][guia.getX()-1]!='+'){
 					guia.setX(guia.getX()-1);
-					celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
-					labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
-					historico.push(guia);
+					celVisitadas[guia.getY()][guia.getX()+1]=guia.getRepresentacao();
+					labirinto[guia.getY()*2+1][guia.getX()*2+2]=' ';
+					historico.add(guia);
 				}
 				break;
 			case 1://direita
 				if((guia.getX()+1)<celVisitadas.length && celVisitadas[guia.getY()][guia.getX()+1]!='+'){
 					guia.setX(guia.getX()+1);
 					celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
-					labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
-					historico.push(guia);
+					labirinto[guia.getY()*2+1][guia.getX()*2]=' ';
+					historico.add(guia);
 				}
 				break;
 			case 2://cima
 				if((guia.getY()-1)>=0 && celVisitadas[guia.getY()-1][guia.getX()]!='+'){
-					guia.setX(guia.getY()-1);
+					guia.setY(guia.getY()-1);
 					celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
-					labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
-					historico.push(guia);
+					labirinto[guia.getY()*2+2][guia.getX()*2+1]=' ';
+					historico.add(guia);
 				}
 				break;
 			case 3://baixo
 				if((guia.getY()+1)<celVisitadas.length && celVisitadas[guia.getY()+1][guia.getX()]!='+'){
-					guia.setX(guia.getY()+1);
+					guia.setY(guia.getY()+1);
 					celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
 					labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
-					historico.push(guia);
+					historico.add(guia);
 				}
 				break;
 			}
 			
+			//imprime so para debug
+			System.out.println();
+			for(int i=0; i<celVisitadas.length; i++){
+				System.out.println();
+				for(int j=0; j<celVisitadas[i].length; j++)
+					System.out.print(celVisitadas[i][j] + " ");
+			}
+			
+			System.out.println();
+			for(int i=0; i<labirinto.length; i++){
+				System.out.println();
+				for(int j=0; j<labirinto[i].length; j++)
+					System.out.print(labirinto[i][j] + " ");
+			}
+			
+			//verifica se todas as celulas foram visitadas
 			for(int i=0; i<celVisitadas.length; i++)
 				for(int j=0; j<celVisitadas[i].length; j++)
 					if(celVisitadas[i][j]!='+')
@@ -126,12 +144,12 @@ public class ConstAleatorioLab extends ConstrutorLab{
 	}
 
 
-	private elementosJogo analisaHistorico(Stack<elementosJogo> historico, char[][] celVisitadas) {
+	private elementosJogo analisaHistorico(Vector<elementosJogo> historico, char[][] celVisitadas) {
 		elementosJogo e=new elementosJogo('+');
 		
 		do{
-		e=historico.pop();
-		}while(!adjacentesNaoVisitadas(celVisitadas,e.getX(),e.getY()) && !historico.empty());
+		e=historico.lastElement();
+		}while(!adjacentesNaoVisitadas(celVisitadas,e.getX(),e.getY()) && !historico.isEmpty());
 		
 		return e;
 	}
