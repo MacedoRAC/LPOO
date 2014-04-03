@@ -4,6 +4,7 @@ public class heroi extends elementosJogo{
 	
 	private boolean armado=false;
 	private boolean morto=false;
+	private boolean aguiaEmUso=false;
 
 	public heroi() {
 		setX(1);
@@ -30,6 +31,14 @@ public class heroi extends elementosJogo{
 
 	public void setMorto(boolean morto) {
 		this.morto = morto;
+	}
+
+	public boolean isAguiaEmUso() {
+		return aguiaEmUso;
+	}
+
+	public void setAguiaEmUso(boolean aguiaEmUso) {
+		this.aguiaEmUso = aguiaEmUso;
 	}
 
 }

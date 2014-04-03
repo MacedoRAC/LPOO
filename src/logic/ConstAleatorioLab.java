@@ -148,7 +148,7 @@ public class ConstAleatorioLab extends ConstrutorLab{
 		elementosJogo e=new elementosJogo('+');
 		
 		do{
-		e=historico.lastElement();
+			e=historico.lastElement();
 		}while(!adjacentesNaoVisitadas(celVisitadas,e.getX(),e.getY()) && !historico.isEmpty());
 		
 		return e;

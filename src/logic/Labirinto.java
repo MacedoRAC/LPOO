@@ -9,7 +9,10 @@ public class Labirinto {
 	private heroi H;
 	private dragao D;
 	private espada E;
-
+	private aguia Ag;
+	private elementosJogo posAnteriorAguia= new elementosJogo();
+	private coordenada inicialAguia =new coordenada();
+	
 	public Labirinto() {
 		labirinto=new ConstFixoLab();
 		H=new heroi();
@@ -18,6 +21,7 @@ public class Labirinto {
 		geraPosInicialEspada();		
 		geraPosInicialDragao();
 		geraPosInicialHeroi();
+		Ag=new aguia(H.getX(), H.getY());
 		verificaLab(labirinto.getLab());
 	}
 	
@@ -45,11 +49,16 @@ public class Labirinto {
 		
 		if(!mov.equals("e"))
 			moveH(mov);
-		if(!D.isMorto())
+		if(!D.isMorto()){
 			movimentoDragao();
+			if(morteDragao())
+				D.setMorto(true);
+			if(morteHeroi())
+				H.setMorto(true);
+		}
 		verificaLab(labirinto.getLab());
 	}
-		
+
 	public void verificaLab(char[][] lab){
 
 		if(!D.isMorto()){//dragao nao esta morto
@@ -57,11 +66,19 @@ public class Labirinto {
 				if(E.getY()==D.getY() && E.getX()==D.getX())//posicao dragao==posicao espada
 					labirinto.getLab()[E.getY()][E.getX()]='F';
 				else{
+					if(D.isAdormecido())
+						labirinto.getLab()[D.getY()][D.getX()]='Z';
+					else
+						labirinto.getLab()[D.getY()][D.getX()]='D';
+					
 					labirinto.getLab()[E.getY()][E.getX()]='E';
-					labirinto.getLab()[D.getY()][D.getX()]='D';
+					
 				}
 			}else{//espada nao esta ativa
-				labirinto.getLab()[D.getY()][D.getX()]='D';
+				if(D.isAdormecido())
+					labirinto.getLab()[D.getY()][D.getX()]='Z';
+				else
+					labirinto.getLab()[D.getY()][D.getX()]='D';
 			}
 		}else if(D.isMorto()) 
 			labirinto.getLab()[D.getY()][D.getX()]=' ';
@@ -72,6 +89,14 @@ public class Labirinto {
 			else
 				labirinto.getLab()[H.getY()][H.getX()]='H';
 		}
+		
+		if(Ag.isEmVoo()){
+			labirinto.getLab()[posAnteriorAguia.getY()][posAnteriorAguia.getX()]=posAnteriorAguia.getRepresentacao();
+			labirinto.getLab()[Ag.getY()][Ag.getX()]='G';
+		}
+		if(Ag.getX()==inicialAguia.getX() && Ag.getY()==inicialAguia.getY())
+			Ag.setEmVoo(false);
+		
 	}
 	
 	
@@ -91,12 +116,13 @@ public class Labirinto {
 				trocaH("cima");
 			}else if(adjacente=='S' && !D.isMorto()){
 				System.out.println("Não podes sair, o dragão ainda não foi morto!");
-			}else if(adjacente=='E'){
+			}else if(adjacente=='E' || adjacente=='G'){
 				H.setArmado(true);
 				E.setAtiva(false);
 				trocaH("cima");
 			}else
 				System.out.print("Movimento não permitido!");
+			moveAguia();
 			break;
 		
 		
@@ -111,12 +137,13 @@ public class Labirinto {
 				trocaH("baixo");
 			}else if(adjacente=='S' && !D.isMorto()){
 				System.out.println("Não podes sair, o dragão ainda não foi morto");
-			}else if(adjacente=='E'){
+			}else if(adjacente=='E' || adjacente=='G'){
 				H.setArmado(true);
 				E.setAtiva(false);
 				trocaH("baixo");
 			}else
 				System.out.print("Movimento não permitido!");
+			moveAguia();
 			break;
 			
 		case "a":
@@ -130,12 +157,13 @@ public class Labirinto {
 				trocaH("esquerda");
 			}else if(adjacente=='S' && !D.isMorto()){
 				System.out.println("Não podes sair, o dragão ainda não foi morto!");
-			}else if(adjacente=='E'){
+			}else if(adjacente=='E' || adjacente=='G'){
 				H.setArmado(true);
 				E.setAtiva(false);
 				trocaH("esquerda");
 			}else
 				System.out.print("Movimento não permitido!");
+			moveAguia();
 			break;
 			
 		case "d":
@@ -149,16 +177,32 @@ public class Labirinto {
 				trocaH("direita");
 			}else if(adjacente=='S' && !D.isMorto()){
 				System.out.println("Não podes sair, o dragão ainda não foi morto!");
-			}else if(adjacente=='E'){
+			}else if(adjacente=='E' || adjacente=='G'){
 				H.setArmado(true);
 				E.setAtiva(false);
 				trocaH("direita");
 			}else
 				System.out.print("Movimento não permitido!");
+			moveAguia();
 			break;
-			
-			default:
-				break;
+		case "g":
+			if(!Ag.isEmVoo() && E.isAtiva()){
+				Ag.comecaMovimento(H, E);
+				posAnteriorAguia.setX(Ag.getX());
+				posAnteriorAguia.setX(Ag.getX());
+				posAnteriorAguia.setRepresentacao(labirinto.getLab()[posAnteriorAguia.getY()][posAnteriorAguia.getX()]);
+			}else
+				moveAguia();
+			break;
+		}
+	}
+
+	public void moveAguia() {
+		if(Ag.isEmVoo()){
+			Ag.calculaNovaPos(E);
+			posAnteriorAguia.setX(Ag.getX());
+			posAnteriorAguia.setX(Ag.getX());
+			posAnteriorAguia.setRepresentacao(labirinto.getLab()[posAnteriorAguia.getY()][posAnteriorAguia.getX()]);
 		}
 	}
 
@@ -206,10 +250,10 @@ public class Labirinto {
 		while(livre==false){
 			coord_X=rand.nextInt(labirinto.getTamanhoLab()-2) +1; //se o labirinto for 10x10 gera um numero entre 1 e 9
 			coord_Y=rand.nextInt(labirinto.getTamanhoLab()-2) +1; //se o labirinto for 10x10 gera um numero entre 1 e 9
-			if(labirinto.getLab()[coord_Y][coord_X] == ' '  && (labirinto.getLab()[coord_Y+1][coord_X]!='D' && //o dragao esta na celula acima à do heroi
-												 labirinto.getLab()[coord_Y-1][coord_X]!='D' && //o dragao esta na celula abaixo à do heroi
-												 labirinto.getLab()[coord_Y][coord_X+1]!='D' && //o dragao esta na celula à direita à do heroi
-												 labirinto.getLab()[coord_Y][coord_X-1]!='D')){ 
+			if(labirinto.getLab()[coord_Y][coord_X] == ' '  && (((coord_Y+1)!=D.getY()) && //o dragao esta na celula acima à do heroi
+												 				((coord_Y-1)!=D.getY()) && //o dragao esta na celula abaixo à do heroi
+  															    ((coord_X+1)!=D.getX()) && //o dragao esta na celula à direita à do heroi
+															    ((coord_X-1)!=D.getX()))){ 
 				livre=true;
 				H.setX(coord_X);
 				H.setY(coord_Y);
@@ -251,20 +295,20 @@ public class Labirinto {
 
 	public boolean morteHeroi(){
 				
-		if(!H.isArmado() && ((H.getY()+1==D.getY() && H.getX()==D.getX()) || //o dragao esta na celula abaixo à do heroi
-							 (H.getY()-1==D.getY() && H.getX()==D.getX()) || //o dragao esta na celula acima à do heroi
-							 (H.getY()==D.getY() && H.getX()+1==D.getX()) || //o dragao esta na celula à direita à do heroi
-							 (H.getY()==D.getY() && H.getX()-1==D.getX()))){ //o dragao esta na celula à esquerda à do heroi
+		if(!H.isArmado() && !D.isAdormecido() && (((H.getY()+1)==D.getY() && H.getX()==D.getX()) || //o dragao esta na celula abaixo à do heroi
+												 ((H.getY()-1)==D.getY() && H.getX()==D.getX()) || //o dragao esta na celula acima à do heroi
+												 (H.getY()==D.getY() && (H.getX()+1)==D.getX()) || //o dragao esta na celula à direita à do heroi
+												 (H.getY()==D.getY() && (H.getX()-1)==D.getX()))){ //o dragao esta na celula à esquerda à do heroi
 			return true;
 		}else
 			return false;
 	}
 
 	public boolean morteDragao(){
-		if(H.isArmado() && ((H.getY()+1==D.getY() && H.getX()==D.getX()) || //o dragao esta na celula abaixo à do heroi
-							(H.getY()-1==D.getY() && H.getX()==D.getX()) || //o dragao esta na celula acima à do heroi
-							(H.getY()==D.getY() && H.getX()+1==D.getX()) || //o dragao esta na celula à direita à do heroi
-							(H.getY()==D.getY() && H.getX()-1==D.getX()))){ //o dragao esta na celula à esquerda à do heroi
+		if(H.isArmado() && (((H.getY()+1)==D.getY() && H.getX()==D.getX()) || //o dragao esta na celula abaixo à do heroi
+							((H.getY()-1)==D.getY() && H.getX()==D.getX()) || //o dragao esta na celula acima à do heroi
+							(H.getY()==D.getY() && (H.getX()+1)==D.getX()) || //o dragao esta na celula à direita à do heroi
+							(H.getY()==D.getY() && (H.getX()-1)==D.getX()))){ //o dragao esta na celula à esquerda à do heroi
 			return true;
 		}else
 			return false;
@@ -274,36 +318,42 @@ public class Labirinto {
 		boolean podeMover=false;
 		Random rand= new Random();
 		int i;
+
+		D.setAdormecido(false);
+		i=rand.nextInt(2);
 		
-		do{
-			i=rand.nextInt(4);
-			switch(i){
-			case 0:
-				if(labirinto.getLab()[D.getY()-1][D.getX()] == ' ' || labirinto.getLab()[D.getY()-1][D.getX()] == 'E'){
-					labirinto.getLab()[D.getY()][D.getX()] = ' ';
-					D.setY(D.getY()-1);
-					podeMover=true;
-				}break;
-			case 1:
-				if(labirinto.getLab()[D.getY()+1][D.getX()] == ' ' || labirinto.getLab()[D.getY()+1][D.getX()] == 'E'){
-					labirinto.getLab()[D.getY()][D.getX()] = ' ';
-					D.setY(D.getY()+1);
-					podeMover=true;
-				}break;
-			case 2:
-				if(labirinto.getLab()[D.getY()][D.getX()-1] == ' ' || labirinto.getLab()[D.getY()][D.getX()-1] == 'E'){
-					labirinto.getLab()[D.getY()][D.getX()] = ' ';
-					D.setX(D.getX()-1);
-					podeMover=true;
-				}break;
-			case 3:
-				if(labirinto.getLab()[D.getY()][D.getX()+1] == ' ' || labirinto.getLab()[D.getY()][D.getX()+1] == 'E'){
-					labirinto.getLab()[D.getY()][D.getX()] = ' ';
-					D.setX(D.getX()+1);
-					podeMover=true;
-				}break;
-			}
-		}while(!podeMover);
+		if(i==0)
+			D.setAdormecido(true);
+		else		
+			do{
+				i=rand.nextInt(4);
+				switch(i){
+				case 0:
+					if(labirinto.getLab()[D.getY()-1][D.getX()] == ' ' || labirinto.getLab()[D.getY()-1][D.getX()] == 'E'){
+						labirinto.getLab()[D.getY()][D.getX()] = ' ';
+						D.setY(D.getY()-1);
+						podeMover=true;
+					}break;
+				case 1:
+					if(labirinto.getLab()[D.getY()+1][D.getX()] == ' ' || labirinto.getLab()[D.getY()+1][D.getX()] == 'E'){
+						labirinto.getLab()[D.getY()][D.getX()] = ' ';
+						D.setY(D.getY()+1);
+						podeMover=true;
+					}break;
+				case 2:
+					if(labirinto.getLab()[D.getY()][D.getX()-1] == ' ' || labirinto.getLab()[D.getY()][D.getX()-1] == 'E'){
+						labirinto.getLab()[D.getY()][D.getX()] = ' ';
+						D.setX(D.getX()-1);
+						podeMover=true;
+					}break;
+				case 3:
+					if(labirinto.getLab()[D.getY()][D.getX()+1] == ' ' || labirinto.getLab()[D.getY()][D.getX()+1] == 'E'){
+						labirinto.getLab()[D.getY()][D.getX()] = ' ';
+						D.setX(D.getX()+1);
+						podeMover=true;
+					}break;
+				}
+			}while(!podeMover);
 		
 	}	
 

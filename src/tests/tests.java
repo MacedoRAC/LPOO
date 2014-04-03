@@ -35,10 +35,10 @@ public class tests {
 		l.getHeroi().setY(1);
 		l.getDragao().setX(7);
 		l.getDragao().setY(1);
-		l.getEspada().setX(1);
-		l.getEspada().setY(3);
-		l.moveH("s");
-		l.moveH("s");
+		l.getEspada().setX(3);
+		l.getEspada().setY(1);
+		l.moveH("d");
+		l.moveH("d");
 		
 		assertEquals(true, l.getHeroi().isArmado());
 	}
@@ -46,11 +46,17 @@ public class tests {
 	@Test
 	public void heroiMorre(){
 		Labirinto l=new Labirinto();
+		l.getHeroi().setX(1);
+		l.getHeroi().setY(1);
 		l.getDragao().setX(3);
 		l.getDragao().setY(1);
+		l.getDragao().setAdormecido(false);
+		l.getEspada().setX(7);
+		l.getEspada().setY(1);
+		
 		l.moveH("d");
 		
-		assertEquals("Heroi deve estar morto", true, l.getHeroi().isMorto());
+		assertEquals(true, l.getHeroi().isMorto());
 		}
 	
 	@Test
@@ -58,10 +64,12 @@ public class tests {
 		Labirinto l=new Labirinto();
 		l.getDragao().setX(3);
 		l.getDragao().setY(1);
+		l.getHeroi().setX(1);
+		l.getHeroi().setY(1);
 		l.getHeroi().setArmado(true);
 		l.moveH("d");
 		
-		assertEquals("Dragao deve estar morto", true, l.getDragao().isMorto());
+		assertEquals(true, l.getDragao().isMorto());
 	}
 	
 	@Test

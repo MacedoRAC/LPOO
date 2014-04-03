@@ -20,10 +20,12 @@ public class JogoConsola {
 			mov=s.next();
 			l.processaEvento(mov);
 			
-		}while(!mov.equals("e"));
+		}while(!mov.equals("e") || !l.isVitoria() || !l.getHeroi().isMorto());
 
 		if(l.isVitoria())
 			System.out.println("VITORIA!");
+		if(l.getHeroi().isMorto())
+			System.out.println("Perdeste!");
 		
 		s.close();
 	}
