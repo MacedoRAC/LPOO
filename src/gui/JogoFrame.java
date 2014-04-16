@@ -10,6 +10,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 
@@ -106,7 +108,7 @@ public class JogoFrame extends JFrame{
 		//Botão "Configurações"
 		config=new JButton("Configurações");
 		config.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				opcoes.setEnabled(true);
@@ -114,8 +116,53 @@ public class JogoFrame extends JFrame{
 				opcoes.setSize(306, 436);
 				Dimension dim=Toolkit.getDefaultToolkit().getScreenSize();
 				opcoes.setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
-				lab=opcoes.getLab();
-				configStandard=false;
+				opcoes.addWindowListener(new WindowListener() {
+
+					@Override
+					public void windowClosed(WindowEvent arg0) {
+						lab=opcoes.getLab();
+						configStandard=false;
+
+					}
+
+					@Override
+					public void windowActivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void windowClosing(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void windowDeactivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void windowDeiconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void windowIconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void windowOpened(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+				});
+
 			}
 		});
 	}

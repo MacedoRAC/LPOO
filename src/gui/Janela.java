@@ -83,7 +83,7 @@ public class Janela extends JPanel{
 	protected void paintComponent(Graphics g){
 		char elemento;
 		requestFocus(true);
-
+		setFocusable(true);
 		
 		if(aJogar){
 			int altura=this.getHeight()/tamanholab;
@@ -171,9 +171,13 @@ public class Janela extends JPanel{
 		if(lab.isVitoria()){
 			JOptionPane.showMessageDialog(null, "Parabéns! Aventura terminada com sucesso");
 			setFocusable(false);
+			aJogar=false;
+			repaint();
 		}else if(lab.getHeroi().isMorto()){
 			JOptionPane.showMessageDialog(null, "Um dragão matou-te!");
 			setFocusable(false);
+			aJogar=false;
+			repaint();
 		}
 		
 		

@@ -11,6 +11,7 @@ public class aguia extends elementosJogo {
 	private boolean emVoo;
 	private boolean temEspada;
 	private boolean morta;
+	private boolean chegouInicio;
 	private coordenada posInicial=new coordenada();
 	private coordenada posFinal=new coordenada(); 
 	
@@ -24,6 +25,7 @@ public class aguia extends elementosJogo {
 		this.emVoo=false;
 		this.temEspada=false;
 		this.setMorta(false);
+		this.setChegouInicio(false);
 		setX(xHeroi);//começa na mesma
 		setY(yHeroi);//posição que o heroi
 		this.setRepresentacao('G');
@@ -57,8 +59,8 @@ public class aguia extends elementosJogo {
 	 */
 	public void calculaNovaPos(espada e){
 		
-		int deltaX= posFinal.getX()- getX();
-		int deltaY= posFinal.getY()- getY();
+		int deltaX= Math.abs(posFinal.getX()- getX());
+		int deltaY= Math.abs(posFinal.getY()- getY());
 		
 		if(deltaX>deltaY){
 			if(getX()<posFinal.getX())
@@ -164,5 +166,19 @@ public class aguia extends elementosJogo {
 
 	public void setMorta(boolean morta) {
 		this.morta = morta;
+	}
+
+	/**
+	 * @return Verdadeiro se a águia regressou ao local de partida e falso caso contrário
+	 */
+	public boolean isChegouInicio() {
+		return chegouInicio;
+	}
+
+	/**
+	 * @param chegouInicio novo estado da águia
+	 */
+	public void setChegouInicio(boolean chegouInicio) {
+		this.chegouInicio = chegouInicio;
 	}
 }
