@@ -1,7 +1,12 @@
 package gui;
 
 import java.awt.EventQueue;
-
+/**
+ * Classe base no controlo da aplicação no modo gráfico
+ * 
+ * @author André
+ *
+ */
 public class JogoGUI {
 	/**
 	 * Launch the application.

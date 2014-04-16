@@ -13,12 +13,17 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import logic.Labirinto;
 
-
+/**
+ * Janela onde se faz a configuração dos parâmetros do jogo
+ * 
+ * @author André
+ *
+ */
 public class Opcoes extends JFrame{
 	private JComboBox<String> tipoLabirinto;
 	private JComboBox<String> dragoesAdor;
@@ -36,8 +41,11 @@ public class Opcoes extends JFrame{
 	private GroupLayout groupLayout;
 	private JLabel numDragoesEtiqueta;
 	private JSpinner numDragoes;
+	private Labirinto lab;
 	
-	
+	/**
+	 * Construtor onde é inicializado o conteúdo da janela de configuração 
+	 */
 	public Opcoes() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Configura\u00E7\u00F5es");
@@ -61,6 +69,7 @@ public class Opcoes extends JFrame{
 		botaoOK.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				configuraJogo();
 				setVisible(false);
 				dispose();
 			}
@@ -74,7 +83,9 @@ public class Opcoes extends JFrame{
 		
 	}
 
-	
+	/**
+	 * Configura as Etiquetas apresentadas na janela
+	 */
 	private void configuraEtiquetas() {
 		tamanhoLabEtiqueta = new JLabel("Tamanho Labirinto");
 		tamanhoLabEtiqueta.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -103,6 +114,9 @@ public class Opcoes extends JFrame{
 		
 	}
 
+	/**
+	 * Configura o Layout da janela
+	 */
 	private void configuraGrouplayout() {
 		groupLayout.setHorizontalGroup(
 				groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -180,7 +194,12 @@ public class Opcoes extends JFrame{
 			);
 	}
 
-	public Labirinto configuraJogo(){
+	/**
+	 * Configura os parâmetros do novo jogo: modo de jogo, 
+	 * comportamento dos dragões, tamanho do labirinto e número de dragões
+	 *  
+	 */
+	public void configuraJogo(){
 
 		boolean modoAle, dragoesAdo;
 		int tamanho, numDrag;
@@ -199,7 +218,20 @@ public class Opcoes extends JFrame{
 		numDrag = (int) numDragoes.getValue();
 
 
-		return(new Labirinto(modoAle, tamanho, dragoesAdo, numDrag));
+		lab=new Labirinto(modoAle, tamanho, dragoesAdo, numDrag);
+	}
+	/**
+	 * @return A configuração do jogo
+	 */
+	public Labirinto getLab() {
+		return lab;
+	}
+
+	/**
+	 * @param lab Altera a configuração do jogo
+	 */
+	public void setLab(Labirinto lab) {
+		this.lab = lab;
 	}
 	/**
 	 * 

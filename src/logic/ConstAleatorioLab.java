@@ -1,16 +1,31 @@
 package logic;
 
 import java.util.Random;
-import java.util.Vector;
+import java.util.Stack;
 
+/**
+ * Constroi o labirinto de forma aleatória de acordo com o tamanho escolhido pelo utilizador
+ * 
+ * @author André
+ *
+ */
 public class ConstAleatorioLab extends ConstrutorLab{
-
+	
+	/**
+	 * Inicializa as variáveis
+	 * 
+	 * @param tamanho Tamanho do labirinto a ser construído
+	 */
 	public ConstAleatorioLab(int tamanho) {
 		this.tamanhoLab=tamanho;
 		lab=labirintoAleatorio();
 	}
 	
-
+	/**
+	 * Constrói o labirinto aleatoriamente
+	 * 
+	 * @return o labirinto construído
+	 */
 	private char[][] labirintoAleatorio() {
 		char[][]labirinto= new char[tamanhoLab][tamanhoLab];
 		int coord_X=0, coord_Y=0, r;
@@ -45,7 +60,6 @@ public class ConstAleatorioLab extends ConstrutorLab{
 			}
 		}
 		
-		labirinto[coord_Y][coord_X]=guia.getRepresentacao();
 		guia.setX(coord_X);
 		guia.setY(coord_Y);	
 
@@ -65,8 +79,8 @@ public class ConstAleatorioLab extends ConstrutorLab{
 		
 		//criar caminho
 		char[][] celVisitadas= new char[(tamanhoLab-1)/2][(tamanhoLab-1)/2];
-		
-		Vector<elementosJogo> historico=new Vector<elementosJogo>((tamanhoLab-1)/2);
+		coordenada e= new coordenada();
+		Stack<coordenada> historico=new Stack<coordenada>();
 		boolean completo=true;
 		
 		for(int i=0; i<celVisitadas.length; i++)
@@ -76,21 +90,24 @@ public class ConstAleatorioLab extends ConstrutorLab{
 		guia.setX((guia.getX()-1)/2);
 		guia.setY((guia.getY()-1)/2);
 		celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
-		historico.add(guia);
+		historico.push(new coordenada(guia.getX(), guia.getY()));
 		
 		do{
 			completo=true;
-			if(!adjacentesNaoVisitadas(celVisitadas, guia.getX(), guia.getY()))
-				guia=analisaHistorico(historico, celVisitadas);
-			
+			if(!adjacentesNaoVisitadas(celVisitadas, guia.getX(), guia.getY())){
+				e=analisaHistorico(historico, celVisitadas);
+				guia.setX(e.getX());
+				guia.setY(e.getY());
+			}
+				
 			r=rand.nextInt(4);//generate random move
 			switch(r){
 			case 0://esquerda
 				if((guia.getX()-1)>=0 && celVisitadas[guia.getY()][guia.getX()-1]!='+'){
 					guia.setX(guia.getX()-1);
-					celVisitadas[guia.getY()][guia.getX()+1]=guia.getRepresentacao();
-					labirinto[guia.getY()*2+1][guia.getX()*2+2]=' ';
-					historico.add(guia);
+					celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
+					labirinto[guia.getY()*2+1][(guia.getX()+1)*2]=' ';
+					historico.push(new coordenada(guia.getX(), guia.getY()));
 				}
 				break;
 			case 1://direita
@@ -98,40 +115,25 @@ public class ConstAleatorioLab extends ConstrutorLab{
 					guia.setX(guia.getX()+1);
 					celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
 					labirinto[guia.getY()*2+1][guia.getX()*2]=' ';
-					historico.add(guia);
+					historico.push(new coordenada(guia.getX(), guia.getY()));
 				}
 				break;
 			case 2://cima
 				if((guia.getY()-1)>=0 && celVisitadas[guia.getY()-1][guia.getX()]!='+'){
 					guia.setY(guia.getY()-1);
 					celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
-					labirinto[guia.getY()*2+2][guia.getX()*2+1]=' ';
-					historico.add(guia);
+					labirinto[(guia.getY()+1)*2][guia.getX()*2+1]=' ';
+					historico.push(new coordenada(guia.getX(), guia.getY()));
 				}
 				break;
 			case 3://baixo
 				if((guia.getY()+1)<celVisitadas.length && celVisitadas[guia.getY()+1][guia.getX()]!='+'){
 					guia.setY(guia.getY()+1);
 					celVisitadas[guia.getY()][guia.getX()]=guia.getRepresentacao();
-					labirinto[guia.getY()*2+1][guia.getX()*2+1]=' ';
-					historico.add(guia);
+					labirinto[guia.getY()*2][guia.getX()*2+1]=' ';
+					historico.push(new coordenada(guia.getX(), guia.getY()));
 				}
 				break;
-			}
-			
-			//imprime so para debug
-			System.out.println();
-			for(int i=0; i<celVisitadas.length; i++){
-				System.out.println();
-				for(int j=0; j<celVisitadas[i].length; j++)
-					System.out.print(celVisitadas[i][j] + " ");
-			}
-			
-			System.out.println();
-			for(int i=0; i<labirinto.length; i++){
-				System.out.println();
-				for(int j=0; j<labirinto[i].length; j++)
-					System.out.print(labirinto[i][j] + " ");
 			}
 			
 			//verifica se todas as celulas foram visitadas
@@ -145,34 +147,79 @@ public class ConstAleatorioLab extends ConstrutorLab{
 		return labirinto;
 	}
 
-
-	private elementosJogo analisaHistorico(Vector<elementosJogo> historico, char[][] celVisitadas) {
-		elementosJogo e=new elementosJogo('+');
+	/**
+	 * Analisa o histórico de células visitadas e procura por uma
+	 * célula que tenha células adjacentes não visitadas
+	 * 
+	 * @param historico histórico de células visitadas
+	 * @param celVisitadas matriz das células visitadas
+	 * @return a coordenada da última célula visitada que tenha células adjacentes por visitar
+	 */
+	private coordenada analisaHistorico(Stack<coordenada> historico, char[][] celVisitadas) {
+		coordenada e=new coordenada();
 		
 		do{
-			e=historico.lastElement();
+			if(!historico.isEmpty()){
+				e=historico.pop();
+			}
 		}while(!adjacentesNaoVisitadas(celVisitadas,e.getX(),e.getY()) && !historico.isEmpty());
 		
 		return e;
 	}
 
-
+	/**
+	 * Verifica se uma célula visitada tem células adjacentes não visitadas
+	 * 
+	 * @param celVisitadas matriz das células visitadas
+	 * @param x abcissa da célula onde se encontra actualmente
+	 * @param y ordenada da célula onde se encontra actualmente
+	 * @return verdadeiro se a célula atual tem células adjacentes não visitadas
+	 * e falso caso contrário
+	 */
 	private boolean adjacentesNaoVisitadas(char[][] celVisitadas, int x, int y) {
-
-		if(y==(celVisitadas.length-1)) {
-			if(celVisitadas[y-1][x]== 'X')
+		
+		if(y==(celVisitadas.length-1) && x!=0 && x!=(celVisitadas.length-1)) {
+			if(celVisitadas[y-1][x]== 'X' || celVisitadas[y][x+1]== 'X' || celVisitadas[y][x-1]== 'X')
 				return true;
-		}else if(y==0){
-			if(celVisitadas[y+1][x]== 'X')
+		}else if(y==(celVisitadas.length-1) && x==0){
+			if(celVisitadas[y-1][x]== 'X' || celVisitadas[y][x+1]== 'X')
 				return true;
-		}else if(x==(celVisitadas.length-1)) {
-			if(celVisitadas[y][x-1]== 'X')
+		}else if(y==(celVisitadas.length-1) && x==(celVisitadas.length-1)){
+			if(celVisitadas[y-1][x]== 'X' || celVisitadas[y][x-1]== 'X')
 				return true;
-		}else if(x==0) {
-			if(celVisitadas[y][x+1]== 'X')
+		}else if(y==0  && x!=0 && x!=(celVisitadas.length-1)){
+			if(celVisitadas[y+1][x]== 'X' || celVisitadas[y][x+1]== 'X' || celVisitadas[y][x-1]== 'X')
 				return true;
+		}else if(y==0 && x==0){
+			if(celVisitadas[y+1][x]== 'X' || celVisitadas[y][x+1]== 'X')
+				return true;
+		}else if(y==0 && x==(celVisitadas.length-1)){
+			if(celVisitadas[y+1][x]== 'X' || celVisitadas[y][x-1]== 'X')
+				return true;
+			
+			
+		}else if(x==(celVisitadas.length-1)  && y!=0 && y!=(celVisitadas.length-1)) {
+			if(celVisitadas[y][x-1]== 'X' || celVisitadas[y+1][x]== 'X' || celVisitadas[y-1][x]== 'X')
+				return true;
+		}else if(x==(celVisitadas.length-1) && y==0){
+			if(celVisitadas[y+1][x]== 'X' || celVisitadas[y][x-1]== 'X')
+				return true;
+		}else if(x==(celVisitadas.length-1) && y==(celVisitadas.length-1)){
+			if(celVisitadas[y-1][x]== 'X' || celVisitadas[y][x-1]== 'X')
+				return true;
+		}else if(x==0  && y!=0 && y!=(celVisitadas.length-1)) {
+			if(celVisitadas[y][x+1]== 'X'|| celVisitadas[y+1][x]== 'X' || celVisitadas[y-1][x]== 'X')
+				return true;
+		}else if(x==0 && y==0){
+			if(celVisitadas[y+1][x]== 'X' || celVisitadas[y][x+1]== 'X')
+				return true;
+		}else if(x==0 && y==(celVisitadas.length-1)){
+			if(celVisitadas[y-1][x]== 'X' || celVisitadas[y][x+1]== 'X')
+				return true;
+		
+		
 		}else if(celVisitadas[y-1][x]== 'X' || celVisitadas[y+1][x]== 'X' ||
-				 celVisitadas[y][x-1]== 'X' || celVisitadas[y][x+1]== 'X')
+				celVisitadas[y][x-1]== 'X' || celVisitadas[y][x+1]== 'X')
 			return true;
 
 		return false;

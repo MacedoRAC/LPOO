@@ -4,6 +4,12 @@ import java.util.Scanner;
 
 import logic.Labirinto;
 
+/**
+ * Classe base para o controlo da aplicação na linha de comandos
+ * 
+ * @author André
+ *
+ */
 public class JogoConsola {
 
 	public static void main(String[] args) {
@@ -56,6 +62,10 @@ public class JogoConsola {
 		s.close();
 	}
 	
+	/**
+	 * Imprime o labirinto na consola
+	 * @param lab labirinto que vai ser impresso na consola
+	 */
 	public static void imprimePuzzle(char[][] lab) {
 		for(int i=0; i<lab.length; i++){
 			System.out.println();

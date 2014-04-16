@@ -1,7 +1,12 @@
 package logic;
 import java.util.Random;
 
-
+/**
+ * Classe onde todos os movimentos e acções do jogo decorrem
+ * 
+ * @author André
+ *
+ */
 public class Labirinto {
 	
 	private ConstrutorLab labirinto;
@@ -16,6 +21,14 @@ public class Labirinto {
 	private coordenada inicialAguia =new coordenada();
 	private boolean aguiaNaParede=false;
 	
+	/**
+	 * Cria um novo jogo com as características pretendidas pelo utilizador
+	 * 
+	 * @param modoAle verdadeiro se o labirinto será criado aleatoriamente e falso caso contrário
+	 * @param tamanho tamanho do labirinto caso seja para este ser criado aleatoriamente
+	 * @param dragoesAdo verdadeiro se os dragões irão adormecer e falso caso contrário
+	 * @param numeroDrag número de dragões que vão estar em jogo
+	 */
 	public Labirinto(boolean modoAle, int tamanho, boolean dragoesAdo, int numeroDrag) {
 		this.modoAleatorio = modoAle;
 		this.dragoesAdormecem = dragoesAdo;
@@ -36,9 +49,13 @@ public class Labirinto {
 		geraPosInicialDragao();
 		geraPosInicialHeroi();
 		Ag=new aguia(H.getX(), H.getY());
-		verificaLab(labirinto.getLab());
+		verificaLab();
 	}
 	
+	/**
+	 * 
+	 * @return Verdadeiro se o utilizador ganhou o jogo e falso caso contrário
+	 */
 	public boolean isVitoria() {
 		return vitoria;
 	}
@@ -47,18 +64,34 @@ public class Labirinto {
 		this.vitoria = vitoria;
 	}
 	
+	/**
+	 * 
+	 * @return o herói 
+	 */
 	public heroi getHeroi() {
 		return H;
 	}
 	
+	/**
+	 * 
+	 * @return a espada
+	 */
 	public espada getEspada(){
 		return E;
 	}
 	
+	/**
+	 * 
+	 * @return o array de dragões em jogo
+	 */
 	public dragao[] getDragao(){
 		return D;
 	}
 	
+	/**
+	 * 
+	 * @return verdadeiro se o labirinto foi criado aleatoriamente e falso caso contrário
+	 */
 	public boolean isModoAleatorio(){
 		return modoAleatorio;
 	}
@@ -67,6 +100,11 @@ public class Labirinto {
 		this.modoAleatorio=modo;
 	}
 	
+	/**
+	 * Faz a ligação entre a CLI, a GUI e a lógica do jogo
+	 * 
+	 * @param mov movimento a ser efectuado pelo herói
+	 */
 	public void processaEvento(String mov) {
 		
 		if(!mov.equals("e"))
@@ -83,10 +121,15 @@ public class Labirinto {
 			H.setMorto(true);
 		morteAguia();
 		
-		verificaLab(labirinto.getLab());
+		verificaLab();
 	}
 
-	public void verificaLab(char[][] lab){
+	/**
+	 * Analisa o estado do jogo: se o herói morreu, se os dragões adormeceram ou não, se a esapada ainda
+	 * está activa e se a águia ainda está em voo e actualiza o labirinto de acordo com estas informações
+	 * 
+	 */
+	public void verificaLab(){
 
 		for (int i = 0; i < D.length; i++) {
 			if (!D[i].isMorto()) {//dragao nao esta morto
@@ -128,7 +171,11 @@ public class Labirinto {
 		
 	}
 	
-	
+	/**
+	 * Verifica se o herói se pode mover de acordo com a direção enviada como parâmeto 
+	 * 
+	 * @param mov movimento a ser avaliado
+	 */
 	public void moveH(String mov){
 		
 		char adjacente;
@@ -224,7 +271,11 @@ public class Labirinto {
 			break;
 		}
 	}
-
+	
+	/**
+	 *  
+	 * @return verdadeiro se todos os dragões já foram mortos e falso caso contrário
+	 */
 	private boolean dragoesEstaoMortos() {
 		for(int i=0; i<D.length; i++)
 			if(!D[i].isMorto())
@@ -234,6 +285,9 @@ public class Labirinto {
 		return true;
 	}
 
+	/**
+	 * Realiza o movimento da águia
+	 */
 	public void moveAguia() {
 		if(Ag.isEmVoo() && !Ag.isMorta()){
 			labirinto.getLab()[posAnteriorAguia.getY()][posAnteriorAguia.getX()]=posAnteriorAguia.getRepresentacao();
@@ -247,10 +301,19 @@ public class Labirinto {
 				setAguiaNaParede(false);
 			
 			morteAguia();
-		}else if(Ag.isMorta())
+		}else if(Ag.isMorta()){
 			labirinto.getLab()[posAnteriorAguia.getY()][posAnteriorAguia.getX()]=posAnteriorAguia.getRepresentacao();
+		}else if(!Ag.isEmVoo()){
+			Ag.setX(H.getX());
+			Ag.setY(H.getY());
+		}
 	}
-
+	
+	/**
+	 * Desloca o o herói de acordo com a direção enviada como parâmeto e analisa 
+	 * após este deslocamento se este morre ou se mata algum dragão
+	 * @param movimento direcção do movimento a ser efectuado pelo herói
+	 */
 	public void trocaH(String movimento) {
 		labirinto.getLab()[H.getY()][H.getX()]=' ';
 		
@@ -292,7 +355,10 @@ public class Labirinto {
 			break;
 		}
 	}
-
+	
+	/**
+	 * Gera aleatoriamente a posição inicial do herói
+	 */
 	public void geraPosInicialHeroi(){
 
 		boolean livre=false;
@@ -314,7 +380,10 @@ public class Labirinto {
 			}
 		}
 	}
-
+	
+	/**
+	 * Gera aleatoriamente a posição inicial dos dragões
+	 */
 	public void geraPosInicialDragao(){
 		boolean livre=false;
 		Random rand=new Random();
@@ -334,6 +403,9 @@ public class Labirinto {
 		}
 	}
 
+	/**
+	 * Gera aleatoriamente a posição inicial da espada
+	 */
 	public void geraPosInicialEspada(){
 		boolean livre=false;
 		Random rand=new Random();
@@ -350,6 +422,10 @@ public class Labirinto {
 		}
 	}
 
+	/**
+	 * 
+	 * @return verdadeiro se o heroi morreu e falso caso contrário
+	 */
 	public boolean morteHeroi(){
 		boolean morreu=false;
 				
@@ -364,7 +440,12 @@ public class Labirinto {
 		
 		return morreu;
 	}
-
+	
+	/**
+	 * 
+	 * @param Dg dragão a verificar se morreu 
+	 * @return verdadeiro se o dragão passado como parâmetro morreu e falso caso contrário
+	 */
 	public boolean morteDragao(dragao Dg){
 		if(H.isArmado() && (((H.getY()+1)==Dg.getY() && H.getX()==Dg.getX()) || //o dragao esta na celula abaixo à do heroi
 							((H.getY()-1)==Dg.getY() && H.getX()==Dg.getX()) || //o dragao esta na celula acima à do heroi
@@ -375,6 +456,9 @@ public class Labirinto {
 			return false;
 	}
 	
+	/**
+	 * verdadeiro se a águia morreu e falso caso contrário
+	 */
 	public void morteAguia(){
 		for (int i = 0; i < D.length; i++) {
 			if (!Ag.isTemEspada() && !D[i].isAdormecido() && (((Ag.getY() + 1) == D[i].getY() && Ag.getX() == D[i].getX()) || //o dragao esta na celula abaixo à do heroi
@@ -387,6 +471,9 @@ public class Labirinto {
 		}
 	}
 	
+	/**
+	 * Realiza o movimento aleatório dos dragões, assim como, adormece e acorda os dragões aleatoriamente
+	 */
 	public void movimentoDragao(){
 		boolean podeMover=false;
 		Random rand= new Random();
@@ -438,6 +525,10 @@ public class Labirinto {
 		
 	}	
 
+	/**
+	 * 
+	 * @return o labirinto construído e o tamanho deste 
+	 */
 	public ConstrutorLab getLabirinto() {
 		return labirinto;
 	}
@@ -446,6 +537,10 @@ public class Labirinto {
 		this.labirinto = labirinto;
 	}
 
+	/**
+	 * 
+	 * @return verdadeiro se a águia está a voar sobre as paredes do labirinto e falso caso contrário
+	 */
 	public boolean isAguiaNaParede() {
 		return aguiaNaParede;
 	}

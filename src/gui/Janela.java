@@ -13,7 +13,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import logic.Labirinto;
-
+/**
+ * Janela é o sítio principal da aplicação, onde o labirinto e os elementos são desenhados
+ * 
+ * @author André
+ *
+ */
 public class Janela extends JPanel{
 
 	private static final long serialVersionUID = 1L;
@@ -28,6 +33,7 @@ public class Janela extends JPanel{
 	private BufferedImage caminho;
 	private BufferedImage fundo;
 	private Labirinto lab;
+	private int tamanholab;
 	private int cima= KeyEvent.VK_UP;
 	private int baixo= KeyEvent.VK_DOWN;
 	private int esquerda= KeyEvent.VK_LEFT;
@@ -35,9 +41,12 @@ public class Janela extends JPanel{
 	private int aguia= KeyEvent.VK_SPACE;
 	private boolean aJogar;
 	
-	
+	/**
+	 * Construtor de Janela onde são carregadas as imagens para depois serem impressas
+	 */
 	public Janela() {		
-		aJogar=false;
+		this.aJogar=false;
+		
 		// importar imagens
 		try {
 			dragao=ImageIO.read(new File("src/Imagens/dragon.png"));
@@ -58,54 +67,63 @@ public class Janela extends JPanel{
 		setFocusable(true);
 	}
 	
+	/**
+	 * Apenas "liga" a flag que dá início ao jogo no modo gráfico
+	 * @param l Lógica do jogo sobre a qual se vai jogar
+	 */
 	void inciaJogo(Labirinto l){
 		aJogar=true;
 		this.lab=l;
+		this.tamanholab=lab.getLabirinto().getTamanhoLab();
 	}
 	
-	
+	/**
+	 * Imprime no ecrã as imagens previamente carregadas de acordo com a posição dos elementos no labirinto
+	 */
 	protected void paintComponent(Graphics g){
 		char elemento;
-		requestFocus(true); 
+		requestFocus(true);
+
 		
 		if(aJogar){
-			int tamanholab=lab.getLabirinto().getTamanhoLab();
+			int altura=this.getHeight()/tamanholab;
+			int largura=this.getWidth()/tamanholab;
 			for(int i=0; i<tamanholab; i++){
 				for(int j=0; j<tamanholab; j++){
 					elemento =lab.getLabirinto().getLab()[i][j];
 					switch(elemento){
 					case 'D':
-						g.drawImage(dragao, j*60, i*60, 60, 60, Color.WHITE, null);
+						g.drawImage(dragao, j*largura, i*altura, largura, altura, Color.WHITE, null);
 						break;
 					case 'E':
-						g.drawImage(espada, j*60, i*60, 60, 60, Color.WHITE, null);
+						g.drawImage(espada, j*largura, i*altura, largura, altura, Color.WHITE, null);
 						break;
 					case 'H':
-						g.drawImage(heroi, j*60, i*60, 60, 60, Color.WHITE, null);
+						g.drawImage(heroi, j*largura, i*altura, largura, altura, Color.WHITE, null);
 						break;
 					case 'A':
-						g.drawImage(heroiArmado, j*60, i*60, 60, 60, Color.WHITE, null);
+						g.drawImage(heroiArmado, j*largura, i*altura, largura, altura, Color.WHITE, null);
 						break;
 					case 'X':
-						g.drawImage(parede, j*60, i*60, 60, 60, Color.WHITE, null);
+						g.drawImage(parede, j*largura, i*altura, largura, altura, Color.WHITE, null);
 						break;
 					case 'F':
-						g.drawImage(dragao, j*60, i*60, 60, 60, Color.WHITE, null);
+						g.drawImage(dragao, j*largura, i*altura, largura, altura, Color.WHITE, null);
 						break;
 					case ' ':
-						g.drawImage(caminho, j*60, i*60, 60, 60, Color.WHITE, null);
+						g.drawImage(caminho, j*largura, i*altura, largura, altura, Color.WHITE, null);
 						break;
 					case 'S':
-						g.drawImage(caminho, j*60, i*60, 60, 60, Color.WHITE, null);
+						g.drawImage(caminho, j*largura, i*altura, largura, altura, Color.WHITE, null);
 						break;
 					case 'Z':
-						g.drawImage(dragaoDormir, j*60, i*60, 60, 60, Color.WHITE, null);
+						g.drawImage(dragaoDormir, j*largura, i*altura, largura, altura, Color.WHITE, null);
 						break;
 					case 'G':
 						if(lab.isAguiaNaParede())
-							g.drawImage(aguiaParede, j*60, i*60, 60, 60, Color.WHITE, null);
+							g.drawImage(aguiaParede, j*largura, i*altura, largura, altura, Color.WHITE, null);
 						else
-							g.drawImage(aguiaCaminho, j*60, i*60, 60, 60, Color.WHITE, null);
+							g.drawImage(aguiaCaminho, j*largura, i*altura, largura, altura, Color.WHITE, null);
 					}
 
 				}
@@ -116,7 +134,12 @@ public class Janela extends JPanel{
 		}
 	}
 	
-
+	/**
+	 * Reescrita do KeyAdapter
+	 * 
+	 * @author André
+	 *
+	 */
 	private class teclado extends KeyAdapter {
 
 		@Override
@@ -141,6 +164,9 @@ public class Janela extends JPanel{
 
 	}
 	
+	/**
+	 * Verifica se o jogador venceu ou perdeu o jogo
+	 */
 	void verificaVitoriaDerrota(){
 		if(lab.isVitoria()){
 			JOptionPane.showMessageDialog(null, "Parabéns! Aventura terminada com sucesso");

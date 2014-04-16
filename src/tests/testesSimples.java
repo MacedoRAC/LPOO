@@ -2,10 +2,18 @@ package tests;
 
 import static org.junit.Assert.*;
 import logic.Labirinto;
-
 import org.junit.Test;
 
+/**
+ * Testes unitários simples 
+ * @author André
+ *
+ */
 public class testesSimples {
+	
+	/**
+	 * Verifica o movimento do herói
+	 */
 	@Test
 	public void heroiMoveUmaPosicao() {
 		Labirinto l=new Labirinto(false, 0, false, 1);
@@ -17,6 +25,9 @@ public class testesSimples {
 		assertEquals(2,l.getHeroi().getY());
 	}
 	
+	/**
+	 * Verifica o movimento do herói contra uma parede
+	 */
 	@Test
 	public void heroiMoveContraParede(){
 		Labirinto l=new Labirinto(false, 0, false, 1);
@@ -28,6 +39,9 @@ public class testesSimples {
 		assertEquals(1,l.getHeroi().getY());
 	}
 	
+	/**
+	 * Verifica se o herói apanha a espada
+	 */
 	@Test
 	public void apanharEspada(){
 		Labirinto l=new Labirinto(false, 0, false, 1);
@@ -43,6 +57,9 @@ public class testesSimples {
 		assertEquals(true, l.getHeroi().isArmado());
 	}
 	
+	/**
+	 * Verifica se o herói é morto pelos dragões
+	 */
 	@Test
 	public void heroiMorre(){
 		Labirinto l=new Labirinto(false, 0, false, 1);
@@ -59,6 +76,9 @@ public class testesSimples {
 		assertEquals(true, l.getHeroi().isMorto());
 		}
 	
+	/**
+	 * Verifica se o herói mata os dragões
+	 */
 	@Test
 	public void heroiMataDragao(){
 		Labirinto l=new Labirinto(false, 0, false, 1);
@@ -72,6 +92,9 @@ public class testesSimples {
 		assertEquals(true, l.getDragao()[0].isMorto());
 	}
 	
+	/**
+	 * Verifica se o herói pode sair do labirinto
+	 */
 	@Test
 	public void heroiPodeSair(){
 		Labirinto l=new Labirinto(false, 0, false, 1);
@@ -84,6 +107,9 @@ public class testesSimples {
 		assertEquals("Heroi pode sair do Labirinto", true, l.isVitoria());
 	}
 	
+	/**
+	 * Verifica se o herói não pode sair do labirinto
+	 */
 	@Test
 	public void heroiNaoPodeSair(){
 		Labirinto l=new Labirinto(false, 0, false, 1);
