@@ -1,6 +1,5 @@
 package gui;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -14,6 +13,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import logic.Labirinto;
+
 public class JogoFrame extends JFrame{
 
 	
@@ -22,8 +23,8 @@ public class JogoFrame extends JFrame{
 	private JPanel botoes;
 	private JButton sair;
 	private JButton novoJogo;
-	private JButton config;
-	private JDialog opcoes;
+	private Opcoes opcoes;
+	private Labirinto lab;
 
 	/**
 	 * Create the application.
@@ -34,7 +35,7 @@ public class JogoFrame extends JFrame{
 		
 		janela=new Janela();
 		botoes = new JPanel();
-		opcoes=new JDialog();
+		opcoes=new Opcoes();
 		
 		configuraBotoes();
 		getContentPane().setLayout(new BorderLayout(0,0));
@@ -48,9 +49,8 @@ public class JogoFrame extends JFrame{
 	}
 
 	private void adicionaBotoes() {
-		botoes.setLayout(new GridLayout(1,3));
+		botoes.setLayout(new GridLayout(1,2));
 		botoes.add(novoJogo);
-		botoes.add(config);
 		botoes.add(sair);
 		
 		getContentPane().add(botoes, BorderLayout.NORTH);
@@ -73,22 +73,22 @@ public class JogoFrame extends JFrame{
 		novoJogo=new JButton("Novo Jogo");
 		novoJogo.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
-				int opcao=JOptionPane.showConfirmDialog(rootPane, "Pretendes começar uma nova aventura?");
-				if(opcao==JOptionPane.YES_OPTION){
-					setSize(655,465);
-					Dimension dim=Toolkit.getDefaultToolkit().getScreenSize();
-					setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
-					
-					janela.inciaJogo();
-				}
-			}
-		});
-		
-		//Botão  'Config'
-		config=new JButton("Configurações");
-		config.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0){
+				opcoes.setEnabled(true);
 				opcoes.setVisible(true);
+				opcoes.setSize(306, 436);
+				Dimension dim=Toolkit.getDefaultToolkit().getScreenSize();
+				opcoes.setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
+				lab=opcoes.configuraJogo();
+				
+				if (!opcoes.isVisible()) {
+					int opcao = JOptionPane.showConfirmDialog(rootPane,	"Pretendes começar uma nova aventura?");
+					if (opcao == JOptionPane.YES_OPTION) {
+						setSize(610, 660);
+						setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
+
+						janela.inciaJogo(lab);
+					}
+				}
 			}
 		});
 		

@@ -5,7 +5,8 @@ import java.util.Vector;
 
 public class ConstAleatorioLab extends ConstrutorLab{
 
-	public ConstAleatorioLab() {
+	public ConstAleatorioLab(int tamanho) {
+		this.tamanhoLab=tamanho;
 		lab=labirintoAleatorio();
 	}
 	
@@ -64,6 +65,7 @@ public class ConstAleatorioLab extends ConstrutorLab{
 		
 		//criar caminho
 		char[][] celVisitadas= new char[(tamanhoLab-1)/2][(tamanhoLab-1)/2];
+		
 		Vector<elementosJogo> historico=new Vector<elementosJogo>((tamanhoLab-1)/2);
 		boolean completo=true;
 		

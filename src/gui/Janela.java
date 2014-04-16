@@ -1,9 +1,7 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -11,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import logic.Labirinto;
@@ -59,17 +58,20 @@ public class Janela extends JPanel{
 		setFocusable(true);
 	}
 	
-	void inciaJogo(){
+	void inciaJogo(Labirinto l){
 		aJogar=true;
-		lab=new Labirinto();
+		this.lab=l;
 	}
 	
 	
 	protected void paintComponent(Graphics g){
 		char elemento;
+		requestFocus(true); 
+		
 		if(aJogar){
-			for(int i=0; i<lab.getLabirinto().getLab().length; i++){
-				for(int j=0; j<lab.getLabirinto().getLab().length; j++){
+			int tamanholab=lab.getLabirinto().getTamanhoLab();
+			for(int i=0; i<tamanholab; i++){
+				for(int j=0; j<tamanholab; j++){
 					elemento =lab.getLabirinto().getLab()[i][j];
 					switch(elemento){
 					case 'D':
@@ -99,13 +101,18 @@ public class Janela extends JPanel{
 					case 'Z':
 						g.drawImage(dragaoDormir, j*60, i*60, 60, 60, Color.WHITE, null);
 						break;
+					case 'G':
+						if(lab.isAguiaNaParede())
+							g.drawImage(aguiaParede, j*60, i*60, 60, 60, Color.WHITE, null);
+						else
+							g.drawImage(aguiaCaminho, j*60, i*60, 60, 60, Color.WHITE, null);
 					}
 
 				}
 			}
 		}
 		else{
-			g.drawImage(fundo, 0, 0, 640, 400, Color.WHITE, null);
+			g.drawImage(fundo, 0, 0, this.getWidth(), this.getHeight(), Color.WHITE, null);
 		}
 	}
 	
@@ -117,20 +124,33 @@ public class Janela extends JPanel{
 			
 			int direcao=e.getKeyCode();
 			
-			if(direcao==cima)
+			if(direcao==cima || direcao==KeyEvent.VK_W){
 				lab.processaEvento("w");
-			else if(direcao==baixo)
+			}else if(direcao==baixo || direcao==KeyEvent.VK_S){
 				lab.processaEvento("s");
-			else if(direcao==esquerda)
+			}else if(direcao==esquerda || direcao==KeyEvent.VK_A){
 				lab.processaEvento("a");
-			else if(direcao==direita)
+			}else if(direcao==direita || direcao==KeyEvent.VK_D){
 				lab.processaEvento("d");
-			else if(direcao==aguia)
+			}else if(direcao==aguia || direcao==KeyEvent.VK_G){
 				lab.processaEvento("g");
-			
+			}
 			repaint();
+			verificaVitoriaDerrota();
 		}
 
+	}
+	
+	void verificaVitoriaDerrota(){
+		if(lab.isVitoria()){
+			JOptionPane.showMessageDialog(null, "Parabéns! Aventura terminada com sucesso");
+			setFocusable(false);
+		}else if(lab.getHeroi().isMorto()){
+			JOptionPane.showMessageDialog(null, "Um dragão matou-te!");
+			setFocusable(false);
+		}
+		
+		
 	}
 
 

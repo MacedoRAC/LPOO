@@ -7,11 +7,35 @@ import logic.Labirinto;
 public class JogoConsola {
 
 	public static void main(String[] args) {
-		Labirinto l=new Labirinto();
-		String mov="";
 		
+		String mov="";
 		Scanner s= new Scanner(System.in);
-		do{
+		String ale, drag;
+		int numeroDrag=0, tamanho=0;
+		boolean modo=false, dragoes=false;
+		
+		//configuração do jogo
+		do {
+			System.out.println("Labirinto Aleatório (s->sim / n->não): ");
+			ale = s.next();
+			if (ale.equals("s")){
+				System.out.println("Tamanho do labirinto (tem de ser ímpar): ");
+				tamanho=s.nextInt();
+				modo = true;
+			}
+			System.out.println("Dragões Adormecem (s->sim / n->não): ");
+			drag = s.next();
+			if (drag.equals("s"))
+				dragoes = true;
+		} while (!(ale.equals("s") || ale.equals("n")) && !(drag.equals("s") || drag.equals("n")));
+		
+		System.out.println("Número de Dragões: ");
+		numeroDrag=s.nextInt();
+		
+		Labirinto l=new Labirinto(modo, tamanho, dragoes, numeroDrag);
+		
+		
+		while(!mov.equals("e") && !l.isVitoria() && !l.getHeroi().isMorto()){
 			System.out.println();
 			System.out.println();
 			imprimePuzzle(l.getLabirinto().getLab());			
@@ -19,8 +43,10 @@ public class JogoConsola {
 			System.out.print("Proximo movimento ('e' para sair): ");
 			mov=s.next();
 			l.processaEvento(mov);
-			
-		}while(!mov.equals("e") || !l.isVitoria() || !l.getHeroi().isMorto());
+			if(l.isVitoria())
+				imprimePuzzle(l.getLabirinto().getLab());
+
+		};
 
 		if(l.isVitoria())
 			System.out.println("VITORIA!");

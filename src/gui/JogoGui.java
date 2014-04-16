@@ -9,12 +9,12 @@ public class JogoGUI {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					JogoFrame window = new JogoFrame();
-					window.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+					try {
+						JogoFrame window = new JogoFrame();
+						window.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 			}
 		});
 	}

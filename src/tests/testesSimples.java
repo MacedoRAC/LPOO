@@ -5,10 +5,10 @@ import logic.Labirinto;
 
 import org.junit.Test;
 
-public class tests {
+public class testesSimples {
 	@Test
 	public void heroiMoveUmaPosicao() {
-		Labirinto l=new Labirinto();
+		Labirinto l=new Labirinto(false, 0, false, 1);
 		l.getHeroi().setX(1);
 		l.getHeroi().setY(1);
 		l.moveH("s");
@@ -19,7 +19,7 @@ public class tests {
 	
 	@Test
 	public void heroiMoveContraParede(){
-		Labirinto l=new Labirinto();
+		Labirinto l=new Labirinto(false, 0, false, 1);
 		l.getHeroi().setX(1);
 		l.getHeroi().setY(1);
 		l.moveH("a");
@@ -30,11 +30,11 @@ public class tests {
 	
 	@Test
 	public void apanharEspada(){
-		Labirinto l=new Labirinto();
+		Labirinto l=new Labirinto(false, 0, false, 1);
 		l.getHeroi().setX(1);
 		l.getHeroi().setY(1);
-		l.getDragao().setX(7);
-		l.getDragao().setY(1);
+		l.getDragao()[0].setX(7);
+		l.getDragao()[0].setY(1);
 		l.getEspada().setX(3);
 		l.getEspada().setY(1);
 		l.moveH("d");
@@ -45,12 +45,12 @@ public class tests {
 	
 	@Test
 	public void heroiMorre(){
-		Labirinto l=new Labirinto();
+		Labirinto l=new Labirinto(false, 0, false, 1);
 		l.getHeroi().setX(1);
 		l.getHeroi().setY(1);
-		l.getDragao().setX(3);
-		l.getDragao().setY(1);
-		l.getDragao().setAdormecido(false);
+		l.getDragao()[0].setX(3);
+		l.getDragao()[0].setY(1);
+		l.getDragao()[0].setAdormecido(false);
 		l.getEspada().setX(7);
 		l.getEspada().setY(1);
 		
@@ -61,22 +61,22 @@ public class tests {
 	
 	@Test
 	public void heroiMataDragao(){
-		Labirinto l=new Labirinto();
-		l.getDragao().setX(3);
-		l.getDragao().setY(1);
+		Labirinto l=new Labirinto(false, 0, false, 1);
+		l.getDragao()[0].setX(3);
+		l.getDragao()[0].setY(1);
 		l.getHeroi().setX(1);
 		l.getHeroi().setY(1);
 		l.getHeroi().setArmado(true);
 		l.moveH("d");
 		
-		assertEquals(true, l.getDragao().isMorto());
+		assertEquals(true, l.getDragao()[0].isMorto());
 	}
 	
 	@Test
 	public void heroiPodeSair(){
-		Labirinto l=new Labirinto();
+		Labirinto l=new Labirinto(false, 0, false, 1);
 		l.getHeroi().setArmado(true);
-		l.getDragao().setMorto(true);
+		l.getDragao()[0].setMorto(true);
 		l.getHeroi().setX(8);
 		l.getHeroi().setY(5);
 		l.moveH("d");
@@ -86,9 +86,9 @@ public class tests {
 	
 	@Test
 	public void heroiNaoPodeSair(){
-		Labirinto l=new Labirinto();
+		Labirinto l=new Labirinto(false, 0, false, 1);
 		l.getHeroi().setArmado(false);
-		l.getDragao().setMorto(false);
+		l.getDragao()[0].setMorto(false);
 		l.getHeroi().setX(8);
 		l.getHeroi().setY(5);
 		l.moveH("d");

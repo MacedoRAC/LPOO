@@ -4,12 +4,14 @@ public class aguia extends elementosJogo {
 
 	private boolean emVoo;
 	private boolean temEspada;
+	private boolean morta;
 	private coordenada posInicial=new coordenada();
 	private coordenada posFinal=new coordenada(); 
 	
 	public aguia(int xHeroi, int yHeroi) {
 		this.emVoo=false;
 		this.temEspada=false;
+		this.setMorta(false);
 		setX(xHeroi);//começa na mesma
 		setY(yHeroi);//posição que o heroi
 		this.setRepresentacao('G');
@@ -92,5 +94,13 @@ public class aguia extends elementosJogo {
 
 	public void setPosInicial(coordenada posInicial) {
 		this.posInicial = posInicial;
+	}
+
+	public boolean isMorta() {
+		return morta;
+	}
+
+	public void setMorta(boolean morta) {
+		this.morta = morta;
 	}
 }
