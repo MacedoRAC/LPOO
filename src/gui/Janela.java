@@ -75,6 +75,7 @@ public class Janela extends JPanel{
 		aJogar=true;
 		this.lab=l;
 		this.tamanholab=lab.getLabirinto().getTamanhoLab();
+		setFocusable(true);
 	}
 	
 	/**

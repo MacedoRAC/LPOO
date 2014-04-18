@@ -22,14 +22,16 @@ public class JogoConsola {
 		
 		//configuração do jogo
 		do {
-			System.out.println("Labirinto Aleatório (s->sim / n->não): ");
+			System.out.print("Labirinto Aleatório (s->sim / n->não): ");
 			ale = s.next();
 			if (ale.equals("s")){
-				System.out.println("Tamanho do labirinto (tem de ser ímpar): ");
-				tamanho=s.nextInt();
-				modo = true;
+				do{
+					System.out.print("Tamanho do labirinto (tem de ser ímpar): ");
+					tamanho = s.nextInt();
+					modo = true;
+				}while(!(0 <tamanho) && !(tamanho < 99));
 			}
-			System.out.println("Dragões Adormecem (s->sim / n->não): ");
+			System.out.print("Dragões Adormecem (s->sim / n->não): ");
 			drag = s.next();
 			if (drag.equals("s"))
 				dragoes = true;
