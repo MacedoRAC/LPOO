@@ -17,6 +17,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import logic.Labirinto;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 /**
  * Janela onde se faz a configuração dos parâmetros do jogo
@@ -25,6 +27,11 @@ import logic.Labirinto;
  *
  */
 public class Opcoes extends JFrame{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JComboBox<String> tipoLabirinto;
 	private JComboBox<String> dragoesAdor;
 	private JSpinner tamanhoLab;
@@ -41,15 +48,21 @@ public class Opcoes extends JFrame{
 	private GroupLayout groupLayout;
 	private JLabel numDragoesEtiqueta;
 	private JSpinner numDragoes;
+	private JTextField teclaCima;
+	private JTextField teclaBaixo;
+	private JTextField teclaEsquerda;
+	private JTextField teclaDireita;
+	private JTextField teclaAguia;
 	private Labirinto lab;
+	String[] teclas= new String[]{" ", " ", " ", " ", " "};
 	
 	/**
 	 * Construtor onde é inicializado o conteúdo da janela de configuração 
 	 */
 	public Opcoes() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Configura\u00E7\u00F5es");
-		setResizable(false);
 		setAlwaysOnTop(true);
 		
 				
@@ -77,7 +90,33 @@ public class Opcoes extends JFrame{
 		
 		configuraEtiquetas();
 		
+		teclaCima = new JTextField();
+		teclaCima.setHorizontalAlignment(SwingConstants.CENTER);
+		teclaCima.setText("W");
+		teclaCima.setColumns(10);
+		
+		teclaBaixo = new JTextField();
+		teclaBaixo.setHorizontalAlignment(SwingConstants.CENTER);
+		teclaBaixo.setText("S");
+		teclaBaixo.setColumns(10);
+		
+		teclaEsquerda = new JTextField();
+		teclaEsquerda.setHorizontalAlignment(SwingConstants.CENTER);
+		teclaEsquerda.setText("A");
+		teclaEsquerda.setColumns(10);
+		
+		teclaDireita = new JTextField();
+		teclaDireita.setHorizontalAlignment(SwingConstants.CENTER);
+		teclaDireita.setText("D");
+		teclaDireita.setColumns(10);
+		
+		teclaAguia = new JTextField();
+		teclaAguia.setText("G");
+		teclaAguia.setHorizontalAlignment(SwingConstants.CENTER);
+		teclaAguia.setColumns(10);
+		
 		groupLayout = new GroupLayout(getContentPane());
+	
 		configuraGrouplayout();
 		getContentPane().setLayout(groupLayout);
 		
@@ -102,15 +141,15 @@ public class Opcoes extends JFrame{
 		numDragoesEtiqueta = new JLabel("N\u00FAmero de Drag\u00F5es");
 		numDragoesEtiqueta.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		cimaEtiqueta = new JLabel("Cima: \"seta cima\" ou \"w\"");
+		cimaEtiqueta = new JLabel("Cima");
 		
-		baixoEtiqueta = new JLabel("Baixo: \"seta baixo\" ou \"s\"");
+		baixoEtiqueta = new JLabel("Baixo");
 		
-		esquerdaEtiqueta = new JLabel("Esquerda: \"seta esquerda\" ou \"a\"");
+		esquerdaEtiqueta = new JLabel("Esquerda");
 		
-		direitaEtiqueta = new JLabel("Direita: \"seta direita\" ou \"d\"");
+		direitaEtiqueta = new JLabel("Direita");
 		
-		aguiaEtiqueta = new JLabel("\u00C1guia: \"espa\u00E7o\" ou \"g\"");
+		aguiaEtiqueta = new JLabel("\u00C1guia");
 		
 	}
 
@@ -122,39 +161,52 @@ public class Opcoes extends JFrame{
 				groupLayout.createParallelGroup(Alignment.TRAILING)
 					.addGroup(groupLayout.createSequentialGroup()
 						.addContainerGap()
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(cimaEtiqueta)
-								.addContainerGap(173, Short.MAX_VALUE))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(baixoEtiqueta)
-								.addContainerGap(168, Short.MAX_VALUE))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(direitaEtiqueta)
-								.addContainerGap(158, Short.MAX_VALUE))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(aguiaEtiqueta)
-								.addContainerGap(182, Short.MAX_VALUE))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-									.addComponent(botaoOK)
-									.addComponent(esquerdaEtiqueta))
-								.addContainerGap(129, Short.MAX_VALUE))
+						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 							.addGroup(groupLayout.createSequentialGroup()
 								.addComponent(teclasEtiqueta)
 								.addContainerGap(207, Short.MAX_VALUE))
-							.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createSequentialGroup()
 								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addComponent(tamanhoLabEtiqueta)
-									.addComponent(ModoJogoEtiqueta, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
-									.addComponent(dragoesEtiqueta)
-									.addComponent(numDragoesEtiqueta))
-								.addGap(18)
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-									.addComponent(numDragoes, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-									.addComponent(dragoesAdor, Alignment.LEADING, 0, 111, Short.MAX_VALUE)
-									.addComponent(tipoLabirinto, Alignment.LEADING, 0, 111, Short.MAX_VALUE)
-									.addComponent(tamanhoLab, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))
+									.addGroup(groupLayout.createSequentialGroup()
+										.addGap(1)
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+											.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(botaoOK)
+												.addGap(81))
+											.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(teclaEsquerda, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
+												.addGap(18))
+											.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(esquerdaEtiqueta)
+												.addPreferredGap(ComponentPlacement.RELATED)))
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(baixoEtiqueta, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+												.addComponent(teclaCima, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+												.addComponent(cimaEtiqueta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+											.addComponent(teclaBaixo, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+										.addGap(18)
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+											.addGroup(groupLayout.createSequentialGroup()
+												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+													.addComponent(direitaEtiqueta)
+													.addComponent(teclaDireita, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
+												.addGap(44))
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(teclaAguia, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+												.addComponent(aguiaEtiqueta))))
+									.addGroup(groupLayout.createSequentialGroup()
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(tamanhoLabEtiqueta)
+											.addComponent(ModoJogoEtiqueta, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+											.addComponent(dragoesEtiqueta)
+											.addComponent(numDragoesEtiqueta))
+										.addGap(18)
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+											.addComponent(numDragoes, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+											.addComponent(dragoesAdor, Alignment.LEADING, 0, 111, Short.MAX_VALUE)
+											.addComponent(tipoLabirinto, Alignment.LEADING, 0, 111, Short.MAX_VALUE)
+											.addComponent(tamanhoLab, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE))))
 								.addGap(42))))
 			);
 			groupLayout.setVerticalGroup(
@@ -177,18 +229,29 @@ public class Opcoes extends JFrame{
 							.addComponent(numDragoesEtiqueta)
 							.addComponent(numDragoes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGap(18)
-						.addComponent(teclasEtiqueta)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(cimaEtiqueta)
+						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+							.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(teclasEtiqueta)
+								.addGap(31)
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+									.addGroup(groupLayout.createSequentialGroup()
+										.addComponent(cimaEtiqueta)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(teclaCima, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addComponent(esquerdaEtiqueta)))
+							.addComponent(direitaEtiqueta))
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(baixoEtiqueta)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(baixoEtiqueta)
+							.addComponent(teclaDireita, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(teclaEsquerda, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(esquerdaEtiqueta)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(teclaBaixo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(aguiaEtiqueta))
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(direitaEtiqueta)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(aguiaEtiqueta)
-						.addPreferredGap(ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+						.addComponent(teclaAguia, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(botaoOK)
 						.addContainerGap())
 			);
@@ -217,8 +280,13 @@ public class Opcoes extends JFrame{
 			dragoesAdo = false;
 		numDrag = (int) numDragoes.getValue();
 
-
 		lab=new Labirinto(modoAle, tamanho, dragoesAdo, numDrag);
+		
+		teclas[0]=teclaCima.getText();
+		teclas[1]=teclaBaixo.getText();
+		teclas[2]=teclaEsquerda.getText();
+		teclas[3]=teclaDireita.getText();
+		teclas[4]=teclaAguia.getText();
 	}
 	/**
 	 * @return A configuração do jogo
@@ -233,10 +301,5 @@ public class Opcoes extends JFrame{
 	public void setLab(Labirinto lab) {
 		this.lab = lab;
 	}
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	
 }

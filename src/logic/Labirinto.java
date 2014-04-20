@@ -1,4 +1,5 @@
 package logic;
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -7,8 +8,13 @@ import java.util.Random;
  * @author André
  *
  */
-public class Labirinto {
+public class Labirinto implements Serializable{
 	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ConstrutorLab labirinto;
 	private boolean vitoria = false;
 	private boolean modoAleatorio=false;
@@ -62,6 +68,14 @@ public class Labirinto {
 	
 	public void setVitoria(boolean vitoria) {
 		this.vitoria = vitoria;
+	}
+	
+	/**
+	 * 
+	 * @return a águia
+	 */
+	public aguia getAguia(){
+		return Ag;
 	}
 	
 	/**
@@ -308,15 +322,17 @@ public class Labirinto {
 				setAguiaNaParede(true);
 			else
 				setAguiaNaParede(false);
-			
+		}	/*
 			morteAguia();
 		}else if(Ag.isMorta()){
 			labirinto.getLab()[posAnteriorAguia.getY()][posAnteriorAguia.getX()]=posAnteriorAguia.getRepresentacao();
-		}
+		}*/
 		
 		if(Ag.getX()==inicialAguia.getX() && Ag.getY()==inicialAguia.getY()){
 			Ag.setEmVoo(false);
 			Ag.setChegouInicio(true);
+			morteAguia();
+			
 			if(inicialAguia.getX()==H.getX() && inicialAguia.getY()==H.getY())
 				H.setArmado(true);
 			else if(labirinto.getLab()[inicialAguia.getY()][inicialAguia.getX()]==' ')
@@ -480,16 +496,17 @@ public class Labirinto {
 	 */
 	public void morteAguia(){
 		for (int i = 0; i < D.length; i++) {
-			if (!D[i].isAdormecido() && (((Ag.getY() + 1) == D[i].getY() && Ag.getX() == D[i].getX()) || //o dragao esta na celula abaixo à do heroi
-										 ((Ag.getY() - 1) == D[i].getY() && Ag.getX() == D[i].getX()) || //o dragao esta na celula acima à do heroi
+			if (!D[i].isAdormecido() && (((Ag.getY() + 1) == D[i].getY() && Ag.getX() == D[i].getX())  || //o dragao esta na celula abaixo à do heroi
+										 ((Ag.getY() - 1) == D[i].getY() && Ag.getX() == D[i].getX())  || //o dragao esta na celula acima à do heroi
 										  (Ag.getY() == D[i].getY() && (Ag.getX() + 1) == D[i].getX()) || //o dragao esta na celula à direita à do heroi
-										  (Ag.getY() == D[i].getY() && (Ag.getX() - 1) == D[i].getX()))) { //o dragao esta na celula à esquerda à do heroi
+										  (Ag.getY() == D[i].getY() && (Ag.getX() - 1) == D[i].getX()) || //o dragao esta na celula acima à do heroi
+										  (Ag.getY() == D[i].getY() && Ag.getX() == D[i].getX()))){       //o dragao esta na mesma celula que a aguia
 				Ag.setMorta(true);
 				
 				//Se a aguia morrer deixa cair a espada no lugar do dragao que a matou				
 				if(Ag.isTemEspada()){
-					E.setX(D[i].getX());
-					E.setY(D[i].getY());
+					E.setX(inicialAguia.getX());
+					E.setY(inicialAguia.getY());
 					E.setAtiva(true);
 					Ag.setTemEspada(false);
 				}

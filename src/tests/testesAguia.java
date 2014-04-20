@@ -29,7 +29,7 @@ public class testesAguia {
 			l.moveH(movHeroi[i]);
 		}
 		
-		assertEquals(l.getEspada().getX(), l.getEspada().getX());
-		assertEquals(l.getEspada().getY(), l.getEspada().getY());
+		assertEquals(l.getAguia().getX(), l.getEspada().getX());
+		assertEquals(l.getAguia().getY(), l.getEspada().getY());
 	}
 }

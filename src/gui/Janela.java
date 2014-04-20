@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -19,8 +20,11 @@ import logic.Labirinto;
  * @author André
  *
  */
-public class Janela extends JPanel{
+public class Janela extends JPanel implements Serializable{
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	private BufferedImage dragao;
 	private BufferedImage dragaoDormir;
@@ -34,12 +38,18 @@ public class Janela extends JPanel{
 	private BufferedImage fundo;
 	private Labirinto lab;
 	private int tamanholab;
-	private int cima= KeyEvent.VK_UP;
-	private int baixo= KeyEvent.VK_DOWN;
-	private int esquerda= KeyEvent.VK_LEFT;
-	private int direita= KeyEvent.VK_RIGHT;
-	private int aguia= KeyEvent.VK_SPACE;
+	private int setaCima= KeyEvent.VK_UP;
+	private int setaBaixo= KeyEvent.VK_DOWN;
+	private int setaEsquerda= KeyEvent.VK_LEFT;
+	private int setaDireita= KeyEvent.VK_RIGHT;
+	private int espaco= KeyEvent.VK_SPACE;
 	private boolean aJogar;
+	private String cima="w";
+	private String baixo="s";
+	private String esquerda="a";
+	private String direita="d";
+	private String aguia="g";
+
 	
 	/**
 	 * Construtor de Janela onde são carregadas as imagens para depois serem impressas
@@ -49,16 +59,16 @@ public class Janela extends JPanel{
 		
 		// importar imagens
 		try {
-			dragao=ImageIO.read(new File("src/Imagens/dragon.png"));
-			dragaoDormir=ImageIO.read(new File("src/Imagens/sleepingDragon.png"));
-			heroi=ImageIO.read(new File("src/Imagens/heroUnarmored.png"));
-			heroiArmado=ImageIO.read(new File("src/Imagens/hero.png"));
-			espada=ImageIO.read(new File("src/Imagens/sword.png"));
-			aguiaCaminho=ImageIO.read(new File("src/Imagens/eaglePath.png"));
-			aguiaParede=ImageIO.read(new File("src/Imagens/eagleWall.png"));
-			parede=ImageIO.read(new File("src/Imagens/wall.png"));
-			caminho=ImageIO.read(new File("src/Imagens/path.png"));
-			fundo=ImageIO.read(new File("src/Imagens/fundo.png"));
+			dragao=ImageIO.read(new File("src/gui/Imagens/dragon.png"));
+			dragaoDormir=ImageIO.read(new File("src/gui/Imagens/sleepingDragon.png"));
+			heroi=ImageIO.read(new File("src/gui/Imagens/heroUnarmored.png"));
+			heroiArmado=ImageIO.read(new File("src/gui/Imagens/hero.png"));
+			espada=ImageIO.read(new File("src/gui/Imagens/sword.png"));
+			aguiaCaminho=ImageIO.read(new File("src/gui/Imagens/eaglePath.png"));
+			aguiaParede=ImageIO.read(new File("src/gui/Imagens/eagleWall.png"));
+			parede=ImageIO.read(new File("src/gui/Imagens/wall.png"));
+			caminho=ImageIO.read(new File("src/gui/Imagens/path.png"));
+			fundo=ImageIO.read(new File("src/gui/Imagens/fundo.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -148,15 +158,15 @@ public class Janela extends JPanel{
 			
 			int direcao=e.getKeyCode();
 			
-			if(direcao==cima || direcao==KeyEvent.VK_W){
+			if(direcao==setaCima || direcao==(int) cima.charAt(0)){
 				lab.processaEvento("w");
-			}else if(direcao==baixo || direcao==KeyEvent.VK_S){
+			}else if(direcao==setaBaixo || direcao==(int) baixo.charAt(0)){
 				lab.processaEvento("s");
-			}else if(direcao==esquerda || direcao==KeyEvent.VK_A){
+			}else if(direcao==setaEsquerda || direcao==(int) esquerda.charAt(0)){
 				lab.processaEvento("a");
-			}else if(direcao==direita || direcao==KeyEvent.VK_D){
+			}else if(direcao==setaDireita || direcao==(int) direita.charAt(0)){
 				lab.processaEvento("d");
-			}else if(direcao==aguia || direcao==KeyEvent.VK_G){
+			}else if(direcao==espaco || direcao==(int) aguia.charAt(0)){
 				lab.processaEvento("g");
 			}
 			repaint();
@@ -183,6 +193,52 @@ public class Janela extends JPanel{
 		
 		
 	}
-
+	
+	/**
+	 * @return estado do jogo
+	 */
+	Labirinto getLab(){
+		return lab;
+	}
+	
+	/**
+	 * 
+	 *@param cima nova tecla para cima
+	 */
+	void setCima(String cima){
+		this.cima=cima;
+	}
+	
+	/**
+	 * 
+	 *@param baixo nova tecla para baixo
+	 */
+	void setBaixo(String baixo){
+		this.baixo=baixo;
+	}
+	
+	/**
+	 * 
+	 *@param esquerda nova tecla para esquerda
+	 */
+	void setEsquerda(String esquerda){
+		this.esquerda=esquerda;
+	}
+	
+	/**
+	 * 
+	 *@param direita nova tecla para direita
+	 */
+	void setDireita(String direita){
+		this.direita=direita;
+	}
+	
+	/**
+	 * 
+	 *@param aguia nova tecla para movimentar aguia
+	 */
+	void setAguia(String aguia){
+		this.aguia=aguia;
+	}
 
 }
