@@ -12,6 +12,11 @@ import java.util.Stack;
 public class ConstAleatorioLab extends ConstrutorLab{
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Inicializa as variáveis
 	 * 
 	 * @param tamanho Tamanho do labirinto a ser construído

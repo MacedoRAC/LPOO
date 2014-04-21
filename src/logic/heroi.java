@@ -8,6 +8,10 @@ package logic;
  */
 public class heroi extends elementosJogo{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean armado=false;
 	private boolean morto=false;
 	private boolean aguiaEmUso=false;

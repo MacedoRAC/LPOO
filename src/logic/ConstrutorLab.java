@@ -1,13 +1,19 @@
 package logic;
 
+import java.io.Serializable;
+
 /**
  * Classe mãe de ConstAleatorioLab e ConstFixoLab
  * 
  * @author André
  *
  */
-public abstract class ConstrutorLab {
+public abstract class ConstrutorLab implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected int tamanhoLab=11;
 	protected char[][] lab = new char[tamanhoLab][tamanhoLab];
 	private elementosJogo saida=new elementosJogo('S');

@@ -9,6 +9,11 @@ package logic;
 public class ConstFixoLab extends ConstrutorLab{
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Construtor do labirinto fixo
 	 */
 	public ConstFixoLab() {

@@ -226,7 +226,6 @@ public class JogoFrame extends JFrame{
 
 	/**
 	 * Função responsável por guardar o estado do jogo
-	 * @throws IOException 
 	 */
 	private void guardaJogo() {
 		JFileChooser j = new JFileChooser();
@@ -242,7 +241,7 @@ public class JogoFrame extends JFrame{
 				String nomeFicheiro= ficheiro.getName();
 
 				if(!nomeFicheiro.endsWith(".dat"))
-					ficheiro= new File(ficheiro, ".dat");
+					ficheiro= new File(ficheiro + ".dat");
 
 				FileOutputStream guardarFic = new FileOutputStream(ficheiro);
 				ObjectOutputStream saida = new ObjectOutputStream(guardarFic);
@@ -251,6 +250,7 @@ public class JogoFrame extends JFrame{
 				saida.close();
 			}catch(IOException ex){
 				JOptionPane.showMessageDialog(new JFrame().getRootPane(), "Erro, ficheiro não guardado!");
+				ex.printStackTrace();
 			}
 		}
 
@@ -260,7 +260,6 @@ public class JogoFrame extends JFrame{
 	/**
 	 * Função responsável por carregar um jogo previamente guardado
 	 * @return labirinto com as personagens no sítio onde foram deixadas na última vez jogada
-	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
 	private void carregarJogo() throws ClassNotFoundException {
@@ -282,6 +281,7 @@ public class JogoFrame extends JFrame{
 				entrada.close();
 			}catch(IOException ex){
 				JOptionPane.showMessageDialog(new JFrame().getRootPane(), "Erro, ficheiro não carregado!");
+				ex.printStackTrace();
 			}
 		}
 	}

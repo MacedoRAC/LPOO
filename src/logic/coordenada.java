@@ -1,13 +1,19 @@
 package logic;
 
+import java.io.Serializable;
+
 /**
  * Classe que define uma coordenada constituída por uma abcissa e por uma ordenada
  * 
  * @author André
  *
  */
-public class coordenada {
+public class coordenada implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x=0;
 	private int y=0;
 		

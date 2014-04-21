@@ -8,6 +8,10 @@ package logic;
  */
 public class espada extends elementosJogo{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean ativa=true;
 	
 	public espada() {

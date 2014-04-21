@@ -53,6 +53,8 @@ public class testesSimples {
 		l.getEspada().setY(1);
 		l.moveH("d");
 		l.moveH("d");
+		l.moveH("d");
+		
 		
 		assertEquals(true, l.getHeroi().isArmado());
 	}
@@ -87,6 +89,7 @@ public class testesSimples {
 		l.getHeroi().setX(1);
 		l.getHeroi().setY(1);
 		l.getHeroi().setArmado(true);
+		l.moveH("d");
 		l.moveH("d");
 		
 		assertEquals(true, l.getDragao()[0].isMorto());

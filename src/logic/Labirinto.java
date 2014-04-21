@@ -322,11 +322,7 @@ public class Labirinto implements Serializable{
 				setAguiaNaParede(true);
 			else
 				setAguiaNaParede(false);
-		}	/*
-			morteAguia();
-		}else if(Ag.isMorta()){
-			labirinto.getLab()[posAnteriorAguia.getY()][posAnteriorAguia.getX()]=posAnteriorAguia.getRepresentacao();
-		}*/
+		}	
 		
 		if(Ag.getX()==inicialAguia.getX() && Ag.getY()==inicialAguia.getY()){
 			Ag.setEmVoo(false);
@@ -338,6 +334,10 @@ public class Labirinto implements Serializable{
 			else if(labirinto.getLab()[inicialAguia.getY()][inicialAguia.getX()]==' ')
 				labirinto.getLab()[inicialAguia.getY()][inicialAguia.getX()]=Ag.getRepresentacao();
 		}
+		
+		//verifica se a aguia morre quando apanha a espada
+		if(Ag.getX()==E.getX() && Ag.getY()==E.getY())
+			morteAguia();
 	}
 	
 	/**

@@ -8,6 +8,10 @@ package logic;
  */
 public class dragao extends elementosJogo {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean adormecido=false;
 	private boolean morto=false;
 

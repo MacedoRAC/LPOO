@@ -8,6 +8,10 @@ package logic;
  */
 public class aguia extends elementosJogo {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean emVoo;
 	private boolean temEspada;
 	private boolean morta;
