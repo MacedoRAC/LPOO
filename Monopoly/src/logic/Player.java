@@ -22,6 +22,7 @@ public class Player {
 	private String name;
 	private ArrayList<Card> OwnedProperties;
 	private Boolean won;
+	private String avatar;
 
 	public Player(){
 		inJail=false;
@@ -31,6 +32,7 @@ public class Player {
 		name="";
 		OwnedProperties=new ArrayList<Card>();
 		won=false;
+		avatar="";
 
 	}
 
@@ -148,6 +150,20 @@ public class Player {
 	 */
 	public void setLastLocation(int lastLocation) {
 		this.lastLocation = lastLocation;
+	}
+
+	/**
+	 * @return the avatar
+	 */
+	public String getAvatar() {
+		return avatar;
+	}
+
+	/**
+	 * @param avatar the avatar to set
+	 */
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 
 }

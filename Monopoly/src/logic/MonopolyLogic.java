@@ -25,7 +25,7 @@ public class MonopolyLogic {
 		this.players=players;
 		indexPlayerPlaying=0;
 		playerPlaying = players[indexPlayerPlaying];
-		playerWon=false;
+		setPlayerWon(false);
 
 		if(typeOfGame=="LAN")
 			lanMode();
@@ -100,10 +100,43 @@ public class MonopolyLogic {
 		playerPlaying = players[indexPlayerPlaying]; // time to next player play
 		verifyIfSomePlayerWon();
 	}
-
+	
+	/**
+	 * verify if exists more than one player witch cash
+	 */
 	private void verifyIfSomePlayerWon() {
-		// TODO Auto-generated method stub
+		int playersWithMoney=0;
 		
+		for(int i=0; i<4; i++){
+			if(players[i].getMoney() != 0)
+				playersWithMoney++;
+		}
+		
+		if(playersWithMoney == 1)
+			playerWon = true;
+		else
+			playerWon = false;
+	}
+	
+	/**
+	 * move player on the board according with the dice
+	 */
+	public void movePlayer(int diceNumber){
+		int playerPos = playerPlaying.getLocation();
+		
+		playerPlaying.setLastLocation(playerPos);
+		
+		if((playerPos + diceNumber) > 40)
+			playerPlaying.setLocation((playerPos + diceNumber)- 40);
+		else
+			playerPlaying.setLocation(playerPos + diceNumber);
+		
+		//verify if player new position is "Go to jail"
+		if(playerPlaying.getLocation() == 9){
+			playerPlaying.setLocation(11);
+			playerPlaying.setInJail(true);
+		}
+			
 	}
 
 	/**
@@ -168,6 +201,20 @@ public class MonopolyLogic {
 	 */
 	public void setPlayerPlaying(Player playerPlaying) {
 		this.playerPlaying = playerPlaying;
+	}
+
+	/**
+	 * @return the playerWon
+	 */
+	public boolean isPlayerWon() {
+		return playerWon;
+	}
+
+	/**
+	 * @param playerWon the playerWon to set
+	 */
+	public void setPlayerWon(boolean playerWon) {
+		this.playerWon = playerWon;
 	}
 	
 

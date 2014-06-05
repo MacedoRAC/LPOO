@@ -8,6 +8,8 @@ import javax.swing.GroupLayout;
 import javax.swing.JFrame;
 import javax.swing.GroupLayout.Alignment;
 
+import logic.Player;
+
 /**
  * @author André
  *
@@ -23,35 +25,37 @@ public class BoardWindow extends JFrame{
 	
 	/**
 	 * Constructor of the window
+	 * @param mode 
+	 * @param players 
 	 */
-	public BoardWindow(){
+	public BoardWindow(Player[] players, String mode){
+		setIconImage(Toolkit.getDefaultToolkit().getImage(BoardWindow.class.getResource("/Images/initial.jpg")));
 		setResizable(false);
 		setTitle("Monopoly");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		setSize(1200,700);
+		setSize(1280,700);
 		Dimension dim=Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
 
 		board = new boardPanel();
-		playingPanel = new PlayingPanel();
+		playingPanel = new PlayingPanel(players, mode);
 		
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(board, GroupLayout.PREFERRED_SIZE, 700, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(699)
-							.addComponent(playingPanel, GroupLayout.PREFERRED_SIZE, 500, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addComponent(board, GroupLayout.PREFERRED_SIZE, 700, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(75, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(699)
+					.addComponent(playingPanel, GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(board, GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE)
-				.addComponent(playingPanel, GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE)
+				.addComponent(board, GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
+				.addComponent(playingPanel, GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
 		);
 		getContentPane().setLayout(groupLayout);
 	}

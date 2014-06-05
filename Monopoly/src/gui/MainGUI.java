@@ -18,8 +18,8 @@ public class MainGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 					try {
-						BoardWindow window = new BoardWindow();
-						window.setVisible(true);
+						InitialFrame game = new InitialFrame();
+						game.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
