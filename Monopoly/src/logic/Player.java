@@ -1,5 +1,6 @@
 package logic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,8 +8,12 @@ import java.util.ArrayList;
  * @version 1.0
  * @created 23-mai-2014 01:04:28
  */
-public class Player {
+public class Player implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean inJail;
 	/**
 	 * Necessary to verify if player has passed by start position
@@ -21,6 +26,7 @@ public class Player {
 	private int money;
 	private String name;
 	private ArrayList<Card> OwnedProperties;
+	private ArrayList<SpecialCard> specialCards;
 	private Boolean won;
 	private String avatar;
 
@@ -51,6 +57,7 @@ public class Player {
 		money=1500;
 		this.name=name;
 		OwnedProperties=new ArrayList<Card>();
+		specialCards = new ArrayList<SpecialCard>();
 		won=false;
 
 	}
@@ -165,5 +172,35 @@ public class Player {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
+
+	/**
+	 * 
+	 * @return Number of total houses and hotels in all properties
+	 */
+	public int getNumberBuildings() {
+		int number=0;
+		
+		for(int i=0; i<OwnedProperties.size(); i++){
+			number += OwnedProperties.get(i).getNumberOfHotels();
+			number += OwnedProperties.get(i).getNumberOfHouses();
+		}
+		
+		return number;
+	}
+
+	/**
+	 * @return the specialCards
+	 */
+	public ArrayList<SpecialCard> getSpecialCards() {
+		return specialCards;
+	}
+
+	/**
+	 * @param specialCards the specialCards to set
+	 */
+	public void setSpecialCards(ArrayList<SpecialCard> specialCards) {
+		this.specialCards = specialCards;
+	}
+
 
 }

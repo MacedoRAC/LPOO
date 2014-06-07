@@ -7,13 +7,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ContainerListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -29,6 +31,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * @author André
@@ -112,61 +115,61 @@ public class PlayingPanel extends JPanel{
 
 		setupButtons();		
 
-		playersPanel = new PlayersPanel();
+		playersPanel = new PlayersPanel(monopoly.getPlayers());
 
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-						.addContainerGap(204, Short.MAX_VALUE)
-						.addComponent(lblDiceNumber, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-						.addGap(190))
-						.addComponent(playersPanel, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-						.addGroup(groupLayout.createSequentialGroup()
-								.addGap(23)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(btnRollDice, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(btnSpecialCard))
-										.addGap(29)
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addComponent(btnSell, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
-												.addComponent(btnDone, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
-												.addGap(36)
-												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-														.addComponent(btnSave, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(btnBuy, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
-														.addGap(29)
-														.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-																.addComponent(btnTrade, GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
-																.addComponent(btnExit, GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))
-																.addGap(39))
-				);
+					.addContainerGap(279, Short.MAX_VALUE)
+					.addComponent(lblDiceNumber, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+					.addGap(190))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(23)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnRollDice, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnSpecialCard))
+					.addGap(29)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnSell, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+						.addComponent(btnDone, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
+					.addGap(36)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnSave, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnBuy, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
+					.addGap(29)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnTrade, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+						.addComponent(btnExit, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+					.addGap(39))
+				.addComponent(playersPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+		);
 		groupLayout.setVerticalGroup(
-				groupLayout.createParallelGroup(Alignment.TRAILING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-						.addComponent(playersPanel, GroupLayout.PREFERRED_SIZE, 272, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
-						.addComponent(lblDiceNumber, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-						.addGap(60)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(btnRollDice)
-										.addGap(18)
-										.addComponent(btnSpecialCard))
-										.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(btnTrade)
-												.addGap(18)
-												.addComponent(btnExit))
-												.addGroup(groupLayout.createSequentialGroup()
-														.addComponent(btnSell)
-														.addGap(18)
-														.addComponent(btnDone))
-														.addGroup(groupLayout.createSequentialGroup()
-																.addComponent(btnBuy)
-																.addGap(18)
-																.addComponent(btnSave)))
-																.addGap(27))
-				);
+					.addComponent(playersPanel, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
+					.addComponent(lblDiceNumber, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
+					.addGap(60)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnRollDice)
+							.addGap(18)
+							.addComponent(btnSpecialCard))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnTrade)
+							.addGap(18)
+							.addComponent(btnExit))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnSell)
+							.addGap(18)
+							.addComponent(btnDone))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnBuy)
+							.addGap(18)
+							.addComponent(btnSave)))
+					.addGap(27))
+		);
 		setLayout(groupLayout);
 	}
 
@@ -174,6 +177,61 @@ public class PlayingPanel extends JPanel{
 	 * Setup all buttons
 	 */
 	public void setupButtons(){
+		
+		//SPECIAL CARD BUTTON
+		btnSpecialCard.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				getParent().repaint();
+				playersPanel.repaint();
+				requestFocus();
+			}
+		});
+		
+		//TRADE BUTTON
+		btnTrade.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int cardLocation=0;
+				int myCardLocation=0;
+				
+				monopoly.tradePropertie("namePlayer", cardLocation, myCardLocation);
+				
+				getParent().repaint();
+				playersPanel.repaint();
+				requestFocus();
+			}
+		});
+		
+		//SELL BUTTON
+		btnSell.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				monopoly.sellPropertie("name of the player");
+				
+				getParent().repaint();
+				playersPanel.repaint();
+				requestFocus();
+			}
+		});
+		
+		//BUY BUTTON
+		btnBuy.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				monopoly.buyPropertie();
+				
+				getParent().repaint();
+				playersPanel.repaint();
+				requestFocus();
+			}
+		});
 
 		//ROLL DICE BUTTON
 		btnRollDice.addActionListener(new ActionListener() {
@@ -184,6 +242,8 @@ public class PlayingPanel extends JPanel{
 				lblDiceNumber.setText(""+dice);
 				lblDiceNumber.setVisible(true);
 				btnRollDice.setEnabled(false);
+				
+				getParent().repaint();
 			}
 		});
 
@@ -196,6 +256,8 @@ public class PlayingPanel extends JPanel{
 				btnRollDice.setEnabled(true);
 				lblDiceNumber.setVisible(false);
 				btnBuy.setEnabled(true);
+				
+				getParent().repaint();
 
 			}
 		});
@@ -206,13 +268,53 @@ public class PlayingPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int option=JOptionPane.showConfirmDialog(getRootPane(), "Do you have sure you want to leave?");
-				if(option==JOptionPane.YES_OPTION){
-					new InitialFrame();
-					
+				if(option==JOptionPane.YES_OPTION){					
 					
 				}
 			}
 		});
+		
+		//SAVE BUTTON
+		btnSave.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				saveGame();
+			}
+		});
+	}
+	
+	/**
+	 * Function responsible to save the game
+	 */
+	private void saveGame() {
+		JFileChooser j = new JFileChooser();
+		j.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		j.setAcceptAllFileFilterUsed(false);
+		j.setFileFilter(new FileNameExtensionFilter("dat", "dat"));
+
+		int i=j.showSaveDialog(new JFrame("Guardar"));
+
+		if(i==JFileChooser.APPROVE_OPTION){
+			try{
+				File file= j.getSelectedFile();
+				String nameOfFile= file.getName();
+
+				if(!nameOfFile.endsWith(".dat"))
+					file= new File(file + ".dat");
+
+				FileOutputStream saveFile = new FileOutputStream(file);
+				ObjectOutputStream output = new ObjectOutputStream(saveFile);
+
+				output.writeObject(monopoly);
+				output.close();
+			}catch(IOException ex){
+				JOptionPane.showMessageDialog(new JFrame().getRootPane(), "An error has occured. Game not saved!");
+				ex.printStackTrace();
+			}
+		}
+
+		requestFocus();
 	}
 
 	/**
@@ -226,4 +328,5 @@ public class PlayingPanel extends JPanel{
 
 		g.drawImage(background, 0, 0, width, height, Color.WHITE, null);
 	}
+	
 }

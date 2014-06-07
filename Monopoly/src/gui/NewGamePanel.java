@@ -23,8 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JButton;
 
-import logic.Player;
-
 /**
  * @author André
  *
@@ -131,8 +129,8 @@ public class NewGamePanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String mode = gameMode.getActionCommand();
-				int np = numbPlayersSpinner.getComponentCount();
+				String mode = (String) gameMode.getSelectedItem();
+				int np = (int)numbPlayersSpinner.getValue();
 								
 				GameConfigPanel panel = new GameConfigPanel(mode, np);
 				

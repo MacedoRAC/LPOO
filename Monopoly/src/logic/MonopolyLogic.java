@@ -1,5 +1,6 @@
 package logic;
 
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -8,8 +9,12 @@ import java.util.Random;
  * @version 1.0
  * @created 23-mai-2014 01:04:25
  */
-public class MonopolyLogic {
+public class MonopolyLogic implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Board board;
 	private Player[] players;
 	/**
@@ -83,7 +88,7 @@ public class MonopolyLogic {
 		return dice;
 	}
 
-	public void sellPropertie() {
+	public void sellPropertie(String namePlayer) {
 		
 
 	}
@@ -141,9 +146,12 @@ public class MonopolyLogic {
 
 	/**
 	 * 
+	 * @param cardLocation 
+	 * @param namePlayer 
+	 * @param myCardLocation 
 	 * @param playerName
 	 */
-	public Boolean tradePropertie(){
+	public Boolean tradePropertie(String namePlayer, int cardLocation, int myCardLocation){
 		return false;
 	}
 
