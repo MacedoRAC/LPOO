@@ -23,7 +23,7 @@ public class Card implements Serializable{
 	private int mortgageValue;
 	private String name;
 	private Player owner;
-	private int[] rentWithHotel;
+	private int rentWithHotel;
 	/**
 	 * index 0 match with 1 house's rent and index 3 match with 3 houses' rent
 	 */
@@ -31,7 +31,7 @@ public class Card implements Serializable{
 	private int simpleRent;
 
 	public Card(String color, int cost, int hotelCost, int housesCost, int locationOnBoard, 
-				int mortgageValue, String name, int[] rentWithHotel, int[] rentWithHouses, int simpleRent){
+				int mortgageValue, String name, int rentWithHotel, int[] rentWithHouses, int simpleRent){
 		
 		this.color=color;
 		this.cost=cost;
@@ -94,7 +94,7 @@ public class Card implements Serializable{
 		return owner;
 	}
 
-	public int[] getRentWithHotel(){
+	public int getRentWithHotel(){
 		return rentWithHotel;
 	}
 
@@ -166,7 +166,7 @@ public class Card implements Serializable{
 	 * 
 	 * @param rentWithHotel
 	 */
-	public void setRentWithHotel(int[] rentWithHotel){
+	public void setRentWithHotel(int rentWithHotel){
 		this.rentWithHotel=rentWithHotel;
 	}
 

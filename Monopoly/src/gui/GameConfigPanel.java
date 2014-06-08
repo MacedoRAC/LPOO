@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -34,7 +35,7 @@ public class GameConfigPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 	private String mode;
-	private Player[] players;
+	private Vector<Player> players;
 	private BufferedImage background;
 	private JTextField P1Nick;
 	private JTextField P2Nick;
@@ -58,7 +59,7 @@ public class GameConfigPanel extends JPanel{
 		requestFocus(true);
 		
 		this.mode = mode;
-		this.players = new Player[np];
+		this.players = new Vector<Player>();
 	
 		lblP1Nick = new JLabel("Player 1 nick");
 		lblP1Nick.setBounds(65, 60, 98, 14);
@@ -185,19 +186,14 @@ public class GameConfigPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				players[0] = new Player(P1Nick.getText());
-				players[0].setAvatar((String) avatarP1.getSelectedItem());
+				players.add(new Player(P1Nick.getText(), (String) avatarP1.getSelectedItem()));
+				players.add(new Player(P2Nick.getText(), (String) avatarP2.getSelectedItem()));
 				
-				players[1] = new Player(P2Nick.getText());
-				players[1].setAvatar((String) avatarP2.getSelectedItem());
-				
-				if(players.length > 2){
-					players[2] = new Player(P3Nick.getText());
-					players[2].setAvatar((String) avatarP3.getSelectedItem());
+				if(players.size() > 2){
+					players.add(new Player(P3Nick.getText(), (String) avatarP3.getSelectedItem()));
 
-					if(players.length > 3){
-						players[3] = new Player(P4Nick.getText());
-						players[3].setAvatar((String) avatarP4.getSelectedItem());
+					if(players.size() > 3){
+						players.add(new Player(P4Nick.getText(), (String) avatarP4.getSelectedItem()));
 					}
 				}
 				getRootPane().setContentPane(new InitialPanel());

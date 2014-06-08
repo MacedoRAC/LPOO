@@ -1,206 +1,207 @@
 package logic;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Vector;
 
-/**
- * @author Mário Macedo
- * @version 1.0
- * @created 23-mai-2014 01:04:28
- */
-public class Player implements Serializable{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private boolean inJail;
-	/**
-	 * Necessary to verify if player has passed by start position
-	 */
-	private int lastLocation;
-	/**
-	 * 0(go) to 40 
-	 */
-	private int location;
-	private int money;
+public class Player {
 	private String name;
-	private ArrayList<Card> OwnedProperties;
-	private ArrayList<SpecialCard> specialCards;
-	private Boolean won;
-	private String avatar;
-
+	private String token;
+	private int position;
+	private int previous_position;
+	private int money;
+	private int arested_time;
+	private Vector<Space> ownproperties = new Vector<Space> ();
+	/**
+	 * money + price of his properties
+	 */
+	private int worth;
+	// false is the player has already lost
+	private boolean alive;
+	private boolean ddice;
+	
 	public Player(){
-		inJail=false;
-		setLastLocation(0);
-		location=0;
-		money=1500;
-		name="";
-		OwnedProperties=new ArrayList<Card>();
-		won=false;
-		avatar="";
-
-	}
-
-	public void finalize() throws Throwable {
-
-	}
-
-	/**
-	 * 
-	 * @param name
-	 */
-	public Player(String name){
-		inJail=false;
-		setLastLocation(0);
-		location=0;
-		money=1500;
-		this.name=name;
-		OwnedProperties=new ArrayList<Card>();
-		specialCards = new ArrayList<SpecialCard>();
-		won=false;
-
-	}
-
-	/**
-	 * 
-	 * @param propertie
-	 */
-	public void addPropertie(Card propertie){
-		OwnedProperties.add(propertie);
-
-	}
-
-	public int getLocation(){
-		return location;
-	}
-
-	public int getMoney(){
-		return money;
+		this.name="default";
+		this.token="carro";
+		this.position=0;
+		this.previous_position=position;
+		this.money=1500;
+		this.worth=1500;
+		this.alive=true;
+		this.arested_time=0;
 	}
 	
-	public String getName(){
+	public Player(String name, String token){
+		this.name = name;
+		this.token = token;
+		this.position=0;
+		this.previous_position=position;
+		this.money=1500;
+		this.worth=1500;
+		this.alive=true;
+		this.arested_time=0;
+	}
+	
+	//token related methods
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	//position related methods
+	public int getPosition() {
+		return position;
+	}
+	public void setPosition(int position) {
+		this.position = position;
+	}
+	//money related methods
+	public int getMoney() {
+		return money;
+	}
+	public void setMoney(int money) {
+		this.money = money;
+	}
+	/**
+	 * Gives money to the player
+	 * @param money amount of money that is given
+	 */
+	public void addMoney(int money){
+		this.money = this.money + money;
+	}
+	/**
+	 * Takes money from the player
+	 * @param money amount of money that is taken
+	 */
+	public void removeMoney(int money){
+		if(this.getMoney() > money){
+			this.money = this.money - money;
+		}else{
+			this.money=0;
+			this.setAlive(false);
+		}
+	}
+	//properties related methods
+	public Vector<Space> getOwnproperties() {
+		return ownproperties;
+	}
+	public void setOwnproperties(Vector<Space> ownproperties) {
+		this.ownproperties = ownproperties;
+	}
+	/**
+	 * Adds a Property to the player
+	 * @param property property that is given
+	 */
+	public void addOwnproperties(Space property){
+		this.ownproperties.add(property);
+	}
+	/**
+	 * Removes a property from a player
+	 * @param property property that is taken
+	 * @return
+	 */
+	public boolean removeOwnproperties(Space property){
+		if(this.ownproperties.contains(property)){
+			this.ownproperties.remove(property);
+			return true;
+		}else
+			return false;
+	}
+	//worth related methods
+	public int getWorth() {
+		return worth;
+	}
+	public void setWorth(int worth) {
+		this.worth = worth;
+	}
+	
+	/**
+	 * Checks if the player passes through the start, if he does, receives 200$
+	 */
+	public void PassThroughStart(){
+		if(this.getPosition() < this.getPrevious_position()){
+			this.addMoney(200);
+		}
+	}
+	
+	public boolean getAlive() {
+		return alive;
+	}
+	public void setAlive(boolean alive) {
+		this.alive = alive;
+	}
+	public int getPrevious_position() {
+		return previous_position;
+	}
+	public void setPrevious_position(int previous_position) {
+		this.previous_position = previous_position;
+	}
+	
+	public int getArested_time() {
+		return arested_time;
+	}
+	public void setArested_time(int arested_time) {
+		this.arested_time = arested_time;
+	}
+
+	/**
+	 * allow the player to roll the dices and move to a different space
+	 * 
+	 * @return faces of the both dices
+	 */
+	public int[] RollDice(){
+		int move1 = (int)(Math.random() * 6+1);
+		int move2 = (int)(Math.random() * 6+1);
+		if(move1==move2){
+			ddice = true;
+		}else{
+			ddice = false;
+		}
+		if(this.getArested_time() == 0){
+			this.setPrevious_position(this.position);
+			this.setPosition(this.getPosition()+move1+move2);
+		}
+		
+		this.PassThroughStart();
+		
+		 return new int[]{move1, move2};
+	}
+
+	public String getName() {
 		return name;
 	}
-
-	public ArrayList<Card> getOwnedProperties(){
-		return OwnedProperties;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public boolean isInJail(){
-		return inJail;
+	public boolean getDdice() {
+		return ddice;
 	}
-
+	public void setDdice(boolean ddice) {
+		this.ddice = ddice;
+	}
+	
 	/**
-	 * 
-	 * @param inJail
+	 * Updates the worth of the player.
+	 * This increased and decreases according with his money and his properties
 	 */
-	public void setInJail(boolean inJail){
-		this.inJail=inJail;
-
+	public void updateWorth(){
+		int amount;
+		amount=getMoney();
+		for(int a=0; a<getOwnproperties().size(); a++){
+			amount += ((Property) getOwnproperties().get(a)).getPrice();
+			amount += ((Airport) getOwnproperties().get(a)).getPrice();
+			amount += ((Companies) getOwnproperties().get(a)).getPrice();
+		}
+		setWorth(amount);
 	}
 
-	/**
-	 * 
-	 * @param location
-	 */
-	public void setLocation(int location){
-		this.location=location;
-
-	}
-
-	/**
-	 * <font color="#7f9fbf"><b>return</b></font><font color="#3f5fbf"> the
-	 * money</font>
-	 * 
-	 * @param money
-	 */
-	public void setMoney(int money){
-		this.money=money;
-
-	}
-
-	/**
-	 * 
-	 * @param name
-	 */
-	public void setName(String name){
-		this.name=name;
-
-	}
-
-	/**
-	 * 
-	 * @param ownedProperties
-	 */
-	public void setOwnedProperties(ArrayList<Card> ownedProperties){
-		this.OwnedProperties=ownedProperties;
-
-	}
-
-	/**
-	 * if a player is the only one with money wins the game
-	 */
-	public Boolean somePlayerWon(){
-		return won;
-	}
-
-	/**
-	 * @return the lastLocation
-	 */
-	public int getLastLocation() {
-		return lastLocation;
-	}
-
-	/**
-	 * @param lastLocation the lastLocation to set
-	 */
-	public void setLastLocation(int lastLocation) {
-		this.lastLocation = lastLocation;
-	}
-
-	/**
-	 * @return the avatar
-	 */
-	public String getAvatar() {
-		return avatar;
-	}
-
-	/**
-	 * @param avatar the avatar to set
-	 */
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-
-	/**
-	 * 
-	 * @return Number of total houses and hotels in all properties
-	 */
 	public int getNumberBuildings() {
 		int number=0;
 		
-		for(int i=0; i<OwnedProperties.size(); i++){
-			number += OwnedProperties.get(i).getNumberOfHotels();
-			number += OwnedProperties.get(i).getNumberOfHouses();
+		for(int i=0; i<ownproperties.size(); i++){
+			number += ((Property)ownproperties.get(i)).getN_apart();
+			number += ((Property)ownproperties.get(i)).getN_hotel();
 		}
 		
 		return number;
 	}
-
-	/**
-	 * @return the specialCards
-	 */
-	public ArrayList<SpecialCard> getSpecialCards() {
-		return specialCards;
-	}
-
-	/**
-	 * @param specialCards the specialCards to set
-	 */
-	public void setSpecialCards(ArrayList<SpecialCard> specialCards) {
-		this.specialCards = specialCards;
-	}
-
-
 }

@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -19,6 +20,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import logic.Chance;
+import logic.Community;
 import logic.MonopolyLogic;
 import logic.Player;
 
@@ -40,7 +44,7 @@ public class PlayingPanel extends JPanel{
 	private JButton btnRollDice;
 	private JButton btnMortgage;
 	private JButton btnBuy;
-	private JButton btnTrade;
+	private JButton btnView;
 	private JButton btnBuildings;
 	private JButton btnExit;
 	private JButton btnSave;
@@ -49,7 +53,7 @@ public class PlayingPanel extends JPanel{
 	private ActionPanel actionPanel;
 
 
-	public PlayingPanel(Player[] players, String mode){
+	public PlayingPanel(Vector<Player> players, String mode){
 		setForeground(new Color(153, 0, 0));
 
 		try {
@@ -70,10 +74,10 @@ public class PlayingPanel extends JPanel{
 		btnRollDice.setForeground(new Color(255, 255, 255));
 		btnRollDice.setBackground(new Color(153, 0, 0));
 
-		btnTrade = new JButton("Trade");
-		btnTrade.setBounds(428, 596, 114, 23);
-		btnTrade.setForeground(new Color(255, 255, 255));
-		btnTrade.setBackground(new Color(153, 0, 0));
+		btnView = new JButton("View");
+		btnView.setBounds(428, 596, 114, 23);
+		btnView.setForeground(new Color(255, 255, 255));
+		btnView.setBackground(new Color(153, 0, 0));
 
 		btnMortgage = new JButton("Mortgage");
 		btnMortgage.setBounds(149, 596, 114, 23);
@@ -122,7 +126,7 @@ public class PlayingPanel extends JPanel{
 		add(btnDone);
 		add(btnSave);
 		add(btnBuy);
-		add(btnTrade);
+		add(btnView);
 		add(btnExit);
 		add(actionPanel);
 		
@@ -146,19 +150,26 @@ public class PlayingPanel extends JPanel{
 			}
 		});
 		
-		//TRADE BUTTON
-		btnTrade.addActionListener(new ActionListener() {
+		//VIEW BUTTON
+		btnView.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int cardLocation=0;
-				int myCardLocation=0;
 				
-				monopoly.tradePropertie("namePlayer", cardLocation, myCardLocation);
+				//after move the token according to the dice result,
+				//show on actionPanel the card relative to new player's position on the board
+				actionPanel.setMode("showCard");
+				int location =  (monopoly.getPlayers().get(monopoly.i)).getPosition();
+				String typeOfCart = monopoly.getBoard().get(location).getClassName();
 				
+				if(typeOfCart == "Chance")
+					location= ((Chance) monopoly.getBoard().get(monopoly.getPlayers().get(monopoly.i).getPosition())).getLastCard();
+				else if(typeOfCart == "Community")
+					location= ((Community) monopoly.getBoard().get(monopoly.getPlayers().get(monopoly.i).getPosition())).getLastCard();
+				
+				actionPanel.setCardToShow(location , typeOfCart);
+				actionPanel.repaint();
 				getParent().repaint();
-				playersPanel.repaint();
-				requestFocus();
 			}
 		});
 		
@@ -167,7 +178,7 @@ public class PlayingPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				monopoly.mortgagePropertie("name of the player");
+				//monopoly.Mortgage();
 				
 				getParent().repaint();
 				playersPanel.repaint();
@@ -181,7 +192,7 @@ public class PlayingPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-				monopoly.buyPropertie();
+				//monopoly.buyPropertie();
 				
 				getParent().repaint();
 				playersPanel.repaint();
@@ -194,13 +205,16 @@ public class PlayingPanel extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int[] dice = monopoly.rollDice();
+				int[] dice = monopoly.RollDice();
+				//show dice result on actionPanel
 				actionPanel.setDice(dice);
 				actionPanel.setMode("dice");
 				actionPanel.repaint();
 				getParent().repaint();
-				btnRollDice.setEnabled(false);
 				
+				//if the dice result is a double the player can roll dice again
+				if(dice[0] != dice[1])
+					btnRollDice.setEnabled(false);				
 			}
 		});
 
@@ -209,7 +223,7 @@ public class PlayingPanel extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				monopoly.endOfTurn();
+				monopoly.EndTurn();
 				btnRollDice.setEnabled(true);
 				btnBuy.setEnabled(true);
 				

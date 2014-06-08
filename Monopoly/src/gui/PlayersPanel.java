@@ -8,10 +8,14 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JLabel;
+
 import java.awt.SystemColor;
+import java.util.Vector;
 
 import logic.Player;
+
 import javax.swing.ImageIcon;
 
 /**
@@ -29,11 +33,9 @@ public class PlayersPanel extends JPanel{
 	private JLabel lblCash;
 	private JLabel lblAmountProperties;
 	private JLabel lblAmountBuilings;
-	private JLabel lblSpecialCards;
 	private JLabel lblCashP1;
 	private JLabel lblPropP1;
 	private JLabel lblBuildP1;
-	private JLabel lblCardsP1;
 	private JLabel AvatarP1;
 	private JLabel lblPlayer2name;
 	private JLabel lblBuildP2;
@@ -41,8 +43,6 @@ public class PlayersPanel extends JPanel{
 	private JLabel lblCash2;
 	private JLabel lblAmoutProperties2;
 	private JLabel lblCashP2;
-	private JLabel lblSpecialCards2;
-	private JLabel lblCardsP2;
 	private JLabel lblAmountBuildings2;
 	private JLabel lblPropP2;
 	private JLabel AvatarP3;
@@ -50,8 +50,6 @@ public class PlayersPanel extends JPanel{
 	private JLabel lblCash3;
 	private JLabel lblAmountProperties3;
 	private JLabel lblAmountBuildings3;
-	private JLabel lblSpecialCards3;
-	private JLabel lblCardsP3;
 	private JLabel lblBuildP3;
 	private JLabel lblPropP3;
 	private JLabel lblCashP3;
@@ -60,18 +58,16 @@ public class PlayersPanel extends JPanel{
 	private JLabel lblCash4;
 	private JLabel lblAmoutProperties4;
 	private JLabel lblAmountBuildings4;
-	private JLabel lblSpecialCards4;
-	private JLabel lblCardsP4;
 	private JLabel lblBuildP4;
 	private JLabel lblPropP4;
 	private JLabel lblCashP4;
 	
-	private Player[] players;
+	private Vector<Player> players;
 	
 	
-	public PlayersPanel(Player[] players){
+	public PlayersPanel(Vector<Player> vector){
 		
-		this.players=players;
+		this.players=vector;
 		
 		setBackground(SystemColor.desktop);
 		setForeground(Color.WHITE);
@@ -94,11 +90,7 @@ public class PlayersPanel extends JPanel{
 		lblAmountBuilings = new JLabel("Amount Buildings: ");
 		lblAmountBuilings.setBounds(91, 51, 97, 19);
 		lblAmountBuilings.setForeground(Color.WHITE);
-		
-		lblSpecialCards = new JLabel("Special Cards: ");
-		lblSpecialCards.setBounds(91, 71, 85, 14);
-		lblSpecialCards.setForeground(Color.WHITE);
-		
+				
 		lblCashP1 = new JLabel("CashP1");
 		lblCashP1.setBounds(194, 11, 36, 14);
 		lblCashP1.setForeground(Color.WHITE);
@@ -110,10 +102,6 @@ public class PlayersPanel extends JPanel{
 		lblBuildP1 = new JLabel("BuildP1");
 		lblBuildP1.setBounds(194, 51, 34, 14);
 		lblBuildP1.setForeground(Color.WHITE);
-		
-		lblCardsP1 = new JLabel("CardsP1");
-		lblCardsP1.setBounds(194, 71, 34, 14);
-		lblCardsP1.setForeground(Color.WHITE);
 		
 		AvatarP1 = new JLabel("");
 		AvatarP1.setBounds(10, 11, 48, 47);
@@ -141,14 +129,6 @@ public class PlayersPanel extends JPanel{
 		lblCashP2.setBounds(194, 113, 36, 14);
 		lblCashP2.setForeground(Color.WHITE);
 		
-		lblSpecialCards2 = new JLabel("Special Cards: ");
-		lblSpecialCards2.setBounds(91, 173, 85, 14);
-		lblSpecialCards2.setForeground(Color.WHITE);
-		
-		lblCardsP2 = new JLabel("CardsP2");
-		lblCardsP2.setBounds(194, 173, 34, 14);
-		lblCardsP2.setForeground(Color.WHITE);
-		
 		lblAmountBuildings2 = new JLabel("Amount Buildings: ");
 		lblAmountBuildings2.setBounds(91, 153, 97, 19);
 		lblAmountBuildings2.setForeground(Color.WHITE);
@@ -175,14 +155,6 @@ public class PlayersPanel extends JPanel{
 		lblAmountBuildings3 = new JLabel("Amount Buildings: ");
 		lblAmountBuildings3.setBounds(389, 51, 97, 19);
 		lblAmountBuildings3.setForeground(Color.WHITE);
-		
-		lblSpecialCards3 = new JLabel("Special Cards: ");
-		lblSpecialCards3.setBounds(389, 71, 85, 14);
-		lblSpecialCards3.setForeground(Color.WHITE);
-		
-		lblCardsP3 = new JLabel("CardsP3");
-		lblCardsP3.setBounds(492, 71, 34, 14);
-		lblCardsP3.setForeground(Color.WHITE);
 		
 		lblBuildP3 = new JLabel("BuildP3");
 		lblBuildP3.setBounds(492, 51, 34, 14);
@@ -215,14 +187,6 @@ public class PlayersPanel extends JPanel{
 		lblAmountBuildings4.setBounds(389, 153, 97, 19);
 		lblAmountBuildings4.setForeground(Color.WHITE);
 		
-		lblSpecialCards4 = new JLabel("Special Cards: ");
-		lblSpecialCards4.setBounds(389, 173, 85, 14);
-		lblSpecialCards4.setForeground(Color.WHITE);
-		
-		lblCardsP4 = new JLabel("CardsP4");
-		lblCardsP4.setBounds(492, 173, 34, 14);
-		lblCardsP4.setForeground(Color.WHITE);
-		
 		lblBuildP4 = new JLabel("BuildP4");
 		lblBuildP4.setBounds(492, 153, 34, 14);
 		lblBuildP4.setForeground(Color.WHITE);
@@ -243,8 +207,6 @@ public class PlayersPanel extends JPanel{
 		add(lblAmountBuilings);
 		add(lblPropP1);
 		add(lblCashP1);
-		add(lblSpecialCards);
-		add(lblCardsP1);
 		add(lblBuildP1);
 		add(AvatarP2);
 		add(lblCash2);
@@ -254,10 +216,8 @@ public class PlayersPanel extends JPanel{
 		add(lblPropP2);
 		add(lblBuildP2);
 		add(lblPlayer2name);
-		add(lblSpecialCards2);
-		add(lblCardsP2);
 		
-		if(players.length > 2){
+		if(vector.size() > 2){
 			add(AvatarP3);
 			add(lblCash3);
 			add(lblAmountProperties3);
@@ -266,10 +226,8 @@ public class PlayersPanel extends JPanel{
 			add(lblBuildP3);
 			add(lblAmountBuildings3);
 			add(lblPlayerName3);
-			add(lblSpecialCards3);
-			add(lblCardsP3);
 
-			if(players.length > 3){
+			if(vector.size() > 3){
 				add(AvatarP4);
 				add(lblCash4);
 				add(lblAmoutProperties4);
@@ -278,8 +236,6 @@ public class PlayersPanel extends JPanel{
 				add(lblPropP4);
 				add(lblBuildP4);
 				add(lblPlayerName4);
-				add(lblSpecialCards4);
-				add(lblCardsP4);
 			}
 		}
 		
@@ -309,34 +265,30 @@ public class PlayersPanel extends JPanel{
 	private void setInfoPlayers() {
 
 		//PLAYER 1
-		lblPlayer1name.setText(players[0].getName());
-		lblCashP1.setText("" + players[0].getMoney());
-		lblBuildP1.setText("" + players[0].getNumberBuildings());
-		lblPropP1.setText("" + players[0].getOwnedProperties().size());
-		lblCardsP1.setText("" + players[0].getSpecialCards().size());
+		lblPlayer1name.setText(players.get(0).getName());
+		lblCashP1.setText("" + players.get(0).getMoney());
+		lblBuildP1.setText("" + players.get(0).getNumberBuildings());
+		lblPropP1.setText("" + players.get(0).getOwnproperties().size());
 
 		//PLAYER 2
-		lblPlayer2name.setText(players[1].getName());
-		lblCashP2.setText("" + players[1].getMoney());
-		lblBuildP2.setText("" + players[1].getNumberBuildings());
-		lblPropP2.setText("" + players[1].getOwnedProperties().size());
-		lblCardsP2.setText("" + players[1].getSpecialCards().size());
+		lblPlayer2name.setText(players.get(1).getName());
+		lblCashP2.setText("" + players.get(1).getMoney());
+		lblBuildP2.setText("" + players.get(1).getNumberBuildings());
+		lblPropP2.setText("" + players.get(1).getOwnproperties().size());
 
-		if(players.length > 2){
+		if(players.size() > 2){
 			//PLAYER 3
-			lblPlayerName3.setText(players[2].getName());
-			lblCashP3.setText("" + players[2].getMoney());
-			lblBuildP3.setText("" + players[2].getNumberBuildings());
-			lblPropP3.setText("" + players[2].getOwnedProperties().size());
-			lblCardsP3.setText("" + players[2].getSpecialCards().size());
+			lblPlayerName3.setText(players.get(2).getName());
+			lblCashP3.setText("" + players.get(2).getMoney());
+			lblBuildP3.setText("" + players.get(2).getNumberBuildings());
+			lblPropP3.setText("" + players.get(2).getOwnproperties().size());
 
-			if(players.length > 3){
+			if(players.size() > 3){
 				//PLAYER 4
-				lblPlayerName4.setText(players[3].getName());
-				lblCashP4.setText("" + players[3].getMoney());
-				lblBuildP4.setText("" + players[3].getNumberBuildings());
-				lblPropP4.setText("" + players[3].getOwnedProperties().size());
-				lblCardsP4.setText("" + players[3].getSpecialCards().size());
+				lblPlayerName4.setText(players.get(3).getName());
+				lblCashP4.setText("" + players.get(3).getMoney());
+				lblBuildP4.setText("" + players.get(3).getNumberBuildings());
+				lblPropP4.setText("" + players.get(3).getOwnproperties().size());
 			}
 		}
 		
@@ -344,73 +296,73 @@ public class PlayersPanel extends JPanel{
 
 
 	/**
-	 * set players avatars
+	 * set players tokens
 	 */
 	private void setAvatars() {
 		
 		//player 1
-		switch(players[0].getAvatar()){
+		switch(players.get(0).getToken()){
 		case "dog":
-			AvatarP1.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/dogSmaller.png")));
+			AvatarP1.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/dogSmaller.png")));
 			break;
 		case "hat":
-			AvatarP1.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/hatSmaller.png")));
+			AvatarP1.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/hatSmaller.png")));
 			break;
 		case "thimble":
-			AvatarP1.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/thimbleSmaller.png")));
+			AvatarP1.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/thimbleSmaller.png")));
 			break;
 		case "car":
-			AvatarP1.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/carSmaller.png")));
+			AvatarP1.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/carSmaller.png")));
 			break;
 		}
 
 		//player 2
-		switch(players[1].getAvatar()){
+		switch(players.get(1).getToken()){
 		case "dog":
-			AvatarP2.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/dogSmaller.png")));
+			AvatarP2.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/dogSmaller.png")));
 			break;
 		case "hat":
-			AvatarP2.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/hatSmaller.png")));
+			AvatarP2.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/hatSmaller.png")));
 			break;
 		case "thimble":
-			AvatarP2.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/thimbleSmaller.png")));
+			AvatarP2.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/thimbleSmaller.png")));
 			break;
 		case "car":
-			AvatarP2.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/carSmaller.png")));
+			AvatarP2.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/carSmaller.png")));
 			break;
 		}
 
-		if(players.length > 2){
+		if(players.size() > 2){
 			//player 3
-			switch(players[2].getAvatar()){
+			switch(players.get(2).getToken()){
 			case "dog":
-				AvatarP3.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/dogSmaller.png")));
+				AvatarP3.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/dogSmaller.png")));
 				break;
 			case "hat":
-				AvatarP3.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/hatSmaller.png")));
+				AvatarP3.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/hatSmaller.png")));
 				break;
 			case "thimble":
-				AvatarP3.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/thimbleSmaller.png")));
+				AvatarP3.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/thimbleSmaller.png")));
 				break;
 			case "car":
-				AvatarP3.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/carSmaller.png")));
+				AvatarP3.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/carSmaller.png")));
 				break;
 			}
 
-			if(players.length > 3){
+			if(players.size() > 3){
 				//player 4
-				switch(players[3].getAvatar()){
+				switch(players.get(3).getToken()){
 				case "dog":
-					AvatarP4.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/dogSmaller.png")));
+					AvatarP4.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/dogSmaller.png")));
 					break;
 				case "hat":
-					AvatarP4.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/hatSmaller.png")));
+					AvatarP4.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/hatSmaller.png")));
 					break;
 				case "thimble":
-					AvatarP4.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/thimbleSmaller.png")));
+					AvatarP4.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/thimbleSmaller.png")));
 					break;
 				case "car":
-					AvatarP4.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/carSmaller.png")));
+					AvatarP4.setIcon(new ImageIcon(PlayersPanel.class.getResource("/Images/avatars/carSmaller.png")));
 					break;
 				}
 			}

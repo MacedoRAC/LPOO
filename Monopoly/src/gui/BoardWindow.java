@@ -3,6 +3,7 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Vector;
 
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
@@ -28,7 +29,7 @@ public class BoardWindow extends JFrame{
 	 * @param mode 
 	 * @param players 
 	 */
-	public BoardWindow(Player[] players, String mode){
+	public BoardWindow(Vector<Player> players, String mode){
 		setIconImage(Toolkit.getDefaultToolkit().getImage(BoardWindow.class.getResource("/Images/initial.jpg")));
 		setResizable(false);
 		setTitle("Monopoly");
