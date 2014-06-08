@@ -1,8 +1,13 @@
 package logic;
 
+import java.io.Serializable;
 
-public class Go extends Space {
+public class Go extends Space implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
 	public Go(){
+		this.position = 0;
 	}
 	
 	@Override

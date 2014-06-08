@@ -121,7 +121,7 @@ public class tests {
 	 */
 	@Test
 	public void test_IncreasingRent(){
-		Property p = new Property("LISBOA BELEM", "DARK_BLUE", 350, 50, 200, 600, 1400, 1700, 2000, 200);
+		Property p = new Property("LISBOA BELEM", "DARK_BLUE", 350, 50, 200, 600, 1400, 1700, 2000, 200, 39);
 		assertEquals(0, p.getN_apart());
 		assertEquals(0, p.getN_hotel());
 		assertEquals(50, p.getRent());

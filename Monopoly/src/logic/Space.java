@@ -1,7 +1,12 @@
 package logic;
 
-public abstract class Space {
+import java.io.Serializable;
 
+public abstract class Space implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	protected int position;
+	
 	public Space(){
 
 	}
@@ -38,4 +43,12 @@ public abstract class Space {
 	 * @param p Player that is unmortgaging
 	 */
 	public abstract void Unmortgage(Player p);
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
 }

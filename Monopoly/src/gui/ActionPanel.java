@@ -5,12 +5,18 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import logic.Player;
 
 /**
  * @author André
@@ -32,6 +38,14 @@ public class ActionPanel extends JPanel {
 	private BufferedImage dice6;
 	private String mode;
 	private BufferedImage cardToShow;
+	public JButton previous;
+	public JButton select;
+	public JButton next;
+	/**
+	 * index to go through all properties of the player
+	 */
+	private int index;
+	private Player playing;
 
 	public ActionPanel(){
 		setVisible(true);
@@ -50,8 +64,33 @@ public class ActionPanel extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+		previous = new JButton("Previous");
+		previous.setBackground(new Color(153,0,0));
+		previous.setForeground(new Color(255, 255, 255));
+		
+		select = new JButton("Select");
+		select.setBackground(new Color(153,0,0));
+		select.setForeground(new Color(255, 255, 255));
+		
+		next = new JButton("Next");
+		next.setBackground(new Color(153,0,0));
+		next.setForeground(new Color(255, 255, 255));
+		
+		previous.setVisible(false);
+		select.setVisible(false);
+		next.setVisible(false);
+		
+		add(previous);
+		add(select);
+		add(next);
+		
 		mode = "";
+		index = 0;
+	}
+	
+	public void setPlayerPlaying(Player p){
+		this.playing = p;
 	}
 
 	public void setDice(int[] dice) {
@@ -110,8 +149,29 @@ public class ActionPanel extends JPanel {
 			dicePaint(g);
 			break;
 		case "showCard":
-			g.drawImage(cardToShow, 135, 35, 200, 300, Color.WHITE, null);
+			g.drawImage(cardToShow, 125, 60, 333, 234, Color.WHITE, null);
 			break;
+		case "mortgage":
+			mortgage(g);
+			break;
+		}
+	}
+
+	private void mortgage(Graphics g) {		
+		previous.setVisible(true);
+		select.setVisible(true);
+		next.setVisible(true);
+		JLabel mortgaged;
+		
+		setCardToShow(playing.getOwnproperties().get(index).getPosition(), (playing.getOwnproperties()).get(index).getClassName());
+		
+		g.drawImage(cardToShow, 135, 35, 200, 300, Color.WHITE, null);
+		
+		if(playing.getOwnproperties().get(index).getMortgage()){
+			mortgaged = new JLabel("MORTGAGED");
+			mortgaged.setBackground(new Color(153,0,0));
+			mortgaged.setForeground(new Color(255,255,255));
+			add(mortgaged);
 		}
 	}
 
@@ -163,6 +223,50 @@ public class ActionPanel extends JPanel {
 			break;
 		}
 
+	}
+	
+	/**
+	 * setup all Buttons
+	 */
+	public void setButtons(){
+		
+		//PREVIOUS BUTTON
+		previous.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(index == 0)
+					index = playing.getOwnproperties().size() - 1;
+				else 
+					index--;
+				
+				repaint();
+			}
+		});
+		
+		//NEXT BUTTON
+		next.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(index == (playing.getOwnproperties().size() - 1))
+					index = 0;
+				else
+					index++;
+				
+				repaint();
+			}
+		});
+		
+		//SELECT BUTTON
+		select.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(!playing.getOwnproperties().get(index).getMortgage())
+					playing.getOwnproperties().get(index).Mortgage(playing);
+			}
+		});
 	}
 
 

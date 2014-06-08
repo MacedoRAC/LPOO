@@ -2,16 +2,9 @@ package logic;
 
 import java.io.Serializable;
 
-/**
- * @author André
- * @version 1.0
- * @created 23-mai-2014 01:04:15
- */
+
 public class Board implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Card[] bottomSpaces;
 	//private MiddleCards chance;

@@ -1,7 +1,10 @@
 package logic;
 
+import java.io.Serializable;
 
-public class Companies extends Space {
+public class Companies extends Space implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private int price;
 	private boolean owned;
 	private Player owner;
@@ -13,13 +16,14 @@ public class Companies extends Space {
 	 */
 	private double mortgageValue;
 
-	public Companies(int price){
+	public Companies(int price, int position){
 		this.price=price;
 		this.owned=false;
 		this.owner=null;
 		this.rent=0;
 		this.mortgage=false;
 		this.mortgageValue=price/2;
+		this.position=position;
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public class BoardWindow extends JFrame{
 		Dimension dim=Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation(dim.width/2-getSize().width/2, dim.height/2-getSize().height/2);
 
-		board = new boardPanel();
+		board = new boardPanel(players);
 		playingPanel = new PlayingPanel(players, mode);
 		
 		

@@ -1,6 +1,10 @@
 package logic;
 
-public class Property extends Space {
+import java.io.Serializable;
+
+public class Property extends Space implements Serializable	{
+
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String color;
 	private int price;
@@ -20,7 +24,7 @@ public class Property extends Space {
 	private double mortgageValue;
 	
 	
-	public Property(String name, String color, int price, int normalRent, int OneRent, int TwoRent, int ThreeRent, int FourRent, int HotelRent, int apart_price){
+	public Property(String name, String color, int price, int normalRent, int OneRent, int TwoRent, int ThreeRent, int FourRent, int HotelRent, int apart_price, int position){
 		this.name=name;
 		this.color = color;
 		this.price=price;
@@ -35,6 +39,7 @@ public class Property extends Space {
 		this.mortgageValue=price/2;
 		this.n_apart=0;
 		this.n_hotel=0;
+		this.position=position;
 	}
 	
 	public String getColor() {

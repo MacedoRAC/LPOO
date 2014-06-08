@@ -1,7 +1,11 @@
 package logic;
 
+import java.io.Serializable;
 
-public class Airport extends Space {
+
+public class Airport extends Space implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private int price;
 	private boolean owned;
 	private Player owner;
@@ -13,13 +17,14 @@ public class Airport extends Space {
 	 */
 	private double mortgageValue;
 	
-	public Airport(int price){
+	public Airport(int price, int position){
 		this.price=price;
 		this.owned=false;
 		this.owner=null;
 		this.rent=25;
 		this.mortgage=false;
 		this.mortgageValue=price/2;
+		this.position=position;
 	}
 	
 	@Override

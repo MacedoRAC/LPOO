@@ -1,10 +1,13 @@
 package logic;
 
+import java.io.Serializable;
 
-public class IncomeTax extends Space {
+public class IncomeTax extends Space implements Serializable{
 
-	public IncomeTax(){
-		
+	private static final long serialVersionUID = 1L;
+
+	public IncomeTax(int position){
+		this.position=position;
 	}
 	
 	@Override

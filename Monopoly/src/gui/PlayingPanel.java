@@ -21,10 +21,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import logic.Airport;
 import logic.Chance;
 import logic.Community;
+import logic.Companies;
 import logic.MonopolyLogic;
 import logic.Player;
+import logic.Property;
+import logic.Space;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -88,6 +92,7 @@ public class PlayingPanel extends JPanel{
 		btnBuy.setBounds(299, 596, 93, 23);
 		btnBuy.setForeground(new Color(255, 255, 255));
 		btnBuy.setBackground(new Color(153, 0, 0));
+		btnBuy.setEnabled(false);
 
 		btnSave = new JButton("Save");
 		btnSave.setBounds(299, 637, 93, 23);
@@ -147,6 +152,10 @@ public class PlayingPanel extends JPanel{
 				getParent().repaint();
 				playersPanel.repaint();
 				requestFocus();
+				
+				actionPanel.previous.setVisible(false);
+				actionPanel.next.setVisible(false);
+				actionPanel.select.setVisible(false);
 			}
 		});
 		
@@ -169,7 +178,12 @@ public class PlayingPanel extends JPanel{
 				
 				actionPanel.setCardToShow(location , typeOfCart);
 				actionPanel.repaint();
+				playersPanel.repaint();
 				getParent().repaint();
+				
+				actionPanel.previous.setVisible(false);
+				actionPanel.next.setVisible(false);
+				actionPanel.select.setVisible(false);
 			}
 		});
 		
@@ -179,10 +193,13 @@ public class PlayingPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//monopoly.Mortgage();
+				actionPanel.setMode("mortgage");
+				actionPanel.setPlayerPlaying(monopoly.getPlayers().get(monopoly.i));
 				
-				getParent().repaint();
+				actionPanel.repaint();
 				playersPanel.repaint();
-				requestFocus();
+				getParent().repaint();
+				
 			}
 		});
 		
@@ -192,11 +209,17 @@ public class PlayingPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-				//monopoly.buyPropertie();
+				monopoly.Buy();
 				
-				getParent().repaint();
+				btnBuy.setEnabled(false);
+				
+				actionPanel.repaint();
 				playersPanel.repaint();
-				requestFocus();
+				getParent().repaint();
+				
+				actionPanel.previous.setVisible(false);
+				actionPanel.next.setVisible(false);
+				actionPanel.select.setVisible(false);
 			}
 		});
 
@@ -206,15 +229,28 @@ public class PlayingPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int[] dice = monopoly.RollDice();
+				
 				//show dice result on actionPanel
 				actionPanel.setDice(dice);
 				actionPanel.setMode("dice");
 				actionPanel.repaint();
+				
+				
 				getParent().repaint();
 				
 				//if the dice result is a double the player can roll dice again
 				if(dice[0] != dice[1])
-					btnRollDice.setEnabled(false);				
+					btnRollDice.setEnabled(false);
+				
+				//disable buy button if a space is not available to buy
+				String s = monopoly.getBoard().get(monopoly.getPlayers().get(monopoly.i).getPosition()).getClassName();
+				
+				if(s == "Property"  && !((Property) monopoly.getBoard().get(monopoly.getPlayers().get(monopoly.i).getPosition())).isOwned())
+					btnBuy.setEnabled(true);
+				else if(s == "Companies"  && !((Companies) monopoly.getBoard().get(monopoly.getPlayers().get(monopoly.i).getPosition())).getOwned())
+					btnBuy.setEnabled(true);
+				else if(s == "Airport"  && !( (Airport) monopoly.getBoard().get(monopoly.getPlayers().get(monopoly.i).getPosition())).getOwned())
+					btnBuy.setEnabled(true);
 			}
 		});
 
@@ -226,8 +262,14 @@ public class PlayingPanel extends JPanel{
 				monopoly.EndTurn();
 				btnRollDice.setEnabled(true);
 				btnBuy.setEnabled(true);
+				actionPanel.setMode("");
 				
+				actionPanel.repaint();
 				getParent().repaint();
+				
+				actionPanel.previous.setVisible(false);
+				actionPanel.next.setVisible(false);
+				actionPanel.select.setVisible(false);
 
 			}
 		});
@@ -250,8 +292,13 @@ public class PlayingPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				saveGame();
+				
+				actionPanel.previous.setVisible(false);
+				actionPanel.next.setVisible(false);
+				actionPanel.select.setVisible(false);
 			}
 		});
+		
 	}
 	
 	/**
@@ -297,5 +344,6 @@ public class PlayingPanel extends JPanel{
 		int width=this.getWidth();
 
 		g.drawImage(background, 0, 0, width, height, Color.WHITE, null);
+		
 	}
 }

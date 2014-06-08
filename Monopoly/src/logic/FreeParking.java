@@ -1,10 +1,13 @@
 package logic;
 
+import java.io.Serializable;
 
-public class FreeParking extends Space {
+public class FreeParking extends Space implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	public FreeParking(){
-		
+		this.position=20;
 	}
 	
 	@Override

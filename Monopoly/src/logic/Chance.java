@@ -1,7 +1,15 @@
 package logic;
 
-public class Chance extends Space {
+import java.io.Serializable;
+
+public class Chance extends Space implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	int lastCard = 0;
+	
+	public Chance(int position){
+		this.position=position;
+	}
 	
 	/**
 	 * generates a random chance card to be attributed to the player p

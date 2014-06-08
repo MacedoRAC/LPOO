@@ -2,16 +2,8 @@ package logic;
 
 import java.io.Serializable;
 
-/**
- * @author André
- * @version 1.0
- * @created 23-mai-2014 01:04:22
- */
 public class Card implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String color;
 	private int cost;

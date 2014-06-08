@@ -1,8 +1,11 @@
 package logic;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Player {
+public class Player implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String token;
 	private int position;
@@ -17,7 +20,7 @@ public class Player {
 	// false is the player has already lost
 	private boolean alive;
 	private boolean ddice;
-	
+
 	public Player(){
 		this.name="default";
 		this.token="carro";
@@ -28,7 +31,7 @@ public class Player {
 		this.alive=true;
 		this.arested_time=0;
 	}
-	
+
 	public Player(String name, String token){
 		this.name = name;
 		this.token = token;
@@ -39,7 +42,7 @@ public class Player {
 		this.alive=true;
 		this.arested_time=0;
 	}
-	
+
 	//token related methods
 	public String getToken() {
 		return token;
@@ -113,7 +116,7 @@ public class Player {
 	public void setWorth(int worth) {
 		this.worth = worth;
 	}
-	
+
 	/**
 	 * Checks if the player passes through the start, if he does, receives 200$
 	 */
@@ -122,7 +125,7 @@ public class Player {
 			this.addMoney(200);
 		}
 	}
-	
+
 	public boolean getAlive() {
 		return alive;
 	}
@@ -135,7 +138,7 @@ public class Player {
 	public void setPrevious_position(int previous_position) {
 		this.previous_position = previous_position;
 	}
-	
+
 	public int getArested_time() {
 		return arested_time;
 	}
@@ -160,10 +163,10 @@ public class Player {
 			this.setPrevious_position(this.position);
 			this.setPosition(this.getPosition()+move1+move2);
 		}
-		
+
 		this.PassThroughStart();
-		
-		 return new int[]{move1, move2};
+
+		return new int[]{move1, move2};
 	}
 
 	public String getName() {
@@ -178,7 +181,7 @@ public class Player {
 	public void setDdice(boolean ddice) {
 		this.ddice = ddice;
 	}
-	
+
 	/**
 	 * Updates the worth of the player.
 	 * This increased and decreases according with his money and his properties
@@ -187,21 +190,26 @@ public class Player {
 		int amount;
 		amount=getMoney();
 		for(int a=0; a<getOwnproperties().size(); a++){
-			amount += ((Property) getOwnproperties().get(a)).getPrice();
-			amount += ((Airport) getOwnproperties().get(a)).getPrice();
-			amount += ((Companies) getOwnproperties().get(a)).getPrice();
+			if(getOwnproperties().get(a).getClassName() == "Property")
+				amount += ((Property) getOwnproperties().get(a)).getPrice();
+			else if(getOwnproperties().get(a).getClassName() == "Airport")
+				amount += ((Airport) getOwnproperties().get(a)).getPrice();
+			else
+				amount += ((Companies) getOwnproperties().get(a)).getPrice();
 		}
 		setWorth(amount);
 	}
 
 	public int getNumberBuildings() {
 		int number=0;
-		
+
 		for(int i=0; i<ownproperties.size(); i++){
-			number += ((Property)ownproperties.get(i)).getN_apart();
-			number += ((Property)ownproperties.get(i)).getN_hotel();
+			if(ownproperties.get(i).getClassName() == "Property"){
+				number += ((Property)ownproperties.get(i)).getN_apart();
+				number += ((Property)ownproperties.get(i)).getN_hotel();
+			}
 		}
-		
+
 		return number;
 	}
 }
