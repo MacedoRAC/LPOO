@@ -17,7 +17,7 @@ public class InitialFrame extends JFrame{
 	
 	
 	public InitialFrame(){
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(InitialFrame.class.getResource("/Images/initial.jpg")));
 		setResizable(false);
 		setTitle("Monopoly");

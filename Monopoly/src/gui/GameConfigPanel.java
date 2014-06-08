@@ -170,7 +170,7 @@ public class GameConfigPanel extends JPanel{
 		
 		
 		try {
-			background = ImageIO.read(new File("src/Images/fundo.jpg")) ;
+			background = ImageIO.read(new File("src/Images/fundo.png")) ;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -200,9 +200,11 @@ public class GameConfigPanel extends JPanel{
 						players[3].setAvatar((String) avatarP4.getSelectedItem());
 					}
 				}
+				getRootPane().setContentPane(new InitialPanel());
+				
 				BoardWindow window = new BoardWindow(players, mode);
-				window.setVisible(true);		
-					
+				window.setVisible(true);	
+								
 			}
 		});
 		

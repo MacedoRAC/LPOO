@@ -19,18 +19,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-
 import logic.MonopolyLogic;
 import logic.Player;
 
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-
-import java.awt.Font;
-
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -47,22 +38,22 @@ public class PlayingPanel extends JPanel{
 	private BufferedImage background;
 	private PlayersPanel playersPanel;
 	private JButton btnRollDice;
-	private JButton btnSell;
+	private JButton btnMortgage;
 	private JButton btnBuy;
 	private JButton btnTrade;
-	private JButton btnSpecialCard;
+	private JButton btnBuildings;
 	private JButton btnExit;
 	private JButton btnSave;
 	private JButton btnDone;
-	private JLabel lblDiceNumber;
 	private MonopolyLogic monopoly;
+	private ActionPanel actionPanel;
 
 
 	public PlayingPanel(Player[] players, String mode){
 		setForeground(new Color(153, 0, 0));
 
 		try {
-			background= ImageIO.read(new File("src/Images/fundo.jpg")) ;
+			background= ImageIO.read(new File("src/Images/fundo.png")) ;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,102 +66,67 @@ public class PlayingPanel extends JPanel{
 		setFocusable(true);
 
 		btnRollDice = new JButton("Roll Dice");
+		btnRollDice.setBounds(29, 596, 93, 23);
 		btnRollDice.setForeground(new Color(255, 255, 255));
 		btnRollDice.setBackground(new Color(153, 0, 0));
 
 		btnTrade = new JButton("Trade");
+		btnTrade.setBounds(428, 596, 114, 23);
 		btnTrade.setForeground(new Color(255, 255, 255));
 		btnTrade.setBackground(new Color(153, 0, 0));
 
-		btnSell = new JButton("Sell");
-		btnSell.setForeground(new Color(255, 255, 255));
-		btnSell.setBackground(new Color(153, 0, 0));
+		btnMortgage = new JButton("Mortgage");
+		btnMortgage.setBounds(149, 596, 114, 23);
+		btnMortgage.setForeground(new Color(255, 255, 255));
+		btnMortgage.setBackground(new Color(153, 0, 0));
 
 		btnBuy = new JButton("Buy");
+		btnBuy.setBounds(299, 596, 93, 23);
 		btnBuy.setForeground(new Color(255, 255, 255));
 		btnBuy.setBackground(new Color(153, 0, 0));
 
 		btnSave = new JButton("Save");
+		btnSave.setBounds(299, 637, 93, 23);
 		btnSave.setForeground(new Color(255, 255, 255));
 		btnSave.setBackground(new Color(153, 0, 0));
 
 		btnExit = new JButton("Exit");
+		btnExit.setBounds(428, 637, 114, 23);
 		btnExit.setForeground(new Color(255, 255, 255));
 		btnExit.setBackground(new Color(153, 0, 0));
 
-		btnSpecialCard = new JButton("Special Card");
-		btnSpecialCard.setForeground(new Color(255, 255, 255));
-		btnSpecialCard.setBackground(new Color(153, 0, 0));
-
-		lblDiceNumber = new JLabel("");
-		lblDiceNumber.setBackground(new Color(153, 0, 0));
-		lblDiceNumber.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDiceNumber.setForeground(new Color(255, 255, 255));
-		lblDiceNumber.setFont(new Font("Tahoma", Font.PLAIN, 96));
-		lblDiceNumber.setVisible(false);
+		btnBuildings = new JButton("Buildings");
+		btnBuildings.setBounds(29, 637, 93, 23);
+		btnBuildings.setForeground(new Color(255, 255, 255));
+		btnBuildings.setBackground(new Color(153, 0, 0));
 
 		btnDone = new JButton("Done");
+		btnDone.setBounds(149, 637, 114, 23);
 		btnDone.setBackground(new Color(153, 0, 0));
 		btnDone.setForeground(new Color(255, 255, 255));
 
 		setupButtons();		
 
 		playersPanel = new PlayersPanel(monopoly.getPlayers());
-
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap(279, Short.MAX_VALUE)
-					.addComponent(lblDiceNumber, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-					.addGap(190))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(23)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnRollDice, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnSpecialCard))
-					.addGap(29)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnSell, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
-						.addComponent(btnDone, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE))
-					.addGap(36)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnSave, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnBuy, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
-					.addGap(29)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnTrade, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-						.addComponent(btnExit, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
-					.addGap(39))
-				.addComponent(playersPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(playersPanel, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
-					.addComponent(lblDiceNumber, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-					.addGap(60)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnRollDice)
-							.addGap(18)
-							.addComponent(btnSpecialCard))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnTrade)
-							.addGap(18)
-							.addComponent(btnExit))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnSell)
-							.addGap(18)
-							.addComponent(btnDone))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnBuy)
-							.addGap(18)
-							.addComponent(btnSave)))
-					.addGap(27))
-		);
-		setLayout(groupLayout);
+		playersPanel.setBounds(0, 0, 575, 208);
+		
+		actionPanel = new ActionPanel();
+		actionPanel.setBounds(0, 214, 575, 371);
+		actionPanel.setBackground(new Color(153, 0, 0));
+		
+		setLayout(null);
+		add(playersPanel);
+		add(btnRollDice);
+		add(btnBuildings);
+		add(btnMortgage);
+		add(btnDone);
+		add(btnSave);
+		add(btnBuy);
+		add(btnTrade);
+		add(btnExit);
+		add(actionPanel);
+		
+	
 	}
 
 	/**
@@ -178,8 +134,8 @@ public class PlayingPanel extends JPanel{
 	 */
 	public void setupButtons(){
 		
-		//SPECIAL CARD BUTTON
-		btnSpecialCard.addActionListener(new ActionListener() {
+		//BUILDINGS BUTTON
+		btnBuildings.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -206,12 +162,12 @@ public class PlayingPanel extends JPanel{
 			}
 		});
 		
-		//SELL BUTTON
-		btnSell.addActionListener(new ActionListener() {
+		//MORTGAGE BUTTON
+		btnMortgage.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				monopoly.sellPropertie("name of the player");
+				monopoly.mortgagePropertie("name of the player");
 				
 				getParent().repaint();
 				playersPanel.repaint();
@@ -238,12 +194,13 @@ public class PlayingPanel extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int dice = monopoly.rollDice();
-				lblDiceNumber.setText(""+dice);
-				lblDiceNumber.setVisible(true);
+				int[] dice = monopoly.rollDice();
+				actionPanel.setDice(dice);
+				actionPanel.setMode("dice");
+				actionPanel.repaint();
+				getParent().repaint();
 				btnRollDice.setEnabled(false);
 				
-				getParent().repaint();
 			}
 		});
 
@@ -254,7 +211,6 @@ public class PlayingPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				monopoly.endOfTurn();
 				btnRollDice.setEnabled(true);
-				lblDiceNumber.setVisible(false);
 				btnBuy.setEnabled(true);
 				
 				getParent().repaint();
@@ -269,7 +225,7 @@ public class PlayingPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				int option=JOptionPane.showConfirmDialog(getRootPane(), "Do you have sure you want to leave?");
 				if(option==JOptionPane.YES_OPTION){					
-					
+					getRootPane().setVisible(false);
 				}
 			}
 		});
@@ -328,5 +284,4 @@ public class PlayingPanel extends JPanel{
 
 		g.drawImage(background, 0, 0, width, height, Color.WHITE, null);
 	}
-	
 }
