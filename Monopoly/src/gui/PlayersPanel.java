@@ -61,13 +61,21 @@ public class PlayersPanel extends JPanel{
 	private JLabel lblBuildP4;
 	private JLabel lblPropP4;
 	private JLabel lblCashP4;
+	private JLabel lblPosition1;
+	private JLabel lblPosP1;
+	private JLabel lblPosition2;
+	private JLabel lblPosP2;
+	private JLabel lblPosition3;
+	private JLabel lblPosP3;
+	private JLabel lblPosition4;
+	private JLabel lblPosP4;
 	
 	private Vector<Player> players;
 	
 	
 	public PlayersPanel(Vector<Player> vector){
-		
-		this.players=vector;
+	
+		this.players = vector;
 		
 		setBackground(SystemColor.desktop);
 		setForeground(Color.WHITE);
@@ -199,6 +207,46 @@ public class PlayersPanel extends JPanel{
 		lblCashP4.setBounds(492, 113, 36, 14);
 		lblCashP4.setForeground(Color.WHITE);
 		
+		lblPosition1 = new JLabel("Position:");
+		lblPosition1.setForeground(new Color(255, 255, 255));
+		lblPosition1.setBackground(new Color(153, 0, 0));
+		lblPosition1.setBounds(91, 71, 46, 14);
+		
+		lblPosP1 = new JLabel("PosP1");
+		lblPosP1.setForeground(new Color(255, 255, 255));
+		lblPosP1.setBackground(new Color(153, 0, 0));
+		lblPosP1.setBounds(194, 71, 46, 14);
+
+		lblPosP2 = new JLabel("PosP2");
+		lblPosP2.setForeground(Color.WHITE);
+		lblPosP2.setBackground(new Color(153, 0, 0));
+		lblPosP2.setBounds(194, 173, 46, 14);
+
+		lblPosition2 = new JLabel("Position:");
+		lblPosition2.setForeground(Color.WHITE);
+		lblPosition2.setBackground(new Color(153, 0, 0));
+		lblPosition2.setBounds(91, 173, 46, 14);
+		
+		lblPosP4 = new JLabel("PosP4");
+		lblPosP4.setForeground(Color.WHITE);
+		lblPosP4.setBackground(new Color(153, 0, 0));
+		lblPosP4.setBounds(492, 173, 46, 14);
+		
+		lblPosition4 = new JLabel("Position:");
+		lblPosition4.setForeground(Color.WHITE);
+		lblPosition4.setBackground(new Color(153, 0, 0));
+		lblPosition4.setBounds(389, 173, 46, 14);
+		
+		lblPosP3 = new JLabel("PosP3");
+		lblPosP3.setForeground(Color.WHITE);
+		lblPosP3.setBackground(new Color(153, 0, 0));
+		lblPosP3.setBounds(492, 71, 46, 14);
+		
+		lblPosition3 = new JLabel("Position:");
+		lblPosition3.setForeground(Color.WHITE);
+		lblPosition3.setBackground(new Color(153, 0, 0));
+		lblPosition3.setBounds(389, 71, 46, 14);
+		
 		setLayout(null);
 		add(lblPlayer1name);
 		add(AvatarP1);
@@ -208,6 +256,8 @@ public class PlayersPanel extends JPanel{
 		add(lblPropP1);
 		add(lblCashP1);
 		add(lblBuildP1);
+		add(lblPosition1);
+		add(lblPosP1);
 		add(AvatarP2);
 		add(lblCash2);
 		add(lblAmoutProperties2);
@@ -216,8 +266,10 @@ public class PlayersPanel extends JPanel{
 		add(lblPropP2);
 		add(lblBuildP2);
 		add(lblPlayer2name);
-		
-		if(vector.size() > 2){
+		add(lblPosP2);
+		add(lblPosition2);
+				
+		if(players.size() > 2){
 			add(AvatarP3);
 			add(lblCash3);
 			add(lblAmountProperties3);
@@ -226,8 +278,9 @@ public class PlayersPanel extends JPanel{
 			add(lblBuildP3);
 			add(lblAmountBuildings3);
 			add(lblPlayerName3);
-
-			if(vector.size() > 3){
+			add(lblPosP3);
+			add(lblPosition3);
+			if(players.size() > 3){
 				add(AvatarP4);
 				add(lblCash4);
 				add(lblAmoutProperties4);
@@ -236,6 +289,8 @@ public class PlayersPanel extends JPanel{
 				add(lblPropP4);
 				add(lblBuildP4);
 				add(lblPlayerName4);
+				add(lblPosP4);
+				add(lblPosition4);
 			}
 		}
 		
@@ -269,19 +324,22 @@ public class PlayersPanel extends JPanel{
 		lblCashP1.setText("" + players.get(0).getMoney());
 		lblBuildP1.setText("" + players.get(0).getNumberBuildings());
 		lblPropP1.setText("" + players.get(0).getOwnproperties().size());
+		lblPosP1.setText(""+ players.get(0).getPosition());
 
 		//PLAYER 2
 		lblPlayer2name.setText(players.get(1).getName());
 		lblCashP2.setText("" + players.get(1).getMoney());
 		lblBuildP2.setText("" + players.get(1).getNumberBuildings());
 		lblPropP2.setText("" + players.get(1).getOwnproperties().size());
-
+		lblPosP2.setText(""+ players.get(1).getPosition());
+		
 		if(players.size() > 2){
 			//PLAYER 3
 			lblPlayerName3.setText(players.get(2).getName());
 			lblCashP3.setText("" + players.get(2).getMoney());
 			lblBuildP3.setText("" + players.get(2).getNumberBuildings());
 			lblPropP3.setText("" + players.get(2).getOwnproperties().size());
+			lblPosP3.setText(""+ players.get(2).getPosition());
 
 			if(players.size() > 3){
 				//PLAYER 4
@@ -289,6 +347,7 @@ public class PlayersPanel extends JPanel{
 				lblCashP4.setText("" + players.get(3).getMoney());
 				lblBuildP4.setText("" + players.get(3).getNumberBuildings());
 				lblPropP4.setText("" + players.get(3).getOwnproperties().size());
+				lblPosP4.setText(""+ players.get(3).getPosition());
 			}
 		}
 		
@@ -299,7 +358,6 @@ public class PlayersPanel extends JPanel{
 	 * set players tokens
 	 */
 	private void setAvatars() {
-		
 		//player 1
 		switch(players.get(0).getToken()){
 		case "dog":

@@ -161,7 +161,12 @@ public class Player implements Serializable{
 		}
 		if(this.getArested_time() == 0){
 			this.setPrevious_position(this.position);
-			this.setPosition(this.getPosition()+move1+move2);
+			if(this.getPosition()+move1+move2 >= 40){
+				this.setPosition(this.getPosition()+move1+move2-40);
+			}else{
+				this.setPosition(this.getPosition()+move1+move2);
+			}
+			
 		}
 
 		this.PassThroughStart();

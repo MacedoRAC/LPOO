@@ -51,23 +51,29 @@ public class boardPanel extends JPanel{
 	
 	/**
 	 * 
+	 */
+	public void updatePlayers(Vector<Player> players){
+		this.players=players;
+	}
+	/**
+	 * 
 	 * @return x and y coordinates to draw tokens on board
 	 */
 	public int[] calcCoord(Player p){
 		int x=0, y=0;
 		
 		if(p.getPosition() >=0 && p.getPosition()<=10){
-			y = 610;
-			x = 35 + 70* (11 - p.getPosition());
+			y = 635;
+			x = 30 + 63* (10 - p.getPosition());
 		}else if(p.getPosition() >=20 && p.getPosition()<=30){
 			y = 30;
-			x = 35 + 70* (11 - p.getPosition());
-		}else if(p.getPosition() >=11 && p.getPosition()<=19){
+			x = 30 + 63* (p.getPosition()-20);
+		}else if(p.getPosition() >10 && p.getPosition()<=19){
 			x = 35;
-			y = 35 + 70* (11 - p.getPosition());
+			y = 28 + 61* (20 - p.getPosition());
 		}else{
 			x = 665;
-			y = 35 + 70* (11 - p.getPosition());
+			y = 28 + 61* (p.getPosition()-30);
 		}
 			
 		return new int[]{x,y};

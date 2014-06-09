@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import logic.Player;
+import logic.Property;
 
 /**
  * @author André
@@ -41,11 +42,17 @@ public class ActionPanel extends JPanel {
 	public JButton previous;
 	public JButton select;
 	public JButton next;
+	public JButton addBuilding;
+	public JButton removeBuilding;
+	public JButton pay;
+	public JButton tryDouble;
+	public JLabel arrestMessage;
 	/**
 	 * index to go through all properties of the player
 	 */
 	private int index;
 	private Player playing;
+	private boolean paid;
 
 	public ActionPanel(){
 		setVisible(true);
@@ -77,16 +84,41 @@ public class ActionPanel extends JPanel {
 		next.setBackground(new Color(153,0,0));
 		next.setForeground(new Color(255, 255, 255));
 		
+		addBuilding = new JButton("Add");
+		addBuilding.setBackground(new Color(153,0,0));
+		addBuilding.setForeground(new Color(255, 255, 255));
+		
+		removeBuilding = new JButton("Remove");
+		removeBuilding.setBackground(new Color(153,0,0));
+		removeBuilding.setForeground(new Color(255, 255, 255));
+		
+		arrestMessage = new JLabel("You are arrested! What do you want to do?");
+		arrestMessage.setBackground(new Color(153,0,0));
+		arrestMessage.setForeground(new Color(255,255,255));
+		
+		pay = new JButton("Pay 50$");
+		pay.setBackground(new Color(153,0,0));
+		pay.setForeground(new Color(255,255,255));
+		
+		tryDouble = new JButton("Try Double");
+		tryDouble.setBackground(new Color(153,0,0));
+		tryDouble.setForeground(new Color(255,255,255));
+		
 		previous.setVisible(false);
 		select.setVisible(false);
 		next.setVisible(false);
+		addBuilding.setVisible(false);
+		removeBuilding.setVisible(false);
 		
 		add(previous);
 		add(select);
 		add(next);
+		add(addBuilding);
+		add(removeBuilding);
 		
 		mode = "";
 		index = 0;
+		paid=false;
 	}
 	
 	public void setPlayerPlaying(Player p){
@@ -96,6 +128,10 @@ public class ActionPanel extends JPanel {
 	public void setDice(int[] dice) {
 		dice_1 = dice[0];
 		dice_2 = dice[1];
+	}
+	
+	public void setIndex(){
+		index=0;
 	}
 
 	/**
@@ -154,7 +190,36 @@ public class ActionPanel extends JPanel {
 		case "mortgage":
 			mortgage(g);
 			break;
+		case "buildings":
+			buildings(g);
+			break;
+		case "arrested":
+			arrested();
+			break;
 		}
+	}
+
+	private void arrested() {
+		add(arrestMessage);
+		add(pay);
+		add(tryDouble);
+		
+		arrestMessage.setVisible(true);
+		pay.setVisible(true);
+		tryDouble.setVisible(true);
+	}
+
+	private void buildings(Graphics g) {
+		addBuilding.setVisible(true);
+		removeBuilding.setVisible(true);
+		
+		if((playing.getOwnproperties().get(index)).getClassName() == "Property"){
+			if(((Property) playing.getOwnproperties().get(index)).getN_hotel() == 1)
+				addBuilding.setEnabled(false);
+			else if(((Property) playing.getOwnproperties().get(index)).getN_apart() == 0)
+				removeBuilding.setEnabled(false);
+		}
+		
 	}
 
 	private void mortgage(Graphics g) {		
@@ -265,8 +330,69 @@ public class ActionPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(!playing.getOwnproperties().get(index).getMortgage())
 					playing.getOwnproperties().get(index).Mortgage(playing);
+				
+				repaint();
 			}
 		});
+		
+		//ADD BUTTON
+		addBuilding.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				((Property) playing.getOwnproperties().get(index)).addBuild();
+				
+				repaint();
+			}
+		});
+		
+		//REMOVE BUTTON
+		removeBuilding.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				((Property) playing.getOwnproperties().get(index)).removeBuild();
+				
+				repaint();
+			}
+		});
+		
+		//PAY BUTTON
+		pay.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				paid=true;
+				playing.setArested_time(0);
+				playing.removeMoney(50);
+				
+				pay.setEnabled(false);
+				tryDouble.setEnabled(false);
+			}
+		});
+		
+		//TRY DOUBLE BUTTON
+		tryDouble.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int dice1 = (int)(Math.random() * 6+1);
+				int dice2 = (int)(Math.random() * 6+1);
+				
+				if(dice1==dice2){
+					paid=true;
+					playing.setArested_time(0);
+				}else
+					playing.setArested_time(playing.getArested_time()-1);
+				
+				pay.setEnabled(false);
+				tryDouble.setEnabled(false);
+			}
+		});
+	}
+
+	public boolean hasPaid() {
+		return paid;
 	}
 
 

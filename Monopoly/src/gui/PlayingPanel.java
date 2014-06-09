@@ -148,10 +148,13 @@ public class PlayingPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				actionPanel.setPlayerPlaying(monopoly.getPlayers().get(monopoly.i));
+				actionPanel.setMode("buildings");
+				actionPanel.setIndex();
 				
-				getParent().repaint();
+				actionPanel.repaint();
 				playersPanel.repaint();
-				requestFocus();
+				getParent().repaint();
 				
 				actionPanel.previous.setVisible(false);
 				actionPanel.next.setVisible(false);
@@ -184,6 +187,9 @@ public class PlayingPanel extends JPanel{
 				actionPanel.previous.setVisible(false);
 				actionPanel.next.setVisible(false);
 				actionPanel.select.setVisible(false);
+				
+				actionPanel.addBuilding.setVisible(false);
+				actionPanel.removeBuilding.setVisible(false);
 			}
 		});
 		
@@ -195,6 +201,7 @@ public class PlayingPanel extends JPanel{
 				//monopoly.Mortgage();
 				actionPanel.setMode("mortgage");
 				actionPanel.setPlayerPlaying(monopoly.getPlayers().get(monopoly.i));
+				actionPanel.setIndex();
 				
 				actionPanel.repaint();
 				playersPanel.repaint();
@@ -220,6 +227,9 @@ public class PlayingPanel extends JPanel{
 				actionPanel.previous.setVisible(false);
 				actionPanel.next.setVisible(false);
 				actionPanel.select.setVisible(false);
+				
+				actionPanel.addBuilding.setVisible(false);
+				actionPanel.removeBuilding.setVisible(false);
 			}
 		});
 
@@ -228,7 +238,22 @@ public class PlayingPanel extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				boolean canPlay=true;
+				
+				if(monopoly.getPlayers().get(monopoly.i).getArested_time() != 0){
+					canPlay=false;
+					actionPanel.setPlayerPlaying(monopoly.getPlayers().get(monopoly.i));
+					actionPanel.setMode("arrested");
+					canPlay=actionPanel.hasPaid();
+				}
+				
+				actionPanel.tryDouble.setVisible(false);
+				actionPanel.pay.setVisible(false);
+				actionPanel.arrestMessage.setVisible(false);
+				
+				if(canPlay){
 				int[] dice = monopoly.RollDice();
+				
 				
 				//show dice result on actionPanel
 				actionPanel.setDice(dice);
@@ -251,6 +276,9 @@ public class PlayingPanel extends JPanel{
 					btnBuy.setEnabled(true);
 				else if(s == "Airport"  && !( (Airport) monopoly.getBoard().get(monopoly.getPlayers().get(monopoly.i).getPosition())).getOwned())
 					btnBuy.setEnabled(true);
+				
+				}else
+					btnRollDice.setEnabled(false);
 			}
 		});
 
@@ -270,6 +298,13 @@ public class PlayingPanel extends JPanel{
 				actionPanel.previous.setVisible(false);
 				actionPanel.next.setVisible(false);
 				actionPanel.select.setVisible(false);
+				
+				actionPanel.addBuilding.setVisible(false);
+				actionPanel.removeBuilding.setVisible(false);
+				
+				actionPanel.tryDouble.setVisible(false);
+				actionPanel.pay.setVisible(false);
+				actionPanel.arrestMessage.setVisible(false);
 
 			}
 		});
@@ -281,7 +316,7 @@ public class PlayingPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				int option=JOptionPane.showConfirmDialog(getRootPane(), "Do you have sure you want to leave?");
 				if(option==JOptionPane.YES_OPTION){					
-					getRootPane().setVisible(false);
+					System.exit(0);
 				}
 			}
 		});
@@ -296,6 +331,9 @@ public class PlayingPanel extends JPanel{
 				actionPanel.previous.setVisible(false);
 				actionPanel.next.setVisible(false);
 				actionPanel.select.setVisible(false);
+				
+				actionPanel.addBuilding.setVisible(false);
+				actionPanel.removeBuilding.setVisible(false);
 			}
 		});
 		

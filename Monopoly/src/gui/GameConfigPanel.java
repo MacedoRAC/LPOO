@@ -60,6 +60,8 @@ public class GameConfigPanel extends JPanel{
 		
 		this.mode = mode;
 		this.players = new Vector<Player>();
+		players.setSize(np);
+		
 	
 		lblP1Nick = new JLabel("Player 1 nick");
 		lblP1Nick.setBounds(65, 60, 98, 14);
@@ -186,18 +188,18 @@ public class GameConfigPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				players.add(new Player(P1Nick.getText(), (String) avatarP1.getSelectedItem()));
-				players.add(new Player(P2Nick.getText(), (String) avatarP2.getSelectedItem()));
+				players.set(0, new Player(P1Nick.getText(), (String) avatarP1.getSelectedItem()));
+				players.set(1, new Player(P2Nick.getText(), (String) avatarP2.getSelectedItem()));
 				
 				if(players.size() > 2){
-					players.add(new Player(P3Nick.getText(), (String) avatarP3.getSelectedItem()));
+					players.set(2, new Player(P3Nick.getText(), (String) avatarP3.getSelectedItem()));
 
 					if(players.size() > 3){
-						players.add(new Player(P4Nick.getText(), (String) avatarP4.getSelectedItem()));
+						players.set(3, new Player(P4Nick.getText(), (String) avatarP4.getSelectedItem()));
 					}
 				}
 				getRootPane().setContentPane(new InitialPanel());
-				
+								
 				BoardWindow window = new BoardWindow(players, mode);
 				window.setVisible(true);	
 								
