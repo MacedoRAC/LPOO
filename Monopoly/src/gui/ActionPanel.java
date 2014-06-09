@@ -330,6 +330,8 @@ public class ActionPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(!playing.getOwnproperties().get(index).getMortgage())
 					playing.getOwnproperties().get(index).Mortgage(playing);
+				else
+					playing.getOwnproperties().get(index).Unmortgage(playing);
 				
 				repaint();
 			}
